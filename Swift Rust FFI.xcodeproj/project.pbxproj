@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07093B8F241ADFFA00CA1E3E /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07093B8D241ADFDB00CA1E3E /* libbindings.a */; };
 		076BCB71240E56F0002FFD79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB70240E56F0002FFD79 /* AppDelegate.swift */; };
 		076BCB73240E56F0002FFD79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB72240E56F0002FFD79 /* SceneDelegate.swift */; };
 		076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB74240E56F0002FFD79 /* ContentView.swift */; };
@@ -16,7 +17,6 @@
 		076BCB88240E56F4002FFD79 /* Swift_Rust_FFITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB87240E56F4002FFD79 /* Swift_Rust_FFITests.swift */; };
 		076BCB98240E5935002FFD79 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 076BCB97240E592E002FFD79 /* libresolv.tbd */; };
 		076BCB9A240E5A61002FFD79 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB99240E5A61002FFD79 /* Peer.swift */; };
-		076BCB9E24117ED0002FFD79 /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 076BCB9D24117ECE002FFD79 /* libbindings.a */; };
 		07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC1B5A241A350C00C4E6D8 /* Handshake.swift */; };
 		9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */; };
 /* End PBXBuildFile section */
@@ -32,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07093B8D241ADFDB00CA1E3E /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbindings.a; sourceTree = "<group>"; };
+		07093B90241AE0E000CA1E3E /* ldk_ffi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ldk_ffi.h; sourceTree = "<group>"; };
 		076BCB6D240E56F0002FFD79 /* Swift Rust FFI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Rust FFI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		076BCB70240E56F0002FFD79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		076BCB72240E56F0002FFD79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,7 +46,6 @@
 		076BCB87240E56F4002FFD79 /* Swift_Rust_FFITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_Rust_FFITests.swift; sourceTree = "<group>"; };
 		076BCB89240E56F4002FFD79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		076BCB93240E5760002FFD79 /* librustswiftffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librustswiftffi.a; path = ../../cargo/target/universal/release/librustswiftffi.a; sourceTree = "<group>"; };
-		076BCB95240E57D7002FFD79 /* rust_swift_ffi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_swift_ffi.h; sourceTree = "<group>"; };
 		076BCB96240E5805002FFD79 /* FFI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FFI-Bridging-Header.h"; sourceTree = "<group>"; };
 		076BCB97240E592E002FFD79 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		076BCB99240E5A61002FFD79 /* Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
@@ -61,8 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07093B8F241ADFFA00CA1E3E /* libbindings.a in Frameworks */,
 				076BCB98240E5935002FFD79 /* libresolv.tbd in Frameworks */,
-				076BCB9E24117ED0002FFD79 /* libbindings.a in Frameworks */,
 				9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,8 +81,9 @@
 		076BCB64240E56EF002FFD79 = {
 			isa = PBXGroup;
 			children = (
-				076BCB95240E57D7002FFD79 /* rust_swift_ffi.h */,
 				076BCB96240E5805002FFD79 /* FFI-Bridging-Header.h */,
+				07093B90241AE0E000CA1E3E /* ldk_ffi.h */,
+				07093B8D241ADFDB00CA1E3E /* libbindings.a */,
 				076BCB6F240E56F0002FFD79 /* Swift Rust FFI */,
 				076BCB86240E56F4002FFD79 /* Swift Rust FFITests */,
 				076BCB6E240E56F0002FFD79 /* Products */,
@@ -463,7 +465,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "/Users/arik/Developer/rust-lightning/target/universal/release/";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.arik.Swift-Rust-FFI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/FFI-Bridging-Header.h";
@@ -485,7 +487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "/Users/arik/Developer/rust-lightning/target/universal/release/";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.arik.Swift-Rust-FFI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/FFI-Bridging-Header.h";
