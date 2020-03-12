@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,11 @@
 		076BCB7A240E56F4002FFD79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 076BCB79240E56F4002FFD79 /* Preview Assets.xcassets */; };
 		076BCB7D240E56F4002FFD79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 076BCB7B240E56F4002FFD79 /* LaunchScreen.storyboard */; };
 		076BCB88240E56F4002FFD79 /* Swift_Rust_FFITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB87240E56F4002FFD79 /* Swift_Rust_FFITests.swift */; };
+		076BCB98240E5935002FFD79 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 076BCB97240E592E002FFD79 /* libresolv.tbd */; };
+		076BCB9A240E5A61002FFD79 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB99240E5A61002FFD79 /* Peer.swift */; };
+		076BCB9E24117ED0002FFD79 /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 076BCB9D24117ECE002FFD79 /* libbindings.a */; };
+		07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC1B5A241A350C00C4E6D8 /* Handshake.swift */; };
+		9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +43,17 @@
 		076BCB83240E56F4002FFD79 /* Swift Rust FFITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift Rust FFITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		076BCB87240E56F4002FFD79 /* Swift_Rust_FFITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_Rust_FFITests.swift; sourceTree = "<group>"; };
 		076BCB89240E56F4002FFD79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		076BCB93240E5760002FFD79 /* librustswiftffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librustswiftffi.a; path = ../../cargo/target/universal/release/librustswiftffi.a; sourceTree = "<group>"; };
+		076BCB95240E57D7002FFD79 /* rust_swift_ffi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_swift_ffi.h; sourceTree = "<group>"; };
+		076BCB96240E5805002FFD79 /* FFI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FFI-Bridging-Header.h"; sourceTree = "<group>"; };
+		076BCB97240E592E002FFD79 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		076BCB99240E5A61002FFD79 /* Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		076BCB9B240E6047002FFD79 /* librust_swift_ffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librust_swift_ffi.a; path = ../../cargo/target/universal/release/librust_swift_ffi.a; sourceTree = "<group>"; };
+		076BCB9D24117ECE002FFD79 /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbindings.a; path = "../../../rust-lightning/target/universal/release/libbindings.a"; sourceTree = "<group>"; };
+		07FC1B5A241A350C00C4E6D8 /* Handshake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handshake.swift; sourceTree = "<group>"; };
+		769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swift_Rust_FFI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		99D1A1263F0FB934A614F5D4 /* Pods-Swift Rust FFI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.release.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.release.xcconfig"; sourceTree = "<group>"; };
+		C0B8CA82EE150BB6FD2501CC /* Pods-Swift Rust FFI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.debug.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +61,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				076BCB98240E5935002FFD79 /* libresolv.tbd in Frameworks */,
+				076BCB9E24117ED0002FFD79 /* libbindings.a in Frameworks */,
+				9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,9 +80,13 @@
 		076BCB64240E56EF002FFD79 = {
 			isa = PBXGroup;
 			children = (
+				076BCB95240E57D7002FFD79 /* rust_swift_ffi.h */,
+				076BCB96240E5805002FFD79 /* FFI-Bridging-Header.h */,
 				076BCB6F240E56F0002FFD79 /* Swift Rust FFI */,
 				076BCB86240E56F4002FFD79 /* Swift Rust FFITests */,
 				076BCB6E240E56F0002FFD79 /* Products */,
+				076BCB92240E5760002FFD79 /* Frameworks */,
+				FD542169B65FC2B60F4F1487 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +109,8 @@
 				076BCB7B240E56F4002FFD79 /* LaunchScreen.storyboard */,
 				076BCB7E240E56F4002FFD79 /* Info.plist */,
 				076BCB78240E56F4002FFD79 /* Preview Content */,
+				07FC1B5A241A350C00C4E6D8 /* Handshake.swift */,
+				076BCB99240E5A61002FFD79 /* Peer.swift */,
 			);
 			path = "Swift Rust FFI";
 			sourceTree = "<group>";
@@ -107,6 +132,27 @@
 			path = "Swift Rust FFITests";
 			sourceTree = "<group>";
 		};
+		076BCB92240E5760002FFD79 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				076BCB9D24117ECE002FFD79 /* libbindings.a */,
+				076BCB9B240E6047002FFD79 /* librust_swift_ffi.a */,
+				076BCB97240E592E002FFD79 /* libresolv.tbd */,
+				076BCB93240E5760002FFD79 /* librustswiftffi.a */,
+				769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FD542169B65FC2B60F4F1487 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C0B8CA82EE150BB6FD2501CC /* Pods-Swift Rust FFI.debug.xcconfig */,
+				99D1A1263F0FB934A614F5D4 /* Pods-Swift Rust FFI.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -114,9 +160,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 076BCB8C240E56F4002FFD79 /* Build configuration list for PBXNativeTarget "Swift Rust FFI" */;
 			buildPhases = (
+				DC7CFA10E5CEEA85148FF0D0 /* [CP] Check Pods Manifest.lock */,
 				076BCB69240E56F0002FFD79 /* Sources */,
 				076BCB6A240E56F0002FFD79 /* Frameworks */,
 				076BCB6B240E56F0002FFD79 /* Resources */,
+				119301EF46413C078BE15DBA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -203,6 +251,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		119301EF46413C078BE15DBA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC7CFA10E5CEEA85148FF0D0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Swift Rust FFI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		076BCB69240E56F0002FFD79 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -210,6 +300,8 @@
 			files = (
 				076BCB71240E56F0002FFD79 /* AppDelegate.swift in Sources */,
 				076BCB73240E56F0002FFD79 /* SceneDelegate.swift in Sources */,
+				076BCB9A240E5A61002FFD79 /* Peer.swift in Sources */,
+				07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */,
 				076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -348,7 +440,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -360,6 +452,7 @@
 		};
 		076BCB8D240E56F4002FFD79 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0B8CA82EE150BB6FD2501CC /* Pods-Swift Rust FFI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -370,8 +463,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "/Users/arik/Developer/rust-lightning/target/universal/release/";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.arik.Swift-Rust-FFI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/FFI-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -379,6 +474,7 @@
 		};
 		076BCB8E240E56F4002FFD79 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99D1A1263F0FB934A614F5D4 /* Pods-Swift Rust FFI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -389,8 +485,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "/Users/arik/Developer/rust-lightning/target/universal/release/";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.arik.Swift-Rust-FFI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/FFI-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
