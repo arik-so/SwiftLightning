@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let peer = Peer()
-        peer.beginHandshake()
+//        peer.beginHandshake()
+        
+        
         
         return true
     }

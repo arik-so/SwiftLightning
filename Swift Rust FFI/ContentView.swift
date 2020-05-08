@@ -9,8 +9,60 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    private var peer = Peer()
+    
+    @State private var isConnecting = false
+    @State public var isConnected = false
+    @State public var isPinging = false
+    
+    @State var logText = ""
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+                        
+            if !self.isConnecting {
+            
+//                Button(action: {
+//                    self.isConnecting = true
+//                    self.peer.contentView = self
+//                    self.peer.beginHandshake()
+//                }) {
+//                    Text("Connect")
+//                }
+                
+                Button(action: {
+//                    self.isConnecting = true
+//                    self.peer.contentView = self
+//                    self.peer.createPeerManager()
+                    // self.peer.createNode();
+                    Experimentation.setupPeerManager()
+                }) {
+                    Text("Test")
+                }
+                
+            }   else {
+                
+                if !self.isConnected {
+                    Text("Connecting…")
+                }else if !self.isPinging{
+                    Button(action: {
+                        self.isPinging = true
+                    }) {
+                        Text("Send Ping")
+                    }
+                }
+                
+                Spacer()
+                
+                Text("Log:\n" + self.logText)
+                    .lineLimit(nil)
+                    .foregroundColor(Color.gray)
+                    .font(.body)
+            }
+            
+        }
+        
     }
 }
 

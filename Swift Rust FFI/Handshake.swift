@@ -46,7 +46,7 @@ class Handshake {
         }
         
         let nextAct = Data.init(bytes: buffer!.data, count: Int(buffer!.length))
-        free_buffer(cActResult?.pointee.next_act)
+        buffer_response_free(cActResult?.pointee.next_act)
         
         let nextActBytes = [UInt8](nextAct)
         print("next act bytes:", nextActBytes)
@@ -73,7 +73,7 @@ class Handshake {
         
         let buffer = decryptionResult?.pointee
         let plaintext = Data.init(bytes: buffer!.data, count: Int(buffer!.length))
-        free_buffer(decryptionResult!)
+        buffer_response_free(decryptionResult!)
         
         let plaintextBytes = [UInt8](plaintext)
         print("plaintext bytes:", plaintextBytes)

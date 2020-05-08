@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		07093B8F241ADFFA00CA1E3E /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07093B8D241ADFDB00CA1E3E /* libbindings.a */; };
+		0721E064246327A9001ED069 /* RawLDKTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0721E063246327A9001ED069 /* RawLDKTypes.swift */; };
+		0721E06624649C49001ED069 /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0721E06524649C49001ED069 /* PeerManager.swift */; };
+		074EBC752464A4DA0090DD79 /* Experimentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074EBC742464A4DA0090DD79 /* Experimentation.swift */; };
 		076BCB71240E56F0002FFD79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB70240E56F0002FFD79 /* AppDelegate.swift */; };
 		076BCB73240E56F0002FFD79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB72240E56F0002FFD79 /* SceneDelegate.swift */; };
 		076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB74240E56F0002FFD79 /* ContentView.swift */; };
@@ -16,8 +19,9 @@
 		076BCB7D240E56F4002FFD79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 076BCB7B240E56F4002FFD79 /* LaunchScreen.storyboard */; };
 		076BCB88240E56F4002FFD79 /* Swift_Rust_FFITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB87240E56F4002FFD79 /* Swift_Rust_FFITests.swift */; };
 		076BCB98240E5935002FFD79 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 076BCB97240E592E002FFD79 /* libresolv.tbd */; };
-		076BCB9A240E5A61002FFD79 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB99240E5A61002FFD79 /* Peer.swift */; };
 		07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC1B5A241A350C00C4E6D8 /* Handshake.swift */; };
+		2DD1176232492006BCF8AAAF /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */; };
+		2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11A892D5A07AE47006E98 /* CustomPeer.swift */; };
 		9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +38,9 @@
 /* Begin PBXFileReference section */
 		07093B8D241ADFDB00CA1E3E /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbindings.a; sourceTree = "<group>"; };
 		07093B90241AE0E000CA1E3E /* ldk_ffi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ldk_ffi.h; sourceTree = "<group>"; };
+		0721E063246327A9001ED069 /* RawLDKTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawLDKTypes.swift; sourceTree = "<group>"; };
+		0721E06524649C49001ED069 /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
+		074EBC742464A4DA0090DD79 /* Experimentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experimentation.swift; sourceTree = "<group>"; };
 		076BCB6D240E56F0002FFD79 /* Swift Rust FFI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Rust FFI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		076BCB70240E56F0002FFD79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		076BCB72240E56F0002FFD79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -48,10 +55,11 @@
 		076BCB93240E5760002FFD79 /* librustswiftffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librustswiftffi.a; path = ../../cargo/target/universal/release/librustswiftffi.a; sourceTree = "<group>"; };
 		076BCB96240E5805002FFD79 /* FFI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FFI-Bridging-Header.h"; sourceTree = "<group>"; };
 		076BCB97240E592E002FFD79 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
-		076BCB99240E5A61002FFD79 /* Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
 		076BCB9B240E6047002FFD79 /* librust_swift_ffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librust_swift_ffi.a; path = ../../cargo/target/universal/release/librust_swift_ffi.a; sourceTree = "<group>"; };
 		076BCB9D24117ECE002FFD79 /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbindings.a; path = "../../../rust-lightning/target/universal/release/libbindings.a"; sourceTree = "<group>"; };
 		07FC1B5A241A350C00C4E6D8 /* Handshake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handshake.swift; sourceTree = "<group>"; };
+		2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		2DD11A892D5A07AE47006E98 /* CustomPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPeer.swift; sourceTree = "<group>"; };
 		769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swift_Rust_FFI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99D1A1263F0FB934A614F5D4 /* Pods-Swift Rust FFI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.release.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.release.xcconfig"; sourceTree = "<group>"; };
 		C0B8CA82EE150BB6FD2501CC /* Pods-Swift Rust FFI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.debug.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -78,6 +86,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		074EBC762464EF470090DD79 /* LDK */ = {
+			isa = PBXGroup;
+			children = (
+				0721E06524649C49001ED069 /* PeerManager.swift */,
+				0721E063246327A9001ED069 /* RawLDKTypes.swift */,
+				2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */,
+			);
+			path = LDK;
+			sourceTree = "<group>";
+		};
 		076BCB64240E56EF002FFD79 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +122,7 @@
 		076BCB6F240E56F0002FFD79 /* Swift Rust FFI */ = {
 			isa = PBXGroup;
 			children = (
+				074EBC762464EF470090DD79 /* LDK */,
 				076BCB70240E56F0002FFD79 /* AppDelegate.swift */,
 				076BCB72240E56F0002FFD79 /* SceneDelegate.swift */,
 				076BCB74240E56F0002FFD79 /* ContentView.swift */,
@@ -112,7 +131,8 @@
 				076BCB7E240E56F4002FFD79 /* Info.plist */,
 				076BCB78240E56F4002FFD79 /* Preview Content */,
 				07FC1B5A241A350C00C4E6D8 /* Handshake.swift */,
-				076BCB99240E5A61002FFD79 /* Peer.swift */,
+				074EBC742464A4DA0090DD79 /* Experimentation.swift */,
+				2DD11A892D5A07AE47006E98 /* CustomPeer.swift */,
 			);
 			path = "Swift Rust FFI";
 			sourceTree = "<group>";
@@ -302,9 +322,13 @@
 			files = (
 				076BCB71240E56F0002FFD79 /* AppDelegate.swift in Sources */,
 				076BCB73240E56F0002FFD79 /* SceneDelegate.swift in Sources */,
-				076BCB9A240E5A61002FFD79 /* Peer.swift in Sources */,
+				0721E06624649C49001ED069 /* PeerManager.swift in Sources */,
+				0721E064246327A9001ED069 /* RawLDKTypes.swift in Sources */,
+				074EBC752464A4DA0090DD79 /* Experimentation.swift in Sources */,
 				07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */,
 				076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */,
+				2DD1176232492006BCF8AAAF /* Peer.swift in Sources */,
+				2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

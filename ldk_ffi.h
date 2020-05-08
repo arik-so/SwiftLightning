@@ -13,6 +13,34 @@ typedef struct LDKConduit LDKConduit;
 
 typedef struct LDKPeerHandshake LDKPeerHandshake;
 
+typedef struct LDKPeerManager LDKPeerManager;
+
+typedef struct LDKSocketDescriptor LDKSocketDescriptor;
+
+typedef struct LDKWireMessageAcceptChannel LDKWireMessageAcceptChannel;
+
+typedef struct LDKWireMessageClosingSigned LDKWireMessageClosingSigned;
+
+typedef struct LDKWireMessageCommitmentSigned LDKWireMessageCommitmentSigned;
+
+typedef struct LDKWireMessageFundingCreated LDKWireMessageFundingCreated;
+
+typedef struct LDKWireMessageFundingLocked LDKWireMessageFundingLocked;
+
+typedef struct LDKWireMessageFundingSigned LDKWireMessageFundingSigned;
+
+typedef struct LDKWireMessageOpenChannel LDKWireMessageOpenChannel;
+
+typedef struct LDKWireMessagePing LDKWireMessagePing;
+
+typedef struct LDKWireMessagePong LDKWireMessagePong;
+
+typedef struct LDKWireMessageShutdown LDKWireMessageShutdown;
+
+typedef struct LDKWireMessageUpdateFailMalformedHTLC LDKWireMessageUpdateFailMalformedHTLC;
+
+typedef struct LDKWireMessageUpdateFulfillHTLC LDKWireMessageUpdateFulfillHTLC;
+
 typedef struct {
    uint8_t *data;
    uintptr_t length;
@@ -29,18 +57,178 @@ typedef struct {
 } LDKError;
 
 typedef struct {
+   LDKBufferArgument *buffers;
+   uintptr_t length;
+} LDKBufferArgumentArray;
+
+typedef struct {
+   const LDKBufferResponse *buffers;
+   uintptr_t length;
+} LDKBufferResponseArray;
+
+typedef struct {
    LDKBufferResponse *next_act;
    LDKConduit *conduit;
 } LDKHandshakeResult;
 
-void free_buffer(LDKBufferResponse *raw_buffer);
+void buffer_response_free(LDKBufferResponse *raw_buffer);
+
+LDKBufferResponse *private_key_to_public_key(const uint8_t *private_key);
+
+bool is_public_key(const uint8_t *public_key);
 
 LDKBufferResponse *peer_conduit_decrypt(LDKConduit *conduit, const LDKBufferArgument *message, LDKError *error);
+
+const LDKWireMessagePing *wire_message_create_ping(uint16_t ponglen, uint16_t byteslen);
+
+uint16_t wire_message_ping_get_ponglen(const LDKWireMessagePing *message);
+
+uint16_t wire_message_ping_get_byteslen(const LDKWireMessagePing *message);
+
+const LDKWireMessagePong *wire_message_create_pong(uint16_t byteslen);
+
+uint16_t wire_message_pong_get_byteslen(const LDKWireMessagePong *message);
+
+const LDKWireMessageOpenChannel *wire_message_create_open_channel(const uint8_t *chain_hash, const uint8_t *temporary_channel_id, uint64_t funding_satoshis, uint64_t push_msat, uint64_t dust_limit_satoshis, uint64_t max_htlc_value_in_flight_msat, uint64_t channel_reserve_satoshis, uint64_t htlc_minimum_msat, uint32_t feerate_per_kw, uint16_t to_self_delay, uint16_t max_accepted_htlcs, const uint8_t *funding_pubkey, const uint8_t *revocation_basepoint, const uint8_t *payment_basepoint, const uint8_t *delayed_payment_basepoint, const uint8_t *htlc_basepoint, const uint8_t *first_per_commitment_point, uint8_t channel_flags);
+
+const uint8_t *wire_message_open_channel_get_temporary_channel_id(const LDKWireMessageOpenChannel *message);
+
+uint64_t wire_message_open_channel_get_funding_satoshis(const LDKWireMessageOpenChannel *message);
+
+uint64_t wire_message_open_channel_get_push_msat(const LDKWireMessageOpenChannel *message);
+
+uint64_t wire_message_open_channel_get_dust_limit_satoshis(const LDKWireMessageOpenChannel *message);
+
+uint64_t wire_message_open_channel_get_max_htlc_value_in_flight_msat(const LDKWireMessageOpenChannel *message);
+
+uint64_t wire_message_open_channel_get_channel_reserve_satoshis(const LDKWireMessageOpenChannel *message);
+
+uint64_t wire_message_open_channel_get_htlc_minimum_msat(const LDKWireMessageOpenChannel *message);
+
+uint32_t wire_message_open_channel_get_feerate_per_kw(const LDKWireMessageOpenChannel *message);
+
+uint16_t wire_message_open_channel_get_to_self_delay(const LDKWireMessageOpenChannel *message);
+
+uint16_t wire_message_open_channel_get_max_accepted_htlcs(const LDKWireMessageOpenChannel *message);
+
+const uint8_t *wire_message_open_channel_get_funding_pubkey(const LDKWireMessageOpenChannel *message);
+
+const uint8_t *wire_message_open_channel_get_revocation_basepoint(const LDKWireMessageOpenChannel *message);
+
+const uint8_t *wire_message_open_channel_get_payment_basepoint(const LDKWireMessageOpenChannel *message);
+
+const uint8_t *wire_message_open_channel_get_delayed_payment_basepoint(const LDKWireMessageOpenChannel *message);
+
+const uint8_t *wire_message_open_channel_get_htlc_basepoint(const LDKWireMessageOpenChannel *message);
+
+const uint8_t *wire_message_open_channel_get_first_per_commitment_point(const LDKWireMessageOpenChannel *message);
+
+uint8_t wire_message_open_channel_get_channel_flags(const LDKWireMessageOpenChannel *message);
+
+const LDKWireMessageAcceptChannel *wire_message_create_accept_channel(const uint8_t *temporary_channel_id, uint64_t dust_limit_satoshis, uint64_t max_htlc_value_in_flight_msat, uint64_t channel_reserve_satoshis, uint64_t htlc_minimum_msat, uint32_t minimum_depth, uint16_t to_self_delay, uint16_t max_accepted_htlcs, const uint8_t *funding_pubkey, const uint8_t *revocation_basepoint, const uint8_t *payment_basepoint, const uint8_t *delayed_payment_basepoint, const uint8_t *htlc_basepoint, const uint8_t *first_per_commitment_point);
+
+const uint8_t *wire_message_accept_channel_get_temporary_channel_id(const LDKWireMessageAcceptChannel *message);
+
+uint64_t wire_message_accept_channel_get_dust_limit_satoshis(const LDKWireMessageAcceptChannel *message);
+
+uint64_t wire_message_accept_channel_get_max_htlc_value_in_flight_msat(const LDKWireMessageAcceptChannel *message);
+
+uint64_t wire_message_accept_channel_get_channel_reserve_satoshis(const LDKWireMessageAcceptChannel *message);
+
+uint64_t wire_message_accept_channel_get_htlc_minimum_msat(const LDKWireMessageAcceptChannel *message);
+
+uint32_t wire_message_accept_channel_get_minimum_depth(const LDKWireMessageAcceptChannel *message);
+
+uint16_t wire_message_accept_channel_get_to_self_delay(const LDKWireMessageAcceptChannel *message);
+
+uint16_t wire_message_accept_channel_get_max_accepted_htlcs(const LDKWireMessageAcceptChannel *message);
+
+const uint8_t *wire_message_accept_channel_get_funding_pubkey(const LDKWireMessageAcceptChannel *message);
+
+const uint8_t *wire_message_accept_channel_get_revocation_basepoint(const LDKWireMessageAcceptChannel *message);
+
+const uint8_t *wire_message_accept_channel_get_payment_basepoint(const LDKWireMessageAcceptChannel *message);
+
+const uint8_t *wire_message_accept_channel_get_delayed_payment_basepoint(const LDKWireMessageAcceptChannel *message);
+
+const uint8_t *wire_message_accept_channel_get_htlc_basepoint(const LDKWireMessageAcceptChannel *message);
+
+const uint8_t *wire_message_accept_channel_get_first_per_commitment_point(const LDKWireMessageAcceptChannel *message);
+
+const LDKWireMessageFundingCreated *wire_message_create_funding_created(const uint8_t *temporary_channel_id, const uint8_t *funding_txid, uint16_t funding_output_index, const uint8_t *signature);
+
+const uint8_t *wire_message_funding_created_get_temporary_channel_id(const LDKWireMessageFundingCreated *message);
+
+uint16_t wire_message_funding_created_get_funding_output_index(const LDKWireMessageFundingCreated *message);
+
+const uint8_t *wire_message_funding_created_get_signature(const LDKWireMessageFundingCreated *message);
+
+const LDKWireMessageFundingSigned *wire_message_create_funding_signed(const uint8_t *channel_id, const uint8_t *signature);
+
+const uint8_t *wire_message_funding_signed_get_channel_id(const LDKWireMessageFundingSigned *message);
+
+const uint8_t *wire_message_funding_signed_get_signature(const LDKWireMessageFundingSigned *message);
+
+const LDKWireMessageFundingLocked *wire_message_create_funding_locked(const uint8_t *channel_id, const uint8_t *next_per_commitment_point);
+
+const uint8_t *wire_message_funding_locked_get_channel_id(const LDKWireMessageFundingLocked *message);
+
+const uint8_t *wire_message_funding_locked_get_next_per_commitment_point(const LDKWireMessageFundingLocked *message);
+
+const LDKWireMessageShutdown *wire_message_create_shutdown(const uint8_t *channel_id, const LDKBufferArgument *scriptpubkey);
+
+const uint8_t *wire_message_shutdown_get_channel_id(const LDKWireMessageShutdown *message);
+
+LDKBufferResponse *wire_message_shutdown_get_scriptpubkey(const LDKWireMessageShutdown *message);
+
+const LDKWireMessageClosingSigned *wire_message_create_closing_signed(const uint8_t *channel_id, uint64_t fee_satoshis, const uint8_t *signature);
+
+const uint8_t *wire_message_closing_signed_get_channel_id(const LDKWireMessageClosingSigned *message);
+
+uint64_t wire_message_closing_signed_get_fee_satoshis(const LDKWireMessageClosingSigned *message);
+
+const uint8_t *wire_message_closing_signed_get_signature(const LDKWireMessageClosingSigned *message);
+
+const LDKWireMessageUpdateFulfillHTLC *wire_message_create_update_fulfill_htlc(const uint8_t *channel_id, uint64_t htlc_id, const uint8_t *payment_preimage);
+
+const uint8_t *wire_message_update_fulfill_htlc_get_channel_id(const LDKWireMessageUpdateFulfillHTLC *message);
+
+uint64_t wire_message_update_fulfill_htlc_get_htlc_id(const LDKWireMessageUpdateFulfillHTLC *message);
+
+const uint8_t *wire_message_update_fulfill_htlc_get_payment_preimage(const LDKWireMessageUpdateFulfillHTLC *message);
+
+const LDKWireMessageUpdateFailMalformedHTLC *wire_message_create_update_fail_malformed_htlc(const uint8_t *channel_id, uint64_t htlc_id, const uint8_t *sha256_of_onion, uint16_t failure_code);
+
+const uint8_t *wire_message_update_fail_malformed_htlc_get_channel_id(const LDKWireMessageUpdateFailMalformedHTLC *message);
+
+uint64_t wire_message_update_fail_malformed_htlc_get_htlc_id(const LDKWireMessageUpdateFailMalformedHTLC *message);
+
+const uint8_t *wire_message_update_fail_malformed_htlc_get_sha256_of_onion(const LDKWireMessageUpdateFailMalformedHTLC *message);
+
+uint16_t wire_message_update_fail_malformed_htlc_get_failure_code(const LDKWireMessageUpdateFailMalformedHTLC *message);
+
+const LDKWireMessageCommitmentSigned *wire_message_create_commitment_signed(const uint8_t *channel_id, const uint8_t *signature, const LDKBufferArgumentArray *htlc_signatures);
+
+const uint8_t *wire_message_commitment_signed_get_channel_id(const LDKWireMessageCommitmentSigned *message);
+
+const uint8_t *wire_message_commitment_signed_get_signature(const LDKWireMessageCommitmentSigned *message);
+
+LDKBufferResponseArray *wire_message_commitment_signed_get_htlc_signatures(const LDKWireMessageCommitmentSigned *message);
 
 LDKPeerHandshake *peer_handshake_new_outbound(const uint8_t *private_key, const uint8_t *ephemeral_private_key, const uint8_t *remote_public_key);
 
 LDKPeerHandshake *peer_handshake_new_inbound(const uint8_t *private_key, const uint8_t *ephemeral_private_key);
 
 LDKHandshakeResult *peer_handshake_process_act(LDKPeerHandshake *peer, const LDKBufferArgument *act_data, LDKError *error);
+
+LDKPeerManager *peer_manager_create(const uint8_t *node_private_key, const uint8_t *ephemeral_seed);
+
+LDKSocketDescriptor *peer_manager_new_outbound(LDKPeerManager *peer_manager, const uint8_t *remote_public_key, const void *peer_instance_pointer, uintptr_t (*socket_callback)(const void*, LDKBufferResponse*), LDKError *error);
+
+void peer_read(LDKPeerManager *peer_manager, const LDKSocketDescriptor *socket_descriptor, const LDKBufferArgument *data);
+
+LDKBufferResponse peer_manager_try_direct(LDKPeerManager *peer_manager);
+
+void peer_manager_free(LDKPeerManager *raw_peer_manager);
 
 /* Text to put at the end of the generated file */
