@@ -29,10 +29,12 @@ class Experimentation {
         print("Creating Google Peer")
         let googleClient = TCPClient(address: "google.com", port: 443)
         let fakePeer = CustomPeer(tcpClient: googleClient)
+        fakePeer.name = "Google"
 
         print("Creating Alex Bosworth peer")
         let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
         let peer = CustomPeer(tcpClient: tcpClient)
+        peer.name = "Alex"
         peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
 
     }

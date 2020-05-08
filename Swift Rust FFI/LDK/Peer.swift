@@ -12,6 +12,7 @@ class Peer {
 
     final var cSocketDescriptor: OpaquePointer?
     final var manager: PeerManager?
+    var name: String?
     
     func sendDataCallback(data: Data) -> UInt {
         let plaintextBytes = [UInt8](data)
@@ -25,7 +26,7 @@ class Peer {
 
     deinit {
         socket_descriptor_free(self.cSocketDescriptor)
-        print("socket descriptor destroyed")
+        print("socket descriptor", self.name, "destroyed")
     }
 
 }

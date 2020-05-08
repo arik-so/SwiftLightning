@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private var peer = Peer()
+    // private var peer = Peer()
     
     @State private var isConnecting = false
     @State public var isConnected = false
