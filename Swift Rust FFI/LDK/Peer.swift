@@ -10,7 +10,7 @@ import Foundation
 
 class Peer {
 
-    final var cPointer: OpaquePointer?
+    final var cSocketDescriptor: OpaquePointer?
     final var manager: PeerManager?
     
     func sendDataCallback(data: Data) -> UInt {
@@ -22,4 +22,10 @@ class Peer {
     final func receiveData(data: Data) {
         self.manager?.receiveData(peer: self, data: data)
     }
+
+    deinit {
+        socket_descriptor_free(self.cSocketDescriptor)
+        print("socket descriptor destroyed")
+    }
+
 }

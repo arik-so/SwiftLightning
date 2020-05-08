@@ -31,13 +31,13 @@ class PeerManager {
 
         peer.manager = self;
         let descriptorPointer = peer_manager_new_outbound(self.cPeerManager, remotePublicKeyPointer, peerInstancePointer, socketCallback, errorPlaceholder)
-        peer.cPointer = descriptorPointer
+        peer.cSocketDescriptor = descriptorPointer
     }
 
     func receiveData(peer: Peer, data: Data) {
         let rawData = RawLDKTypes.dataToBufferArgument(data: data) { dataPointer in
             // the pointer access is lost, so we need to strongly retain it
-            peer_read(self.cPeerManager, peer.cPointer, dataPointer);
+            peer_read(self.cPeerManager, peer.cSocketDescriptor, dataPointer);
         };
     }
     

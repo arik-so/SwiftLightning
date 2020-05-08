@@ -231,4 +231,6 @@ LDKBufferResponse peer_manager_try_direct(LDKPeerManager *peer_manager);
 
 void peer_manager_free(LDKPeerManager *raw_peer_manager);
 
+void socket_descriptor_free(LDKSocketDescriptor *raw_socket_descriptor);
+
 /* Text to put at the end of the generated file */

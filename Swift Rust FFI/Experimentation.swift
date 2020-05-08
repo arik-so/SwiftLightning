@@ -17,14 +17,24 @@ class Experimentation {
         
         let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
         let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
-//        let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
-        let remotePublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
+        let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
+        let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
 
         let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey)
+
+        // a connection to be discarded
+        peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey)
+
+        // a custom peer to be discarded
+        print("Creating Google Peer")
+        let googleClient = TCPClient(address: "google.com", port: 443)
+        let fakePeer = CustomPeer(tcpClient: googleClient)
+
+        print("Creating Alex Bosworth peer")
         let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
         let peer = CustomPeer(tcpClient: tcpClient)
-        peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey, peer: peer)
-        
+        peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
+
     }
 
     static func beginHandshake() {
