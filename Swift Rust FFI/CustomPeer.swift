@@ -28,7 +28,7 @@ class CustomPeer : Peer {
     private func awaitResponse(){
         guard let response = try! self.tcpClient.read(50, timeout: 10) else {
             print("Not received any data, waiting one second")
-            sleep(1) // wait a couple seconds
+            sleep(1) // wait one second
             return awaitResponse()
         }
         print("Received data from peer:", response)
