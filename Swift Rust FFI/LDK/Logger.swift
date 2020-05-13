@@ -9,13 +9,19 @@ class Logger {
 
     var cLogger: LDKLogger?;
 
-    init(){
+    init() {
         func logCallback(pointer: UnsafeRawPointer?, buffer: UnsafePointer<Int8>?) -> Void {
-            // let instance: Logger = RawLDKTypes.pointerToInstance(pointer: pointer!)
-            print("something got logged!");
+            let instance: Logger = RawLDKTypes.pointerToInstance(pointer: pointer!)
+            let message = String(cString: buffer!)
+            instance.log(message: message)
         }
 
         self.cLogger = LDKLogger(this_arg: RawLDKTypes.instanceToPointer(instance: self), log: logCallback);
+    }
+
+    func log(message: String) {
+        Experimentation.logInUI(message: "Log event:\n"+message)
+        print("Log event:", message);
     }
 
 }

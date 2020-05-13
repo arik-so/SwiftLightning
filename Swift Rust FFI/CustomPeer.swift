@@ -19,11 +19,29 @@ class CustomPeer : Peer {
     override func sendDataCallback(data: Data) -> UInt {
         self.tcpClient.send(data: data)
         print("Sent data to peer:", [UInt8](data))
+        Experimentation.logInUI(message: "Sending: " + data.hexEncodedString())
         // start a background thread waiting for data
         DispatchQueue.global(qos: .background).async {
             self.awaitResponse()
         }
         return UInt(data.count)
+    }
+
+    override func destructionCallback() {
+        print("Disconnecting from peer")
+        Experimentation.logInUI(message: "Disconnecting")
+        Experimentation.contentView?.isConnected = false
+        // Experimentation.contentView?.isConnecting = false
+        //Experimentation.peer = nil
+
+        // reconnect
+        self.tcpClient.close()
+
+        print("Auto-reconnect to peer")
+        Experimentation.logInUI(message: "Auto-reconnecting")
+        let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
+        self.tcpClient = tcpClient
+        self.manager?.initiateOutboundConnection(remotePublicKey: self.publicKey!, peer: self)
     }
 
     private func awaitResponse(){
@@ -33,6 +51,7 @@ class CustomPeer : Peer {
             return awaitResponse()
         }
         print("Received data from peer:", response)
+        Experimentation.logInUI(message: "Received: " + Data(response).hexEncodedString())
         DispatchQueue.main.async {
             self.receiveData(data: Data(response))
         }

@@ -12,7 +12,7 @@ struct ContentView: View {
     
     // private var peer = Peer()
     
-    @State private var isConnecting = false
+    @State public var isConnecting = false
     @State public var isConnected = false
     @State public var isPinging = false
     
@@ -21,7 +21,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
                         
-            if !self.isConnecting {
+            if !self.isConnecting && !self.isConnected {
             
 //                Button(action: {
 //                    self.isConnecting = true
@@ -32,15 +32,16 @@ struct ContentView: View {
 //                }
                 
                 Button(action: {
-//                    self.isConnecting = true
+                   self.isConnecting = true
 //                    self.peer.contentView = self
 //                    self.peer.createPeerManager()
                     // self.peer.createNode();
 
+                    Experimentation.contentView = self
                     Experimentation.setupPeerManager()
 
                 }) {
-                    Text("Test")
+                    Text("Connect to Alex' Node")
                 }
                 
             }   else {
@@ -48,22 +49,28 @@ struct ContentView: View {
                 if !self.isConnected {
                     Text("Connecting…")
                 }else if !self.isPinging{
-                    Button(action: {
+                    /*Button(action: {
                         self.isPinging = true
                     }) {
                         Text("Send Ping")
-                    }
+                    }*/
+                    Text("Connected to Alex")
                 }
                 
                 Spacer()
-                
-                Text("Log:\n" + self.logText)
-                    .lineLimit(nil)
-                    .foregroundColor(Color.gray)
-                    .font(.body)
+
+                Text("Reverse Log")
+
+                List {
+                    Text(self.logText)
+                            .lineLimit(nil)
+                            .foregroundColor(Color.gray)
+                            .font(.body)
+                }
             }
             
         }
+        .padding()
         
     }
 }

@@ -12,8 +12,11 @@ class PeerManager {
 
     // private var cPeerManager: LDKPeerManager;
     private var cPeerManager: OpaquePointer?;
+    private var logger: Logger?
+    private var channelMessageHandler: ChannelMessageHandler?
+
     // private var cSecretKey: LDKSecretKey;
-    
+
     init(privateKey: Data, ephemeralSeed: Data) {
         // let privateKeyPointer = RawLDKTypes.dataToPointer(data: privateKey)
         // let ephemeralSeedPointer = RawLDKTypes.dataToPointer(data: ephemeralSeed)
@@ -23,25 +26,20 @@ class PeerManager {
         let secretKey = LDKSecretKey(bytes: privateKeyBytes);
         let cEphemeralSeed = RawLDKTypes.dataToPrivateKeyTuple(data: ephemeralSeed);
 
-        var channelMessageHandler = ChannelMessageHandler();
+        self.channelMessageHandler = ChannelMessageHandler();
 
         func shouldRequestFullSync(pointer: UnsafeRawPointer?, key: LDKPublicKey) -> Bool {
             false
         }
+
         let routeMessageHandler = LDKRoutingMessageHandler(this_arg: RawLDKTypes.instanceToPointer(instance: self), should_request_full_sync: shouldRequestFullSync)
 
-        let messageHandler = MessageHandler_new(channelMessageHandler.cMessageHandler!, routeMessageHandler)
-        
-        // let fixedSize
-
-        /*let messageHandler = withUnsafePointer(to: rawMessageHandler) { (pointer: UnsafePointer<LDKChannelMessageHandler>) -> LDKMessageHandler in
-            LDKMessageHandler(inner: OpaquePointer.init(pointer))
-        }*/
-
-        let logger = Logger()
+        let messageHandler = MessageHandler_new(self.channelMessageHandler!.cMessageHandler!, routeMessageHandler)
 
 
-        let peerManager = peer_manager_create(RawLDKTypes.dataToPointer(data: privateKey), RawLDKTypes.dataToPointer(data: ephemeralSeed), messageHandler, logger.cLogger!);
+        self.logger = Logger()
+
+        let peerManager = peer_manager_create(RawLDKTypes.dataToPointer(data: privateKey), RawLDKTypes.dataToPointer(data: ephemeralSeed), messageHandler, self.logger!.cLogger!);
 
         /* let peerManager = withUnsafePointer(to: cEphemeralSeed) { (pointer: UnsafePointer<RawLDKTypes.SecretKey>) -> LDKPeerManager in
             let peerManager = PeerManager_new(messageHandler, secretKey, pointer, logger.cLogger!)
@@ -53,7 +51,7 @@ class PeerManager {
         forceTick()
     }
 
-    private func forceTick(){
+    private func forceTick() {
         DispatchQueue.global(qos: .background).async {
             print("Waiting 10 seconds for next tick")
             sleep(10);
@@ -66,19 +64,24 @@ class PeerManager {
 
     }
 
-    func initiateOutboundConnection(remotePublicKey: Data, peer: Peer = Peer()){
+    func initiateOutboundConnection(remotePublicKey: Data, peer: Peer = Peer()) {
         let remotePublicKeyPointer = RawLDKTypes.dataToPointer(data: remotePublicKey)
         let peerInstancePointer = RawLDKTypes.instanceToPointer(instance: peer)
         let errorPlaceholder = RawLDKTypes.errorPlaceholder();
-        
+
         func socketCallback(pointer: UnsafeRawPointer?, buffer: UnsafeMutablePointer<LDKBufferResponse>?) -> UInt {
             let instance: Peer = RawLDKTypes.pointerToInstance(pointer: pointer!)
             let data = RawLDKTypes.bufferResponseToData(buffer: buffer!)
             return instance.sendDataCallback(data: data)
         }
 
+        func destructionCallback(pointer: UnsafeRawPointer?) {
+            let instance: Peer = RawLDKTypes.pointerToInstance(pointer: pointer!)
+            instance.destructionCallback()
+        }
+
         peer.manager = self;
-        let descriptorPointer = peer_manager_new_outbound(self.cPeerManager, remotePublicKeyPointer, peerInstancePointer, socketCallback, errorPlaceholder)
+        let descriptorPointer = peer_manager_new_outbound(self.cPeerManager, remotePublicKeyPointer, peerInstancePointer, socketCallback, destructionCallback, errorPlaceholder)
         peer.cSocketDescriptor = descriptorPointer
     }
 
@@ -89,7 +92,7 @@ class PeerManager {
             peer_read(self.cPeerManager, peer.cSocketDescriptor, dataPointer);
         };
     }
-    
+
     deinit {
         peer_manager_free(self.cPeerManager)
         print("peer manager destroyed")

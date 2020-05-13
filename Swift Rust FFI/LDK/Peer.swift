@@ -12,17 +12,21 @@ class Peer {
 
     final var cSocketDescriptor: OpaquePointer?
     final var manager: PeerManager?
+    final var publicKey: Data?
     var name: String?
-
 
     func sendDataCallback(data: Data) -> UInt {
         let plaintextBytes = [UInt8](data)
-        print("sending plaintext bytes:", plaintextBytes)
-        return 4
+        print("should send plaintext bytes:", plaintextBytes)
+        print("Peer.swift:sendDataCallback has to be overridden!")
+        abort()
+    }
+
+    func destructionCallback() {
+
     }
 
     final func receiveData(data: Data) {
-        print("received data from other end:", [UInt8](data))
         self.manager?.receiveData(peer: self, data: data)
     }
 

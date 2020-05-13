@@ -1135,7 +1135,7 @@ LDKMessageHandler MessageHandler_new(LDKChannelMessageHandler chan_handler_arg, 
 
 LDKPeerManager *peer_manager_create(const uint8_t *node_private_key, const uint8_t *ephemeral_seed, LDKMessageHandler message_handler, LDKLogger logger);
 
-LDKSocketDescriptor *peer_manager_new_outbound(LDKPeerManager *peer_manager, const uint8_t *remote_public_key, const void *peer_instance_pointer, uintptr_t (*socket_callback)(const void*, LDKBufferResponse*), LDKError *error);
+LDKSocketDescriptor *peer_manager_new_outbound(LDKPeerManager *peer_manager, const uint8_t *remote_public_key, const void *peer_instance_pointer, uintptr_t (*socket_callback)(const void*, LDKBufferResponse*), void (*disconnect_callback)(const void*), LDKError *error);
 
 void peer_read(LDKPeerManager *peer_manager, const LDKSocketDescriptor *socket_descriptor, const LDKBufferArgument *data);
 

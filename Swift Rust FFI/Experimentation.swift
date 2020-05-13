@@ -12,11 +12,10 @@ import SwiftSocket
 class Experimentation {
 
     public static var contentView: ContentView?
-    private static var peer: Peer?
-
+    public static var peer: Peer?
 
     static func setupPeerManager() {
-        
+
         let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
         let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
         let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
@@ -26,7 +25,7 @@ class Experimentation {
         let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey)
 
 
-
+        /*
         // a connection to be discarded
         peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey)
 
@@ -35,11 +34,13 @@ class Experimentation {
         let googleClient = TCPClient(address: "google.com", port: 443)
         let fakePeer = CustomPeer(tcpClient: googleClient)
         fakePeer.name = "Google"
+        */
 
         print("Creating Alex Bosworth peer")
         let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
         let peer = CustomPeer(tcpClient: tcpClient)
         peer.name = "Alex"
+        peer.publicKey = alexPublicKey
 
         // print("Creating local peer")
         // let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
@@ -48,7 +49,6 @@ class Experimentation {
 
         self.peer = peer;
         peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
-
 
 
     }
@@ -127,7 +127,11 @@ class Experimentation {
         }
     }
     */
-    
+
+    static func logInUI(message: String) {
+        Experimentation.contentView?.logText = "\n" + message + "\n" + Experimentation.contentView!.logText
+    }
+
 }
 
 extension Data {
@@ -138,6 +142,8 @@ extension Data {
 
     func hexEncodedString(options: HexEncodingOptions = []) -> String {
         let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
-        return map { String(format: format, $0) }.joined()
+        return map {
+            String(format: format, $0)
+        }.joined()
     }
 }
