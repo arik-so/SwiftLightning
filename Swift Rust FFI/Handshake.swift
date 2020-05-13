@@ -6,6 +6,7 @@
 //  Copyright © 2020 Arik Sosman. All rights reserved.
 //
 
+
 import Foundation
 
 enum HandshakeError : Error {
@@ -13,14 +14,16 @@ enum HandshakeError : Error {
 }
 
 class Handshake {
-    
+
+
     private var cHandshake: OpaquePointer;
     private var cConduit: OpaquePointer?;
     
     init(cHandshake: OpaquePointer){
         self.cHandshake = cHandshake;
     }
-    
+
+    /*
     func process_act(actData: Data) throws -> Data {
         let rawActDataPointer = (actData as NSData).bytes.assumingMemoryBound(to: UInt8.self);
         let dataArgument = LDKBufferArgument(data: rawActDataPointer, length: UInt(actData.count));
@@ -80,5 +83,6 @@ class Handshake {
         
         return plaintext
     }
+    */
     
 }

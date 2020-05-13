@@ -20,7 +20,9 @@
 		076BCB88240E56F4002FFD79 /* Swift_Rust_FFITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB87240E56F4002FFD79 /* Swift_Rust_FFITests.swift */; };
 		076BCB98240E5935002FFD79 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 076BCB97240E592E002FFD79 /* libresolv.tbd */; };
 		07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC1B5A241A350C00C4E6D8 /* Handshake.swift */; };
+		2DD11656DBCC13B29E23D4DC /* ChannelMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */; };
 		2DD1176232492006BCF8AAAF /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */; };
+		2DD1184BFB34D666CC554401 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11FCA822BF0F8F231EA44 /* Logger.swift */; };
 		2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11A892D5A07AE47006E98 /* CustomPeer.swift */; };
 		9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */; };
 /* End PBXBuildFile section */
@@ -58,8 +60,12 @@
 		076BCB9B240E6047002FFD79 /* librust_swift_ffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librust_swift_ffi.a; path = ../../cargo/target/universal/release/librust_swift_ffi.a; sourceTree = "<group>"; };
 		076BCB9D24117ECE002FFD79 /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbindings.a; path = "../../../rust-lightning/target/universal/release/libbindings.a"; sourceTree = "<group>"; };
 		07FC1B5A241A350C00C4E6D8 /* Handshake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handshake.swift; sourceTree = "<group>"; };
+		2DD110AA3B0A133662005BE6 /* rust_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_types.h; sourceTree = "<group>"; };
 		2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelMessageHandler.swift; sourceTree = "<group>"; };
 		2DD11A892D5A07AE47006E98 /* CustomPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPeer.swift; sourceTree = "<group>"; };
+		2DD11EBA6418725D4FEA7893 /* lightning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightning.h; sourceTree = "<group>"; };
+		2DD11FCA822BF0F8F231EA44 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swift_Rust_FFI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99D1A1263F0FB934A614F5D4 /* Pods-Swift Rust FFI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.release.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.release.xcconfig"; sourceTree = "<group>"; };
 		C0B8CA82EE150BB6FD2501CC /* Pods-Swift Rust FFI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.debug.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +98,8 @@
 				0721E06524649C49001ED069 /* PeerManager.swift */,
 				0721E063246327A9001ED069 /* RawLDKTypes.swift */,
 				2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */,
+				2DD11FCA822BF0F8F231EA44 /* Logger.swift */,
+				2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */,
 			);
 			path = LDK;
 			sourceTree = "<group>";
@@ -107,6 +115,8 @@
 				076BCB6E240E56F0002FFD79 /* Products */,
 				076BCB92240E5760002FFD79 /* Frameworks */,
 				FD542169B65FC2B60F4F1487 /* Pods */,
+				2DD11EBA6418725D4FEA7893 /* lightning.h */,
+				2DD110AA3B0A133662005BE6 /* rust_types.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -329,6 +339,8 @@
 				076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */,
 				2DD1176232492006BCF8AAAF /* Peer.swift in Sources */,
 				2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */,
+				2DD1184BFB34D666CC554401 /* Logger.swift in Sources */,
+				2DD11656DBCC13B29E23D4DC /* ChannelMessageHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

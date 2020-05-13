@@ -9,6 +9,7 @@
 #ifndef FFI_Bridging_Header_h
 #define FFI_Bridging_Header_h
 
+#import "rust_types.h"
 #import "ldk_ffi.h"
 
 #endif /* FFI_Bridging_Header_h */

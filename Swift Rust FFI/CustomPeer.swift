@@ -15,6 +15,7 @@ class CustomPeer : Peer {
         self.tcpClient.connect(timeout: 5)
     }
 
+
     override func sendDataCallback(data: Data) -> UInt {
         self.tcpClient.send(data: data)
         print("Sent data to peer:", [UInt8](data))
@@ -36,4 +37,5 @@ class CustomPeer : Peer {
             self.receiveData(data: Data(response))
         }
     }
+
 }

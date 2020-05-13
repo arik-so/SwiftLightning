@@ -12,15 +12,20 @@ import SwiftSocket
 class Experimentation {
 
     public static var contentView: ContentView?
-    
+    private static var peer: Peer?
+
+
     static func setupPeerManager() {
         
         let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
         let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
         let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
         let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
+        let localPublicKey = Data.init(base64Encoded: "Aq8eftKnVZAP2NZAgdF8nyJ4caoyJV5wFIB8Xpi2LyQF")!;
 
         let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey)
+
+
 
         // a connection to be discarded
         peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey)
@@ -35,9 +40,20 @@ class Experimentation {
         let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
         let peer = CustomPeer(tcpClient: tcpClient)
         peer.name = "Alex"
+
+        // print("Creating local peer")
+        // let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
+        // let peer = CustomPeer(tcpClient: tcpClient)
+        // peer.name = "Local"
+
+        self.peer = peer;
         peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
 
+
+
     }
+
+    /*
 
     static func beginHandshake() {
 
@@ -110,6 +126,7 @@ class Experimentation {
             contentView.logText = contentView.logText + "\n" + entry + "\n"
         }
     }
+    */
     
 }
 
