@@ -45,10 +45,13 @@ class ChannelManager {
 
         let config = LDKUserConfig()
         self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, channelMonitor, broadcaster, logger.cLogger!, keyManager, config, currentBlockchainHeight)
-
     }
 
-    func getPrivateKey() -> LDKSecretKey {
+    func openChannel() {
+        // fix result
+    }
+
+    private func getPrivateKey() -> LDKSecretKey {
         let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
         let keyTuple = RawLDKTypes.dataToPrivateKeyTuple(data: privateKey)
         return LDKSecretKey(bytes: keyTuple)

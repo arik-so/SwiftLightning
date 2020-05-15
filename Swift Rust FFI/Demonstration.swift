@@ -9,11 +9,13 @@
 import Foundation
 import SwiftSocket
 import PromiseKit
+import Alamofire
 
 class Demonstration {
 
     public static var contentView: ContentView?
     public static var peer: Peer?
+    private static var channelManager: ChannelManager?
 
     static func setupPeerManager() {
 
@@ -38,106 +40,43 @@ class Demonstration {
         */
 
 
-        // print("Creating Alex Bosworth peer")
-        // let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
-        // let peer = CustomPeer(tcpClient: tcpClient)
-        // peer.name = "Alex"
-        // peer.publicKey = alexPublicKey
-
-        print("Creating local peer")
-        let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
+        print("Creating Alex Bosworth peer")
+        let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
         let peer = CustomPeer(tcpClient: tcpClient)
-        peer.name = "Local"
+        peer.name = "Alex"
+        peer.publicKey = alexPublicKey
+
+        // print("Creating local peer")
+        // let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
+        // let peer = CustomPeer(tcpClient: tcpClient)
+        // peer.name = "Local"
 
         self.peer = peer;
-        peerManager.initiateOutboundConnection(remotePublicKey: localPublicKey, peer: peer)
+        peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
 
-        self.contentView?.isConnecting = true
-
-
-
+        setupChannelManager()
     }
 
-    /*
+    static func setupChannelManager() {
 
-    static func beginHandshake() {
+        let latestBlockUrl = "https://test.bitgo.com/api/v2/tbtc/public/block/latest"
+        AF.request(latestBlockUrl).responseJSON { response in
 
-        DispatchQueue.global(qos: .background).async {
+            print("block data:", response.value)
+            let blockData = response.value as! [String: Any]
+            let height = blockData["height"] as! UInt64
+
+            // let height = response
+            print("height:", height)
             let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
-            let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
-            let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
-
-            let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
-            // 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@testnet-lnd.yalls.org:9735
-
-
-            let privateKeyPointer = (privateKey as NSData).bytes.assumingMemoryBound(to: UInt8.self);
-            let ephemeralPrivateKeyPointer = (ephemeralPrivateKey as NSData).bytes.assumingMemoryBound(to: UInt8.self);
-            //        let remotePublicKeyPointer = (remotePublicKey as NSData).bytes.assumingMemoryBound(to: UInt8.self);
-            let remotePublicKeyPointer = (alexPublicKey as NSData).bytes.assumingMemoryBound(to: UInt8.self);
-
-
-            let cHandshake = peer_handshake_new_outbound(privateKeyPointer, ephemeralPrivateKeyPointer, remotePublicKeyPointer);
-            let handshake = Handshake.init(cHandshake: cHandshake!)
-
-//            let msg_component = wire_get_message_component();
-
-
-            // connect to Alex Bosworth' testnet Lightning node
-            let client = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
-            let connection = client.connect(timeout: 5);
-
-            print("CALCULATING FIRST ACT")
-            let firstAct = try! handshake.process_act(actData: Data.init())
-            print("SENDING FIRST ACT")
-            self.logString(entry: "TX (Act I): " + firstAct.hexEncodedString())
-            let firstActSendResult = client.send(data: firstAct);
-            print("SENT FIRST ACT")
-            let secondAct = try! client.read(50, timeout: 5);
-            self.logString(entry: "RX (Act II): " + Data(secondAct!).hexEncodedString())
-            print("RECEIVED SECOND ACT:", secondAct!)
-            let thirdAct = try! handshake.process_act(actData: Data(secondAct!));
-
-            // we should now be connected
-            self.markConnected()
-            self.logString(entry: "Processed second act and sent out third act, finishing handshake.")
-
-            print("SENDING THIRD ACT")
-            self.logString(entry: "TX (Act III): " + thirdAct.hexEncodedString())
-            let thirdActSendResult = client.send(data: thirdAct);
-            print("SENT THIRD ACT")
-            let encryptedFirstMessage = try! client.read(50, timeout: 5);
-            print("RECEIVED FIRST MESSAGE:", encryptedFirstMessage!)
-            let firstMessage = try! handshake.decrypt_message(ciphertext: Data(encryptedFirstMessage!))
-            print("DECRYPTED FIRST MESSAGE:", [UInt8](firstMessage))
-            self.logString(entry: "RX (Msg 1): " + firstMessage.hexEncodedString() + " (" + Data(encryptedFirstMessage!).hexEncodedString() + ")")
-
-            // response
-
+            let logger = Logger()
+            // self.channelManager = ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: UInt(height))
         }
 
     }
-
-    static func markConnected(){
-        guard var contentView = self.contentView else { return }
-        DispatchQueue.main.async {
-            contentView.isConnected = true
-        }
-    }
-
-    static func logString(entry: String){
-        guard var contentView = self.contentView else { return }
-        DispatchQueue.main.async {
-            contentView.logText = contentView.logText + "\n" + entry + "\n"
-        }
-    }
-    */
 
     static func logInUI(message: String) {
         Demonstration.contentView?.logText = "\n" + message + "\n" + Demonstration.contentView!.logText
-        // DispatchQueue.main.async {
-        //     Experimentation.contentView?.logText = "\n" + message + "\n" + Experimentation.contentView!.logText
-        // }
     }
 
 }
