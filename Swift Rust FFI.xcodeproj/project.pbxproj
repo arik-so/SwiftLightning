@@ -22,7 +22,9 @@
 		07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FC1B5A241A350C00C4E6D8 /* Handshake.swift */; };
 		2DD11656DBCC13B29E23D4DC /* ChannelMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */; };
 		2DD1176232492006BCF8AAAF /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */; };
+		2DD117B0D2B2F2B22502C553 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD119C98B25EC53EACE769B /* ChannelManager.swift */; };
 		2DD1184BFB34D666CC554401 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11FCA822BF0F8F231EA44 /* Logger.swift */; };
+		2DD11E028E0E0E53CB8731AE /* FeeEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11EE414727F5ED4468EB7 /* FeeEstimator.swift */; };
 		2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11A892D5A07AE47006E98 /* CustomPeer.swift */; };
 		9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */; };
 /* End PBXBuildFile section */
@@ -63,9 +65,11 @@
 		2DD110AA3B0A133662005BE6 /* rust_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_types.h; sourceTree = "<group>"; };
 		2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
 		2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelMessageHandler.swift; sourceTree = "<group>"; };
+		2DD119C98B25EC53EACE769B /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		2DD11A892D5A07AE47006E98 /* CustomPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPeer.swift; sourceTree = "<group>"; };
 		2DD11CBC04C4FB9EA8162028 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2DD11EBA6418725D4FEA7893 /* lightning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightning.h; sourceTree = "<group>"; };
+		2DD11EE414727F5ED4468EB7 /* FeeEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeeEstimator.swift; sourceTree = "<group>"; };
 		2DD11FCA822BF0F8F231EA44 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swift_Rust_FFI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99D1A1263F0FB934A614F5D4 /* Pods-Swift Rust FFI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift Rust FFI.release.xcconfig"; path = "Target Support Files/Pods-Swift Rust FFI/Pods-Swift Rust FFI.release.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +105,8 @@
 				2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */,
 				2DD11FCA822BF0F8F231EA44 /* Logger.swift */,
 				2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */,
+				2DD119C98B25EC53EACE769B /* ChannelManager.swift */,
+				2DD11EE414727F5ED4468EB7 /* FeeEstimator.swift */,
 			);
 			path = LDK;
 			sourceTree = "<group>";
@@ -343,6 +349,8 @@
 				2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */,
 				2DD1184BFB34D666CC554401 /* Logger.swift in Sources */,
 				2DD11656DBCC13B29E23D4DC /* ChannelMessageHandler.swift in Sources */,
+				2DD117B0D2B2F2B22502C553 /* ChannelManager.swift in Sources */,
+				2DD11E028E0E0E53CB8731AE /* FeeEstimator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
