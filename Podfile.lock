@@ -1,8 +1,22 @@
 PODS:
+  - PromiseKit (6.13.1):
+    - PromiseKit/CorePromise (= 6.13.1)
+    - PromiseKit/Foundation (= 6.13.1)
+    - PromiseKit/UIKit (= 6.13.1)
+  - PromiseKit/CorePromise (6.13.1)
+  - PromiseKit/Foundation (6.13.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.13.1):
+    - PromiseKit/CorePromise
   - SwiftSocket (2.0.2)
 
 DEPENDENCIES:
+  - PromiseKit (~> 6.8)
   - SwiftSocket (from `https://github.com/swiftsocket/SwiftSocket`, commit `4a3af2cbbaef5b2fddbaff80f6767fecc0ce5fe2`)
+
+SPEC REPOS:
+  trunk:
+    - PromiseKit
 
 EXTERNAL SOURCES:
   SwiftSocket:
@@ -15,8 +29,9 @@ CHECKOUT OPTIONS:
     :git: https://github.com/swiftsocket/SwiftSocket
 
 SPEC CHECKSUMS:
+  PromiseKit: 28fda91c973cc377875d8c0ea4f973013c05b6db
   SwiftSocket: c8d482e867ae4d3eb4c769e9382e123c1f1f833b
 
-PODFILE CHECKSUM: 974a60553a140fec29fd1854d7104848bd500071
+PODFILE CHECKSUM: f5d1e5ff5f65e134dd312ca34f5443a2672a50b2
 
 COCOAPODS: 1.9.1

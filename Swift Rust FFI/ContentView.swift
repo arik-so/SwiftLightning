@@ -37,8 +37,8 @@ struct ContentView: View {
 //                    self.peer.createPeerManager()
                     // self.peer.createNode();
 
-                    Experimentation.contentView = self
-                    Experimentation.setupPeerManager()
+                    Demonstration.contentView = self
+                    Demonstration.setupPeerManager()
 
                 }) {
                     Text("Connect to Alex' Node")

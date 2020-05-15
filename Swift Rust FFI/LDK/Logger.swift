@@ -20,7 +20,7 @@ class Logger {
     }
 
     func log(message: String) {
-        Experimentation.logInUI(message: "Log event:\n"+message)
+        Demonstration.logInUI(message: "Log event:\n"+message)
         print("Log event:", message);
     }
 

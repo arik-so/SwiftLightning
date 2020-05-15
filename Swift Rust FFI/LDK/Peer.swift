@@ -13,6 +13,7 @@ class Peer {
     final var cSocketDescriptor: OpaquePointer?
     final var manager: PeerManager?
     final var publicKey: Data?
+    final var canReceiveData: Bool = false
     var name: String?
 
     func sendDataCallback(data: Data) -> UInt {
@@ -27,6 +28,10 @@ class Peer {
     }
 
     final func receiveData(data: Data) {
+        if(!self.canReceiveData){
+            print("Peer cannot receive data yet")
+            abort()
+        }
         self.manager?.receiveData(peer: self, data: data)
     }
 

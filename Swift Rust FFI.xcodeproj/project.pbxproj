@@ -10,7 +10,7 @@
 		07093B8F241ADFFA00CA1E3E /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07093B8D241ADFDB00CA1E3E /* libbindings.a */; };
 		0721E064246327A9001ED069 /* RawLDKTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0721E063246327A9001ED069 /* RawLDKTypes.swift */; };
 		0721E06624649C49001ED069 /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0721E06524649C49001ED069 /* PeerManager.swift */; };
-		074EBC752464A4DA0090DD79 /* Experimentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074EBC742464A4DA0090DD79 /* Experimentation.swift */; };
+		074EBC752464A4DA0090DD79 /* Demonstration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074EBC742464A4DA0090DD79 /* Demonstration.swift */; };
 		076BCB71240E56F0002FFD79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB70240E56F0002FFD79 /* AppDelegate.swift */; };
 		076BCB73240E56F0002FFD79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB72240E56F0002FFD79 /* SceneDelegate.swift */; };
 		076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BCB74240E56F0002FFD79 /* ContentView.swift */; };
@@ -42,7 +42,7 @@
 		07093B90241AE0E000CA1E3E /* ldk_ffi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ldk_ffi.h; sourceTree = "<group>"; };
 		0721E063246327A9001ED069 /* RawLDKTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawLDKTypes.swift; sourceTree = "<group>"; };
 		0721E06524649C49001ED069 /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
-		074EBC742464A4DA0090DD79 /* Experimentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Experimentation.swift; sourceTree = "<group>"; };
+		074EBC742464A4DA0090DD79 /* Demonstration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demonstration.swift; sourceTree = "<group>"; };
 		076BCB6D240E56F0002FFD79 /* Swift Rust FFI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Rust FFI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		076BCB70240E56F0002FFD79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		076BCB72240E56F0002FFD79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 				076BCB7E240E56F4002FFD79 /* Info.plist */,
 				076BCB78240E56F4002FFD79 /* Preview Content */,
 				07FC1B5A241A350C00C4E6D8 /* Handshake.swift */,
-				074EBC742464A4DA0090DD79 /* Experimentation.swift */,
+				074EBC742464A4DA0090DD79 /* Demonstration.swift */,
 				2DD11A892D5A07AE47006E98 /* CustomPeer.swift */,
 			);
 			path = "Swift Rust FFI";
@@ -334,7 +334,7 @@
 				076BCB73240E56F0002FFD79 /* SceneDelegate.swift in Sources */,
 				0721E06624649C49001ED069 /* PeerManager.swift in Sources */,
 				0721E064246327A9001ED069 /* RawLDKTypes.swift in Sources */,
-				074EBC752464A4DA0090DD79 /* Experimentation.swift in Sources */,
+				074EBC752464A4DA0090DD79 /* Demonstration.swift in Sources */,
 				07FC1B5B241A350C00C4E6D8 /* Handshake.swift in Sources */,
 				076BCB75240E56F0002FFD79 /* ContentView.swift in Sources */,
 				2DD1176232492006BCF8AAAF /* Peer.swift in Sources */,

@@ -8,8 +8,9 @@
 
 import Foundation
 import SwiftSocket
+import PromiseKit
 
-class Experimentation {
+class Demonstration {
 
     public static var contentView: ContentView?
     public static var peer: Peer?
@@ -20,7 +21,7 @@ class Experimentation {
         let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
         let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
         let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
-        let localPublicKey = Data.init(base64Encoded: "Aq8eftKnVZAP2NZAgdF8nyJ4caoyJV5wFIB8Xpi2LyQF")!;
+        let localPublicKey = Data.init(base64Encoded: "Ai/bcTpKVRYmMWTmDDLOvG9MrW5v7xRNY5vXzcsLIPZZ")!;
 
         let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey)
 
@@ -36,19 +37,23 @@ class Experimentation {
         fakePeer.name = "Google"
         */
 
-        print("Creating Alex Bosworth peer")
-        let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
-        let peer = CustomPeer(tcpClient: tcpClient)
-        peer.name = "Alex"
-        peer.publicKey = alexPublicKey
 
-        // print("Creating local peer")
-        // let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
+        // print("Creating Alex Bosworth peer")
+        // let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
         // let peer = CustomPeer(tcpClient: tcpClient)
-        // peer.name = "Local"
+        // peer.name = "Alex"
+        // peer.publicKey = alexPublicKey
+
+        print("Creating local peer")
+        let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
+        let peer = CustomPeer(tcpClient: tcpClient)
+        peer.name = "Local"
 
         self.peer = peer;
-        peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
+        peerManager.initiateOutboundConnection(remotePublicKey: localPublicKey, peer: peer)
+
+        self.contentView?.isConnecting = true
+
 
 
     }
@@ -129,7 +134,10 @@ class Experimentation {
     */
 
     static func logInUI(message: String) {
-        Experimentation.contentView?.logText = "\n" + message + "\n" + Experimentation.contentView!.logText
+        Demonstration.contentView?.logText = "\n" + message + "\n" + Demonstration.contentView!.logText
+        // DispatchQueue.main.async {
+        //     Experimentation.contentView?.logText = "\n" + message + "\n" + Experimentation.contentView!.logText
+        // }
     }
 
 }

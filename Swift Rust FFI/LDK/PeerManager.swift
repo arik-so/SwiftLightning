@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 class PeerManager {
 
@@ -14,6 +15,8 @@ class PeerManager {
     private var cPeerManager: OpaquePointer?;
     private var logger: Logger?
     private var channelMessageHandler: ChannelMessageHandler?
+
+    private var tickPromise: Guarantee<Void>?
 
     // private var cSecretKey: LDKSecretKey;
 
@@ -40,27 +43,37 @@ class PeerManager {
         self.logger = Logger()
 
         let peerManager = peer_manager_create(RawLDKTypes.dataToPointer(data: privateKey), RawLDKTypes.dataToPointer(data: ephemeralSeed), messageHandler, self.logger!.cLogger!);
-
-        /* let peerManager = withUnsafePointer(to: cEphemeralSeed) { (pointer: UnsafePointer<RawLDKTypes.SecretKey>) -> LDKPeerManager in
-            let peerManager = PeerManager_new(messageHandler, secretKey, pointer, logger.cLogger!)
-
-            return peerManager;
-        }; */
         self.cPeerManager = peerManager;
 
-        forceTick()
+        DispatchQueue.global(qos: .background).async {
+            self.forceTick()
+        }
     }
 
-    private func forceTick() {
-        DispatchQueue.global(qos: .background).async {
-            print("Waiting 10 seconds for next tick")
-            sleep(10);
-            DispatchQueue.main.async {
-                print("Forcing tick")
-                peer_force_tick(self.cPeerManager);
-                self.forceTick();
+    public func singleTick(){
+        peer_force_tick(self.cPeerManager);
+    }
+
+    private func forceTick() -> Guarantee<Void> {
+
+        guard let promise = self.tickPromise else {
+            print("initiating ticks")
+            self.tickPromise = firstly { () -> Guarantee<Void> in
+                after(seconds: 1)
+            }.then { () -> Guarantee<Void> in
+                self.forceTick()
             }
+            return self.tickPromise!
         }
+
+        DispatchQueue.main.async {
+            print("Forcing tick")
+            peer_force_tick(self.cPeerManager);
+        }
+
+        return after(seconds: 10).then { () -> Guarantee<Void> in
+            self.forceTick()
+        };
 
     }
 
@@ -83,20 +96,22 @@ class PeerManager {
         peer.manager = self;
         let descriptorPointer = peer_manager_new_outbound(self.cPeerManager, remotePublicKeyPointer, peerInstancePointer, socketCallback, destructionCallback, errorPlaceholder)
         peer.cSocketDescriptor = descriptorPointer
+        peer.canReceiveData = true
     }
 
     func receiveData(peer: Peer, data: Data) {
 
-        let rawData = RawLDKTypes.dataToBufferArgument(data: data) { dataPointer in
-            // the pointer access is lost, so we need to strongly retain it
-            peer_read(self.cPeerManager, peer.cSocketDescriptor, dataPointer);
-        };
+        let rawActDataPointer = (data as NSData).bytes.assumingMemoryBound(to: UInt8.self);
+        let dataArgument = LDKBufferArgument(data: rawActDataPointer, length: UInt(data.count));
+        let dataPointer = withUnsafePointer(to: dataArgument) { (dataArgumentPointer) in
+            dataArgumentPointer
+        }
+        peer_read(self.cPeerManager, peer.cSocketDescriptor!, dataPointer);
     }
 
     deinit {
         peer_manager_free(self.cPeerManager)
         print("peer manager destroyed")
     }
-
 
 }
