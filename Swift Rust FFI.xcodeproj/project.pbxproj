@@ -64,6 +64,7 @@
 		2DD1191AF10E5CEBB4B8B4A1 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
 		2DD119B94B1681AF880B6CDB /* ChannelMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelMessageHandler.swift; sourceTree = "<group>"; };
 		2DD11A892D5A07AE47006E98 /* CustomPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPeer.swift; sourceTree = "<group>"; };
+		2DD11CBC04C4FB9EA8162028 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2DD11EBA6418725D4FEA7893 /* lightning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightning.h; sourceTree = "<group>"; };
 		2DD11FCA822BF0F8F231EA44 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swift_Rust_FFI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +118,7 @@
 				FD542169B65FC2B60F4F1487 /* Pods */,
 				2DD11EBA6418725D4FEA7893 /* lightning.h */,
 				2DD110AA3B0A133662005BE6 /* rust_types.h */,
+				2DD11CBC04C4FB9EA8162028 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
