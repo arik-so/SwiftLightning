@@ -13,4 +13,4 @@ pod install
 
 ## Running
 
-Open the project in your Swift editor of choice, be it Xcode or AppCode, and simply press play.
+Open the project (`Swift Rust FFI.xcworkspace`) in your Swift editor of choice, be it Xcode or AppCode, and simply press play.
