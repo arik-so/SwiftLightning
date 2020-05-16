@@ -59,6 +59,19 @@ struct ContentView: View {
                 
                 Spacer()
 
+                if(self.isConnected) {
+
+                    Button(action: {
+                        Demonstration.openChannel()
+                    }) {
+                        Text("Open Channel")
+                    }
+
+                    Spacer()
+
+                }
+
+
                 Text("Reverse Log")
 
                 List {

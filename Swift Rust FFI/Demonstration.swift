@@ -15,7 +15,7 @@ class Demonstration {
 
     public static var contentView: ContentView?
     public static var peer: Peer?
-    private static var channelManager: ChannelManager?
+    static var channelManager: ChannelManager?
 
     static func setupPeerManager() {
 
@@ -53,24 +53,48 @@ class Demonstration {
 
         self.peer = peer;
         peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
-
-        setupChannelManager()
     }
 
-    static func setupChannelManager() {
+    enum BlockchainFetchError: Error {
+        case didntWork
+    }
 
+    static func setupChannelManager() -> Promise<ChannelManager> {
+        let heightPromise = Promise { (resolver: Resolver<UInt>) in
         let latestBlockUrl = "https://test.bitgo.com/api/v2/tbtc/public/block/latest"
-        AF.request(latestBlockUrl).responseJSON { response in
+            AF.request(latestBlockUrl).responseJSON { response in
+                print("block data:", response.value)
+                guard let blockData = response.value as? [String: Any] else {
+                    resolver.reject(BlockchainFetchError.didntWork)
+                    return
+                }
 
-            print("block data:", response.value)
-            let blockData = response.value as! [String: Any]
-            let height = blockData["height"] as! UInt64
+                guard let height = blockData["height"] as? UInt else {
+                    resolver.reject(BlockchainFetchError.didntWork)
+                    return
+                }
 
-            // let height = response
-            print("height:", height)
+                resolver.fulfill(height)
+            }
+
+        };
+
+        return firstly {
+            heightPromise
+        }.map { height -> ChannelManager in
+            self.logInUI(message: "Retrieved chain height: " + String(height))
             let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
             let logger = Logger()
-            self.channelManager = ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: UInt(height))
+            return ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: height)
+        }
+    }
+
+    static func openChannel(){
+        self.setupChannelManager().done { manager in
+            self.channelManager = manager
+            let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
+            self.logInUI(message: "Opening channel")
+            // Demonstration.channelManager?.openChannel(peerPublicKey: alexPublicKey, channelSatoshiValue: 1000, pushMillisatoshiAmount: 2, userID: 13)
         }
 
     }

@@ -95,12 +95,8 @@ class ChannelMessageHandler {
 
         func peerConnected(instancePointer: UnsafeRawPointer?, publicKey: LDKPublicKey, init: UnsafePointer<LDKInit>?) -> Void {
             let instance: ChannelMessageHandler = RawLDKTypes.pointerToInstance(pointer: instancePointer!)
-
-            Demonstration.contentView?.isConnecting = false
-            Demonstration.contentView?.isConnected = true
-            Demonstration.logInUI(message: "Peer connected")
-
-            print("peer connected");
+            let nativePublicKey = RawLDKTypes.publicKeyTupleToData(tuple: publicKey.compressed_form)
+            instance.peerConnected(publicKey: nativePublicKey)
         }
 
         func handleChannelReestablish(instancePointer: UnsafeRawPointer?, publicKey: LDKPublicKey, channelReestablish: UnsafePointer<LDKChannelReestablish>?) -> Void {
@@ -139,6 +135,13 @@ class ChannelMessageHandler {
             MessageSendEventsProvider: eventsProvider
         )
 
+    }
+    private func peerConnected(publicKey: Data){
+        Demonstration.contentView?.isConnecting = false
+        Demonstration.contentView?.isConnected = true
+        Demonstration.logInUI(message: "Peer connected")
+
+        print("peer connected");
     }
 
 }

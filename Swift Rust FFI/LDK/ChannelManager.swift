@@ -48,18 +48,18 @@ class ChannelManager {
         self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, channelMonitor, broadcaster, logger.cLogger!, keyManager, config, currentBlockchainHeight)
     }
 
-    func openChannel(channelSatoshiValue: UInt64, pushMillisatoshiAmount: UInt64, userID: UInt64) {
+    func openChannel(peerPublicKey: Data, channelSatoshiValue: UInt64, pushMillisatoshiAmount: UInt64, userID: UInt64) {
         // fix result
-        let networkKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
-        let error = RawLDKTypes.errorPlaceholder()
+        let errorPlaceholder = RawLDKTypes.errorPlaceholder()
         withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
             print("Opening channel")
-            channel_manager_open_channel(pointer, RawLDKTypes.dataToPointer(data: networkKey), channelSatoshiValue, pushMillisatoshiAmount, userID, error)
+            channel_manager_open_channel(pointer, RawLDKTypes.dataToPointer(data: peerPublicKey), channelSatoshiValue, pushMillisatoshiAmount, userID, errorPlaceholder)
             print("Opened channel")
         }
 
-        if(error != nil){
-            print("There was an error")
+        let error = RawLDKTypes.errorFromPlaceholder(error: errorPlaceholder);
+        if let errorString = error {
+            print(errorString)
         }
 
     }
