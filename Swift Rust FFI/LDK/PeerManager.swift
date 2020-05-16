@@ -45,9 +45,9 @@ class PeerManager {
         let peerManager = peer_manager_create(RawLDKTypes.dataToPointer(data: privateKey), RawLDKTypes.dataToPointer(data: ephemeralSeed), messageHandler, self.logger!.cLogger!);
         self.cPeerManager = peerManager;
 
-        DispatchQueue.global(qos: .background).async {
-            self.forceTick()
-        }
+        // DispatchQueue.global(qos: .background).async {
+        //     self.forceTick()
+        // }
     }
 
     public func singleTick(){

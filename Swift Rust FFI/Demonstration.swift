@@ -70,7 +70,7 @@ class Demonstration {
             print("height:", height)
             let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
             let logger = Logger()
-            // self.channelManager = ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: UInt(height))
+            self.channelManager = ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: UInt(height))
         }
 
     }

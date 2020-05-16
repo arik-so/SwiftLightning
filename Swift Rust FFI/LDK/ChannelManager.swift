@@ -43,12 +43,25 @@ class ChannelManager {
                 get_channel_id: getChannelID
         )
 
-        let config = LDKUserConfig()
+        let config = UserConfig_default()
+        print("instantiating channel manager")
         self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, channelMonitor, broadcaster, logger.cLogger!, keyManager, config, currentBlockchainHeight)
     }
 
-    func openChannel() {
+    func openChannel(channelSatoshiValue: UInt64, pushMillisatoshiAmount: UInt64, userID: UInt64) {
         // fix result
+        let networkKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
+        let error = RawLDKTypes.errorPlaceholder()
+        withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
+            print("Opening channel")
+            channel_manager_open_channel(pointer, RawLDKTypes.dataToPointer(data: networkKey), channelSatoshiValue, pushMillisatoshiAmount, userID, error)
+            print("Opened channel")
+        }
+
+        if(error != nil){
+            print("There was an error")
+        }
+
     }
 
     private func getPrivateKey() -> LDKSecretKey {

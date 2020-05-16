@@ -774,6 +774,11 @@ typedef struct {
    const LDKlnChannelFeatures *inner;
 } LDKChannelFeatures;
 
+typedef struct {
+   char *message;
+   uintptr_t length;
+} LDKError;
+
 /**
  * " Provides references to trait impls which handle different types of messages."
  */
@@ -796,11 +801,6 @@ typedef struct {
    uint8_t *data;
    uintptr_t length;
 } LDKBufferResponse;
-
-typedef struct {
-   char *message;
-   uintptr_t length;
-} LDKError;
 
 typedef struct {
    const uint8_t *data;
@@ -1449,6 +1449,8 @@ void InitFeatures_free(LDKInitFeatures this_ptr);
 void NodeFeatures_free(LDKNodeFeatures this_ptr);
 
 void ChannelFeatures_free(LDKChannelFeatures this_ptr);
+
+void channel_manager_open_channel(const LDKChannelManager *this_arg, const uint8_t *their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, LDKError *error);
 
 void socket_descriptor_free(LDKSocketDescriptor *raw_socket_descriptor);
 
