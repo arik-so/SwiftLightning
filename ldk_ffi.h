@@ -251,6 +251,7 @@ typedef struct {
     * " transaction."
     */
    LDKThirtyTwoBytes (*get_channel_id)(const void *this_arg);
+   LDKInMemoryChannelKeys *channel_keys;
 } LDKKeysInterface;
 
 /**
@@ -1450,7 +1451,11 @@ void NodeFeatures_free(LDKNodeFeatures this_ptr);
 
 void ChannelFeatures_free(LDKChannelFeatures this_ptr);
 
+LDKInMemoryChannelKeys *in_memory_channel_keys_create(const uint8_t *funding_key, const uint8_t *revocation_base_key, const uint8_t *payment_key, const uint8_t *delayed_payment_base_key, const uint8_t *htlc_base_key, const uint8_t *commitment_seed, uint64_t channel_value_satoshis);
+
 void channel_manager_open_channel(const LDKChannelManager *this_arg, const uint8_t *their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, LDKError *error);
+
+void get_tx_creation_keys(void);
 
 void socket_descriptor_free(LDKSocketDescriptor *raw_socket_descriptor);
 

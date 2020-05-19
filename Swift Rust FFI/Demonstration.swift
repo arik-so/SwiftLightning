@@ -82,7 +82,7 @@ class Demonstration {
         return firstly {
             heightPromise
         }.map { height -> ChannelManager in
-            self.logInUI(message: "Retrieved chain height: " + String(height))
+            self.logInUI(message: "Retrieved testnet chain height: " + String(height))
             let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
             let logger = Logger()
             return ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: height)
@@ -93,8 +93,7 @@ class Demonstration {
         self.setupChannelManager().done { manager in
             self.channelManager = manager
             let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
-            self.logInUI(message: "Opening channel")
-            // Demonstration.channelManager?.openChannel(peerPublicKey: alexPublicKey, channelSatoshiValue: 1000, pushMillisatoshiAmount: 2, userID: 13)
+            Demonstration.channelManager?.openChannel(peerPublicKey: alexPublicKey, channelSatoshiValue: 1000, pushMillisatoshiAmount: 2, userID: 13)
         }
 
     }

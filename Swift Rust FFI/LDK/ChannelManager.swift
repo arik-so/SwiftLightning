@@ -22,25 +22,37 @@ class ChannelManager {
         let broadcaster = LDKBroadcasterInterface(this_arg: instance, broadcast_transaction: broadcastTransactionCallback)
 
         func getNodeSecret(instancePointer: UnsafeRawPointer?) -> LDKSecretKey {
+            Demonstration.logInUI(message: "Getting node secret");
             let instance: ChannelManager = RawLDKTypes.pointerToInstance(pointer: instancePointer!);
             return instance.getPrivateKey()
         }
         func getShutdownPublicKey(instancePointer: UnsafeRawPointer?) -> LDKPublicKey {
+            Demonstration.logInUI(message: "Getting shutdown public key");
             let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
             let keyTuple = RawLDKTypes.dataToPublicKeyTuple(data: remotePublicKey)
             return LDKPublicKey(compressed_form: keyTuple)
         }
         func getChannelID(instancePointer: UnsafeRawPointer?) -> LDKThirtyTwoBytes {
+            Demonstration.logInUI(message: "Getting channel ID");
             let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
             let keyTuple = RawLDKTypes.dataToPrivateKeyTuple(data: ephemeralPrivateKey)
             return LDKThirtyTwoBytes(data: keyTuple)
         }
 
+        let fundingKey = RawLDKTypes.dataToPointer(data: privateKey);
+        let revocationBaseKey = RawLDKTypes.dataToPointer(data: privateKey);
+        let paymentKey = RawLDKTypes.dataToPointer(data: privateKey);
+        let delayedPaymentBaseKey = RawLDKTypes.dataToPointer(data: privateKey);
+        let htlcBaseKey = RawLDKTypes.dataToPointer(data: privateKey);
+        let commitmentSeed = RawLDKTypes.dataToPointer(data: privateKey);
+        let inMemoryChannelKeys = in_memory_channel_keys_create(fundingKey, revocationBaseKey, paymentKey, delayedPaymentBaseKey, htlcBaseKey, commitmentSeed, 1000);
+
         let keyManager = LDKKeysInterface(
                 this_arg: instance,
                 get_node_secret: getNodeSecret,
                 get_shutdown_pubkey: getShutdownPublicKey,
-                get_channel_id: getChannelID
+                get_channel_id: getChannelID,
+                channel_keys: inMemoryChannelKeys
         )
 
         let config = UserConfig_default()
@@ -50,17 +62,24 @@ class ChannelManager {
 
     func openChannel(peerPublicKey: Data, channelSatoshiValue: UInt64, pushMillisatoshiAmount: UInt64, userID: UInt64) {
         // fix result
+
+        Demonstration.logInUI(message: "Opening channel");
+
         let errorPlaceholder = RawLDKTypes.errorPlaceholder()
         withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
-            print("Opening channel")
             channel_manager_open_channel(pointer, RawLDKTypes.dataToPointer(data: peerPublicKey), channelSatoshiValue, pushMillisatoshiAmount, userID, errorPlaceholder)
             print("Opened channel")
+            Demonstration.logInUI(message: "Channel open");
         }
+
+        /*
 
         let error = RawLDKTypes.errorFromPlaceholder(error: errorPlaceholder);
         if let errorString = error {
             print(errorString)
         }
+
+        */
 
     }
 
