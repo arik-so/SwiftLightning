@@ -64,7 +64,29 @@ class RawLDKTypes {
         return Data(bytes)
     }
 
+    static func u8SliceToData(buffer: LDKu8slice) -> Data {
+        let data = Data.init(bytes: buffer.data, count: Int(buffer.datalen))
+        return data
+    }
 
+    static func dataToU8Slice(data: Data) -> LDKu8slice {
+        let rawActDataPointer = (data as NSData).bytes.assumingMemoryBound(to: UInt8.self);
+        let dataArgument = LDKu8slice(data: rawActDataPointer, datalen: UInt(data.count));
+        return dataArgument;
+    }
+
+    static func resultToData(result: LDKCResultTempl_CVecTempl_u8_____PeerHandleError) -> Data?{
+        if(!result.result_good){
+            return nil;
+        }
+        let contents: LDKCResultPtr_CVecTempl_u8_____PeerHandleError = result.contents
+        let successfulResult: LDKCVecTempl_u8 = contents.result.pointee
+        let data = Data.init(bytes: successfulResult.data, count: Int(successfulResult.datalen))
+
+        return data
+    }
+
+    /*
     static func dataToBufferArgument(data: Data, callback: (UnsafePointer<LDKBufferArgument>) -> Void) {
         let rawActDataPointer = (data as NSData).bytes.assumingMemoryBound(to: UInt8.self);
         let dataArgument = LDKBufferArgument(data: rawActDataPointer, length: UInt(data.count));
@@ -72,7 +94,7 @@ class RawLDKTypes {
             callback(dataArgumentPointer)
         }
     }
-    
+
     static func bufferResponseToData(buffer: UnsafeMutablePointer<LDKBufferResponse>) -> Data {
         let bufferData = buffer.pointee
         let data = Data.init(bytes: bufferData.data, count: Int(bufferData.length))
@@ -94,7 +116,7 @@ class RawLDKTypes {
         let error_text = String(cString: error.pointee.message)
         return error_text;
     }
-
+    */
     
     static func instanceToPointer(instance: AnyObject) -> UnsafeMutableRawPointer {
         Unmanaged.passUnretained(instance).toOpaque()

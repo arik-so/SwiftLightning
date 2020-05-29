@@ -61,7 +61,7 @@ class Demonstration {
 
     static func setupChannelManager() -> Promise<ChannelManager> {
         let heightPromise = Promise { (resolver: Resolver<UInt>) in
-        let latestBlockUrl = "https://test.bitgo.com/api/v2/tbtc/public/block/latest"
+            let latestBlockUrl = "https://test.bitgo.com/api/v2/tbtc/public/block/latest"
             AF.request(latestBlockUrl).responseJSON { response in
                 print("block data:", response.value)
                 guard let blockData = response.value as? [String: Any] else {
@@ -89,7 +89,7 @@ class Demonstration {
         }
     }
 
-    static func openChannel(){
+    static func openChannel() {
         self.setupChannelManager().done { manager in
             self.channelManager = manager
             let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;

@@ -10,7 +10,7 @@ import Foundation
 
 class Peer {
 
-    final var cSocketDescriptor: OpaquePointer?
+    final var cSocketDescriptor: LDKSocketDescriptor?
     final var manager: PeerManager?
     final var publicKey: Data?
     final var canReceiveData: Bool = false
@@ -36,7 +36,7 @@ class Peer {
     }
 
     deinit {
-        socket_descriptor_free(self.cSocketDescriptor)
+        // socket_descriptor_free(self.cSocketDescriptor) // TODO
         print("socket descriptor", self.name, "destroyed")
     }
 

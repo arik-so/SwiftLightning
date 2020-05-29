@@ -95,6 +95,7 @@ class ChannelMessageHandler {
 
         func peerConnected(instancePointer: UnsafeRawPointer?, publicKey: LDKPublicKey, init: UnsafePointer<LDKInit>?) -> Void {
             let instance: ChannelMessageHandler = RawLDKTypes.pointerToInstance(pointer: instancePointer!)
+            print("peer connected");
             let nativePublicKey = RawLDKTypes.publicKeyTupleToData(tuple: publicKey.compressed_form)
             instance.peerConnected(publicKey: nativePublicKey)
         }
@@ -109,7 +110,16 @@ class ChannelMessageHandler {
             print("some sort of error");
         }
 
-        let eventsProvider = LDKMessageSendEventsProvider(this_arg: instance)
+        func getAndClearPendingMessageEvents(instancePointer: UnsafeRawPointer?) -> LDKCVec_MessageSendEventZ {
+            let instance: ChannelMessageHandler = RawLDKTypes.pointerToInstance(pointer: instancePointer!)
+            print("get and clear pending message events");
+            return LDKCVec_MessageSendEventZ()
+        }
+
+        let eventsProvider = LDKMessageSendEventsProvider(
+            this_arg: instance,
+            get_and_clear_pending_msg_events: getAndClearPendingMessageEvents
+        )
 
         self.cMessageHandler = LDKChannelMessageHandler(
             this_arg: instance,
