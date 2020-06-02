@@ -30,7 +30,7 @@ class BlockchainMonitorTests: XCTestCase {
                 .insertAfter(newNext: localBlockD)
                 .insertAfter(newNext: localBlockE)
 
-        print(chainTip)
+        print(chainTip.toChainString(trailingInfo: nil) + "\n")
 
         let reorgBlockInfoC1 = BlockInfo(height: 4, hash: "C.1", previousHash: "C")
         let reorgBlockInfoC2 = BlockInfo(height: 5, hash: "C.2", previousHash: "C.1")
@@ -44,10 +44,12 @@ class BlockchainMonitorTests: XCTestCase {
                 .insertBefore(newPrevious: reorgBlockC2)
                 .insertBefore(newPrevious: reorgBlockC1)
 
-        print(reorgStart)
-
         // now do the actual testing
         let reorgPath = chainTip.reconcile(newChain: reorgStart)
+        if let orphans = reorgPath.orphanChain {
+            print("Orphaned: \(orphans.latestBlock().toChainString(trailingInfo: nil))\n")
+        }
+        print("New: \(reorgPath.newChain.latestBlock().toChainString(trailingInfo: nil))\n")
 
         // validate reorg chain
         XCTAssertNil(reorgPath.orphanChain?.previous)
@@ -77,21 +79,25 @@ class BlockchainMonitorTests: XCTestCase {
         // we deliberately don't have a block 0
         let localBlockInfoA = BlockInfo(height: 1, hash: "A", previousHash: nil)
         let localBlockInfoB = BlockInfo(height: 2, hash: "B", previousHash: "A")
+        let localBlockInfoC = BlockInfo(height: 3, hash: "C", previousHash: "B")
 
         let localBlockA = Block(info: localBlockInfoA, previous: nil, next: nil)
         let localBlockB = Block(info: localBlockInfoB, previous: nil, next: nil)
+        let localBlockC = Block(info: localBlockInfoC, previous: nil, next: nil)
 
         // now do the actual testing
-        let reorgPath = localBlockA.reconcile(newChain: localBlockB)
+        let reorgPathA = localBlockA.reconcile(newChain: localBlockB)
 
         // validate reorg chain
-        XCTAssertNil(reorgPath.orphanChain)
+        XCTAssertNil(reorgPathA.orphanChain)
 
         // validate new chain
-        XCTAssertEqual(reorgPath.newChain.info.hash, "B")
-        XCTAssertEqual(reorgPath.newChain.info.height, 2)
+        XCTAssertEqual(reorgPathA.newChain.info.hash, "B")
+        XCTAssertEqual(reorgPathA.newChain.info.height, 2)
 
-        XCTAssertNil(reorgPath.newChain.next)
+        XCTAssertNil(reorgPathA.newChain.next)
+
+        let reorgPathB = localBlockB.reconcile(newChain: localBlockC)
     }
 
 }

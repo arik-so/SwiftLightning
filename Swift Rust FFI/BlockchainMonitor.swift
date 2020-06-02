@@ -99,6 +99,17 @@ class Block {
         return self.previous!.getOrphanChain(lastKeptHash: lastKeptHash, trailingChain: chain)
     }
 
+    func toChainString(trailingInfo: String?) -> String {
+        var currentInfo = "\(self.info.height): \(self.info.hash)"
+        if let trailingInfo = trailingInfo {
+            currentInfo = "\(trailingInfo)\n↘️ \(currentInfo)"
+        }
+        if let previous = self.previous {
+            return previous.toChainString(trailingInfo: currentInfo)
+        }
+        return currentInfo
+    };
+
     // Insert
     func reconcile(newChain: Block) -> ReorgPath {
         if (self.next != nil) {
@@ -232,7 +243,7 @@ class BlockchainMonitor {
         }.then { blockInfo in
             self.reconcileBlock(blockInfo: blockInfo)
         }.then(on: backgroundQueue) {
-            after(seconds: 10) // wait one minute
+            after(seconds: 30) // wait half a minute
         }.done {
             self.monitor()
         }
@@ -256,7 +267,13 @@ class BlockchainMonitor {
         return firstly {
             self.getBlockSequenceUntilKnown(startHash: blockInfo.hash, trailingChain: nil)
         }.map { newBlockSequence in
-            chainTip.reconcile(newChain: newBlockSequence)
+            print("New block sequence: \(newBlockSequence.toChainString(trailingInfo: nil))\n")
+            let reorgPath = chainTip.reconcile(newChain: newBlockSequence)
+            if let orphans = reorgPath.orphanChain {
+                print("Orphaned: \(orphans.latestBlock().toChainString(trailingInfo: nil))\n")
+            }
+            self.chainTip = reorgPath.newChain.latestBlock() // set chain tip to the latest block in the new chain
+            print("Updated chain path: \(self.chainTip!.toChainString(trailingInfo: nil))\n")
         }
     }
 
