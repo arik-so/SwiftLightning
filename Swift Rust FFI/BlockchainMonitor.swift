@@ -12,6 +12,7 @@ struct BlockInfo {
     var hash: String
     var previousHash: String?
     var rawData: Data?
+    var header: Data?
 }
 
 struct ReorgPath {
@@ -137,6 +138,7 @@ class BlockchainMonitor {
     private var earliestBlockHeight: UInt = 0
     private var latestBlockHeight: UInt = 0
     private var chainTip: Block?
+    public var listener: BlockListener?;
 
     init() {
 
@@ -159,6 +161,7 @@ class BlockchainMonitor {
         }.map { (blockInfo: BlockInfo, blockData: Data) in
             var richBlockInfo = blockInfo
             richBlockInfo.rawData = blockData
+            richBlockInfo.header = blockData.subdata(in: 4..<84)
             return richBlockInfo
         }
     }
@@ -214,14 +217,15 @@ class BlockchainMonitor {
 
             var richBlock = blockInfo
             richBlock.rawData = blockData
+            richBlock.header = blockData.subdata(in: 4..<84)
 
-            let chain = Block(info: blockInfo, previous: nil, next: trailingChain)
-            let isPreviousKnown = self.chainTip!.seekBlockHashBackwards(hash: blockInfo.previousHash!)
+            let chain = Block(info: richBlock, previous: nil, next: trailingChain)
+            let isPreviousKnown = self.chainTip!.seekBlockHashBackwards(hash: richBlock.previousHash!)
 
             if isPreviousKnown {
                 return Promise.value(chain)
             } else {
-                return self.getBlockSequenceUntilKnown(startHash: blockInfo.previousHash!, trailingChain: chain)
+                return self.getBlockSequenceUntilKnown(startHash: richBlock.previousHash!, trailingChain: chain)
             }
         }
     }
@@ -257,6 +261,9 @@ class BlockchainMonitor {
             self.chainTip = Block(info: blockInfo, previous: nil, next: nil)
             self.earliestBlockHeight = blockInfo.height
             self.latestBlockHeight = blockInfo.height
+            if let listener = self.listener {
+                listener.connectBlock(block: blockInfo)
+            }
             return Promise.value(())
         }
 
@@ -271,6 +278,20 @@ class BlockchainMonitor {
             let reorgPath = chainTip.reconcile(newChain: newBlockSequence)
             if let orphans = reorgPath.orphanChain {
                 print("Orphaned: \(orphans.latestBlock().toChainString(trailingInfo: nil))\n")
+            }
+            if let listener = self.listener {
+                if let orphans = reorgPath.orphanChain {
+                    var currentOrphan: Block? = orphans.latestBlock();
+                    while (currentOrphan != nil) {
+                        listener.disconnectBlock(block: currentOrphan!.info)
+                        currentOrphan = currentOrphan!.previous
+                    }
+                }
+                var currentAddition: Block? = reorgPath.newChain;
+                while (currentAddition != nil) {
+                    listener.connectBlock(block: currentAddition!.info)
+                    currentAddition = currentAddition!.next
+                }
             }
             self.chainTip = reorgPath.newChain.latestBlock() // set chain tip to the latest block in the new chain
             print("Updated chain path: \(self.chainTip!.toChainString(trailingInfo: nil))\n")

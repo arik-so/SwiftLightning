@@ -15,7 +15,7 @@ class PeerManager {
     // private var cPeerManager: OpaquePointer?;
     private var logger: Logger?
     private var channelMessageHandler: ChannelMessageHandler?
-    private var routingMessageHandler: RoutingMessageHandler?
+    public private(set) var routingMessageHandler: RoutingMessageHandler?
 
     private var tickPromise: Guarantee<Void>?
 
@@ -30,13 +30,20 @@ class PeerManager {
         let secretKey = LDKSecretKey(bytes: privateKeyBytes);
         // let cEphemeralSeed = RawLDKTypes.dataToPrivateKeyTuple(data: ephemeralSeed);
 
+        self.logger = Logger()
+
         self.channelMessageHandler = ChannelMessageHandler()
-        self.routingMessageHandler = RoutingMessageHandler()
+        self.routingMessageHandler = RoutingMessageHandler(logger: self.logger!)
+
+        let chainWatchInterface = ChainWatchInterfaceUtil_new(Testnet)
+        let chainWatchInterfacePointer = withUnsafePointer(to: chainWatchInterface) { (pointer: UnsafePointer<LDKChainWatchInterfaceUtil>) -> UnsafePointer<LDKChainWatchInterfaceUtil> in
+            pointer
+        }
+        let blockNotifier = BlockNotifier_new(ChainWatchInterfaceUtil_as_ChainWatchInterface(chainWatchInterfacePointer))
+
 
         let messageHandler = MessageHandler_new(self.channelMessageHandler!.cMessageHandler!, routingMessageHandler!.cRoutingMessageHandler!)
 
-
-        self.logger = Logger()
 
         let ourNodeSecret = LDKSecretKey(bytes: privateKeyBytes);
         let ephemeralRandomData = RawLDKTypes.dataToPrivateKeyTuple(data: ephemeralSeed);
@@ -109,11 +116,11 @@ class PeerManager {
         }
 
         func eq(descriptor1: UnsafeRawPointer?, descriptor2: UnsafeRawPointer?) -> Bool {
-            true
+            return Peer.eq(descriptor1: descriptor1, descriptor2: descriptor2)
         }
 
         func hash(descriptor: UnsafeRawPointer?) -> UInt64 {
-            1
+            return Peer.hash(descriptor: descriptor)
         }
 
         let descriptor = LDKSocketDescriptor(

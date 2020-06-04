@@ -28,6 +28,15 @@ class Demonstration {
         let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey)
 
 
+        // set up block listener
+        let chainWatchInterface = peerManager.routingMessageHandler!.cChainWatchInterface
+        let blockListener = BlockNotifierBasedBlockListener(chainWatchInterface: chainWatchInterface)
+
+        // set up chain monitor
+        let chainMonitor = BlockchainMonitor()
+        chainMonitor.listener = blockListener // connect the two
+        chainMonitor.monitor() // off we go
+
         /*
         // a connection to be discarded
         peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey)
@@ -102,18 +111,4 @@ class Demonstration {
         Demonstration.contentView?.logText = "\n" + message + "\n" + Demonstration.contentView!.logText
     }
 
-}
-
-extension Data {
-    struct HexEncodingOptions: OptionSet {
-        let rawValue: Int
-        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
-    }
-
-    func hexEncodedString(options: HexEncodingOptions = []) -> String {
-        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
-        return map {
-            String(format: format, $0)
-        }.joined()
-    }
 }

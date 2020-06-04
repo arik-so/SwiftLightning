@@ -10,11 +10,33 @@ import Foundation
 
 class Peer {
 
+    static var maxPeerID: UInt64 = 0;
+
     final var cSocketDescriptor: LDKSocketDescriptor?
     final var manager: PeerManager?
     final var publicKey: Data?
     final var canReceiveData: Bool = false
     var name: String?
+
+    private var peerID: UInt64;
+
+    init() {
+        self.peerID = Peer.maxPeerID + 1;
+        Peer.maxPeerID = self.peerID;
+    }
+
+    static func eq(descriptor1: UnsafeRawPointer?, descriptor2: UnsafeRawPointer?) -> Bool {
+        let instance1: Peer = RawLDKTypes.pointerToInstance(pointer: descriptor1!)
+        let instance2: Peer = RawLDKTypes.pointerToInstance(pointer: descriptor2!)
+        // print("Comparing descriptors \(instance1.peerID) with \(instance2.peerID)")
+        return instance1.peerID == instance2.peerID
+    }
+
+    static func hash(descriptor: UnsafeRawPointer?) -> UInt64 {
+        let instance: Peer = RawLDKTypes.pointerToInstance(pointer: descriptor!)
+        // print("Obtaining descriptor hash for \(instance.peerID)")
+        return instance.peerID
+    }
 
     func sendDataCallback(data: Data) -> UInt {
         let plaintextBytes = [UInt8](data)
@@ -24,6 +46,10 @@ class Peer {
     }
 
     func destructionCallback() {
+
+    }
+
+    func disconnect() {
 
     }
 

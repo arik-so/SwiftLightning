@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 class ChannelManager {
 
@@ -14,7 +15,8 @@ class ChannelManager {
         let instance = RawLDKTypes.instanceToPointer(instance: self);
 
         func broadcastTransactionCallback(instancePointer: UnsafeRawPointer?, tx: LDKTransaction) -> Void {
-            print("needs to broadcast transaction")
+            let instance: ChannelManager = RawLDKTypes.pointerToInstance(pointer: instancePointer!)
+            instance.broadcastTransaction(tx: tx)
         }
 
         let network = Testnet
@@ -35,23 +37,28 @@ class ChannelManager {
             let instance: ChannelManager = RawLDKTypes.pointerToInstance(pointer: instancePointer!);
             return instance.getPrivateKey()
         }
+
         func getDestinationScript(instancePointer: UnsafeRawPointer?) -> LDKCVec_u8Z {
             LDKCVec_u8Z() // todo
         }
+
         func getShutdownPublicKey(instancePointer: UnsafeRawPointer?) -> LDKPublicKey {
             Demonstration.logInUI(message: "Getting shutdown public key");
             let remotePublicKey = Data.init(base64Encoded: "Ao11AN1MEmhdH1aLTCtQSOhTS4czGfOo2qYStGkTLsf3")!;
             let keyTuple = RawLDKTypes.dataToPublicKeyTuple(data: remotePublicKey)
             return LDKPublicKey(compressed_form: keyTuple)
         }
+
         func getChannelKeys(instancePointer: UnsafeRawPointer?, inbound: Bool, channelSatoshiValue: UInt64) -> LDKChannelKeys {
             Demonstration.logInUI(message: "Getting channel keys");
             let instance: ChannelManager = RawLDKTypes.pointerToInstance(pointer: instancePointer!);
             return instance.getChannelKeys()
         }
+
         func getOnionRand(instancePointer: UnsafeRawPointer?) -> LDKC2Tuple_SecretKey_u832Z {
             LDKC2Tuple_SecretKey_u832Z() // todo
         }
+
         func getChannelID(instancePointer: UnsafeRawPointer?) -> LDKThirtyTwoBytes {
             Demonstration.logInUI(message: "Getting channel ID");
             let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
@@ -69,18 +76,29 @@ class ChannelManager {
         // let inMemoryChannelKeys = in_memory_channel_keys_create(fundingKey, revocationBaseKey, paymentKey, delayedPaymentBaseKey, htlcBaseKey, commitmentSeed, 1000);
 
         let keyManager = LDKKeysInterface(
-            this_arg: instance,
-            get_node_secret: getNodeSecret,
-            get_destination_script: getDestinationScript,
-            get_shutdown_pubkey: getShutdownPublicKey,
-            get_channel_keys: getChannelKeys,
-            get_onion_rand: getOnionRand,
-            get_channel_id: getChannelID
+                this_arg: instance,
+                get_node_secret: getNodeSecret,
+                get_destination_script: getDestinationScript,
+                get_shutdown_pubkey: getShutdownPublicKey,
+                get_channel_keys: getChannelKeys,
+                get_onion_rand: getOnionRand,
+                get_channel_id: getChannelID
         )
 
         let config = UserConfig_default()
         print("instantiating channel manager")
         self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, channelMonitor, broadcaster, logger.cLogger!, keyManager, config, currentBlockchainHeight)
+    }
+
+    func broadcastTransaction(tx: LDKTransaction) {
+        print("needs to broadcast transaction")
+        let txBin = RawLDKTypes.transactionToData(tx: tx)
+        firstly {
+            BlockstreamBroadcaster.submitTransaction(transaction: txBin)
+        }
+        .map { response in
+            print("Submission result:", response)
+        }
     }
 
     func openChannel(peerPublicKey: Data, channelSatoshiValue: UInt64, pushMillisatoshiAmount: UInt64, userID: UInt64) {
@@ -98,7 +116,9 @@ class ChannelManager {
         let theirNetworkKey = LDKPublicKey(compressed_form: RawLDKTypes.dataToPublicKeyTuple(data: peerPublicKey));
         let overrideConfig = UserConfig_default();
 
-        let cmPointer = withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in pointer };
+        let cmPointer = withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
+            pointer
+        };
         ChannelManager_create_channel(cmPointer, theirNetworkKey, channelSatoshiValue, pushMillisatoshiAmount, userID, overrideConfig)
 
         /*

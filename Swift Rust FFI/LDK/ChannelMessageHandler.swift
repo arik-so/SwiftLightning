@@ -146,6 +146,7 @@ class ChannelMessageHandler {
         )
 
     }
+
     private func peerConnected(publicKey: Data){
         Demonstration.contentView?.isConnecting = false
         Demonstration.contentView?.isConnected = true

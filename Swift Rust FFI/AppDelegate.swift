@@ -16,8 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        let chainMonitor = BlockchainMonitor()
-        chainMonitor.monitor()
+        // let txHex = "010000000001011c834737e82dd99e7b9cfe7bdb27ea031e1fe8b9762de59460f8a84372872b450000000000fdffffff027991bc00000000001600149ef9d628218a40cc3f01c47e9f4518e093f1cef00000000000000000226a20a614724882420621c6424bcd4637568dade9cd5d7b5dc82e9caedb25556d363802473044022079f5a655659c74814c5d66d29fe4b1471bae8dc905eb5cb28d7932f6b365e4690220587e6d9a03daa7e1b783ba01b240bef7ae65c760a68194a0f83f57b93d0b5755012103dc94fdb548b17f7e94f908b87a9f3466923e048975124660f34d2b8b6ddbf9a414ab1a00"
+        // let txBin = Data(hexString: txHex)
+        // BlockstreamBroadcaster.submitTransaction(transaction: txBin!)
 
         return true
     }

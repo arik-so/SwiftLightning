@@ -70,19 +70,18 @@ class CustomPeer: Peer {
 
         DispatchQueue.global(qos: .background).async {
             // the TCP read has to be in a background thread because it's blocking the UI otherwise
-            guard let response = tcpClient.read(50, timeout: 10) else {
+            guard let response = tcpClient.read(1000, timeout: 10) else {
                 print("Not received any data")
                 return
             }
             DispatchQueue.main.async {
-                print("Received data from peer:", response)
+                print("Received \(response.count) bytes from peer:", response)
                 self.receiveData(data: Data(response))
                 Demonstration.logInUI(message: "Received: " + Data(response).hexEncodedString())
             }
         }
 
         return continuationPromise
-
 
     }
 
