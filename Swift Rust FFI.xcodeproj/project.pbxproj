@@ -33,6 +33,7 @@
 		2DD11ACB67138764DACD6E45 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD118EEB3E9CC2B5480D828 /* Data.swift */; };
 		2DD11AF512B3767CFA04A688 /* BlockchainMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD112BDA8EA0262BDA4744C /* BlockchainMonitor.swift */; };
 		2DD11D0F4EB92EF1E8764235 /* BlockNotifierBasedBlockListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11372CB28789C64A0F55F /* BlockNotifierBasedBlockListener.swift */; };
+		2DD11D6BA87258F07B31E00A /* ManyChannelMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11CEA51732900D0F6BD14 /* ManyChannelMonitor.swift */; };
 		2DD11E028E0E0E53CB8731AE /* FeeEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11EE414727F5ED4468EB7 /* FeeEstimator.swift */; };
 		2DD11E554B923CFD2ACC66B5 /* BlockListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1114BCCB63083A0C97DB6 /* BlockListener.swift */; };
 		2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11A892D5A07AE47006E98 /* CustomPeer.swift */; };
@@ -85,6 +86,7 @@
 		2DD11A892D5A07AE47006E98 /* CustomPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPeer.swift; sourceTree = "<group>"; };
 		2DD11BACF1002FE6F60DC048 /* RoutingMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingMessageHandler.swift; sourceTree = "<group>"; };
 		2DD11CBC04C4FB9EA8162028 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2DD11CEA51732900D0F6BD14 /* ManyChannelMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManyChannelMonitor.swift; sourceTree = "<group>"; };
 		2DD11D5679F8E89FAEDD561D /* BlockchainMonitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockchainMonitorTests.swift; sourceTree = "<group>"; };
 		2DD11EBA6418725D4FEA7893 /* lightning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightning.h; sourceTree = "<group>"; };
 		2DD11EE414727F5ED4468EB7 /* FeeEstimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeeEstimator.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				2DD11BACF1002FE6F60DC048 /* RoutingMessageHandler.swift */,
 				2DD1114BCCB63083A0C97DB6 /* BlockListener.swift */,
 				2DD11372CB28789C64A0F55F /* BlockNotifierBasedBlockListener.swift */,
+				2DD11CEA51732900D0F6BD14 /* ManyChannelMonitor.swift */,
 			);
 			path = LDK;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				2DD11ACB67138764DACD6E45 /* Data.swift in Sources */,
 				2DD11D0F4EB92EF1E8764235 /* BlockNotifierBasedBlockListener.swift in Sources */,
 				2DD1105ED5896CA9CF0DF405 /* BlockstreamBroadcaster.swift in Sources */,
+				2DD11D6BA87258F07B31E00A /* ManyChannelMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

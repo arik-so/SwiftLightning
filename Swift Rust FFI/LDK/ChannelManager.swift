@@ -9,7 +9,10 @@ import PromiseKit
 class ChannelManager {
 
     private var cChannelManager: LDKChannelManager?
-    private var inMemoryChannelKeys: LDKInMemoryChannelKeys?
+    // private var inMemoryChannelKeys: LDKInMemoryChannelKeys?
+
+    private var keyDerivationParamA: UInt64 = 0
+    private var keyDerivationParamB: UInt64 = 0
 
     init(privateKey: Data, logger: Logger, currentBlockchainHeight: UInt) {
         let instance = RawLDKTypes.instanceToPointer(instance: self);
@@ -20,18 +23,30 @@ class ChannelManager {
         }
 
         let network = Testnet
+        print("creating fee estimater")
         let feeEstimator = FeeEstimator()
-        let channelMonitor = LDKManyChannelMonitor() // TODO: fill functions
+        print("creating broadcaster interface")
         let broadcaster = LDKBroadcasterInterface(this_arg: instance, broadcast_transaction: broadcastTransactionCallback)
 
+
+        /*
         let fundingKey = LDKSecretKey(bytes: RawLDKTypes.dataToPrivateKeyTuple(data: privateKey));
         let revocationBaseKey = LDKSecretKey(bytes: RawLDKTypes.dataToPrivateKeyTuple(data: privateKey));
         let paymentKey = LDKSecretKey(bytes: RawLDKTypes.dataToPrivateKeyTuple(data: privateKey));
         let delayedPaymentBaseKey = LDKSecretKey(bytes: RawLDKTypes.dataToPrivateKeyTuple(data: privateKey));
         let htlcBaseKey = LDKSecretKey(bytes: RawLDKTypes.dataToPrivateKeyTuple(data: privateKey));
         let commitmentSeed = LDKThirtyTwoBytes(data: RawLDKTypes.dataToPrivateKeyTuple(data: privateKey));
-        self.inMemoryChannelKeys = InMemoryChannelKeys_new(fundingKey, revocationBaseKey, paymentKey, delayedPaymentBaseKey, htlcBaseKey, commitmentSeed, 1000)
+        let keyDerivationParamAPointer = withUnsafeMutablePointer(to: &self.keyDerivationParamA) { (pointer: UnsafeMutablePointer<UInt64>) in
+            pointer
+        }
+        let keyDerivationParamBPointer = withUnsafeMutablePointer(to: &self.keyDerivationParamB) { (pointer: UnsafeMutablePointer<UInt64>) in
+            pointer
+        }
+        let keyDerivationParams = LDKC2TupleTempl_u64__u64(a: keyDerivationParamAPointer, b: keyDerivationParamBPointer)
+        print("creating inmemory channel keys")
+        self.inMemoryChannelKeys = InMemoryChannelKeys_new(fundingKey, revocationBaseKey, paymentKey, delayedPaymentBaseKey, htlcBaseKey, commitmentSeed, 1000, keyDerivationParams)
 
+        print("setting up callbacks for keys interface")
         func getNodeSecret(instancePointer: UnsafeRawPointer?) -> LDKSecretKey {
             Demonstration.logInUI(message: "Getting node secret");
             let instance: ChannelManager = RawLDKTypes.pointerToInstance(pointer: instancePointer!);
@@ -75,6 +90,7 @@ class ChannelManager {
 
         // let inMemoryChannelKeys = in_memory_channel_keys_create(fundingKey, revocationBaseKey, paymentKey, delayedPaymentBaseKey, htlcBaseKey, commitmentSeed, 1000);
 
+        print("creating keys interface")
         let keyManager = LDKKeysInterface(
                 this_arg: instance,
                 get_node_secret: getNodeSecret,
@@ -83,11 +99,23 @@ class ChannelManager {
                 get_channel_keys: getChannelKeys,
                 get_onion_rand: getOnionRand,
                 get_channel_id: getChannelID
-        )
+        ) */
+
+        let manyChannelMonitor = ManyChannelMonitor()
+
+        let seed = RawLDKTypes.dataToPrivateKeyTuple(data: privateKey)
+        let seedPointer = withUnsafePointer(to: seed) { (pointer: UnsafePointer<RawLDKTypes.SecretKey>) in
+            pointer
+        }
+        let keysManager = KeysManager_new(seedPointer, network, 0, 0)
+        let keysManagerPointer = withUnsafePointer(to: keysManager) { (pointer: UnsafePointer<LDKKeysManager>) in
+            pointer
+        }
+        let keysInterface = KeysManager_as_KeysInterface(keysManagerPointer)
 
         let config = UserConfig_default()
         print("instantiating channel manager")
-        self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, channelMonitor, broadcaster, logger.cLogger!, keyManager, config, currentBlockchainHeight)
+        self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, manyChannelMonitor.cManyChannelMonitor!, broadcaster, logger.cLogger!, keysInterface, config, currentBlockchainHeight)
     }
 
     func broadcastTransaction(tx: LDKTransaction) {
@@ -105,6 +133,7 @@ class ChannelManager {
         // fix result
 
         Demonstration.logInUI(message: "Opening channel");
+        print("Opening channel")
 
         // let errorPlaceholder = RawLDKTypes.errorPlaceholder()
         // withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
@@ -119,8 +148,9 @@ class ChannelManager {
         let cmPointer = withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
             pointer
         };
+        print("Creating channel with manager")
         ChannelManager_create_channel(cmPointer, theirNetworkKey, channelSatoshiValue, pushMillisatoshiAmount, userID, overrideConfig)
-
+        print("Finished creating channel with manager")
         /*
 
         let error = RawLDKTypes.errorFromPlaceholder(error: errorPlaceholder);
@@ -133,16 +163,20 @@ class ChannelManager {
     }
 
     private func getPrivateKey() -> LDKSecretKey {
+        print("Obtaining private key")
         let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
         let keyTuple = RawLDKTypes.dataToPrivateKeyTuple(data: privateKey)
         return LDKSecretKey(bytes: keyTuple)
     }
 
+    /*
     private func getChannelKeys() -> LDKChannelKeys {
+        print("Obtaining channel keys")
         let channelKeyPointer = withUnsafePointer(to: self.inMemoryChannelKeys!) { (pointer: UnsafePointer<LDKInMemoryChannelKeys>) in
             pointer
         }
         return InMemoryChannelKeys_as_ChannelKeys(channelKeyPointer)
     }
+    */
 
 }

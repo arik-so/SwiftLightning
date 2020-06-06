@@ -94,12 +94,16 @@ class Demonstration {
             self.logInUI(message: "Retrieved testnet chain height: " + String(height))
             let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
             let logger = Logger()
-            return ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: height)
+            print("Instantiating Swift ChannelManager")
+            let manager = ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: height)
+            return manager
         }
     }
 
     static func openChannel() {
+        print("Setting up channel manager")
         self.setupChannelManager().done { manager in
+            print("Got channel manager")
             self.channelManager = manager
             let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
             Demonstration.channelManager?.openChannel(peerPublicKey: alexPublicKey, channelSatoshiValue: 1000, pushMillisatoshiAmount: 2, userID: 13)
