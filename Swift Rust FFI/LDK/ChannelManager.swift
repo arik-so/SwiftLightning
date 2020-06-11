@@ -22,7 +22,7 @@ class ChannelManager {
             instance.broadcastTransaction(tx: tx)
         }
 
-        let network = Testnet
+        let network = LDKNetwork_Testnet
         print("creating fee estimater")
         let feeEstimator = FeeEstimator()
         print("creating broadcaster interface")
@@ -118,6 +118,35 @@ class ChannelManager {
         self.cChannelManager = ChannelManager_new(network, feeEstimator.cFeeEstimator!, manyChannelMonitor.cManyChannelMonitor!, broadcaster, logger.cLogger!, keysInterface, config, currentBlockchainHeight)
     }
 
+    func monitorEvents() {
+        let backgroundQueue = DispatchQueue.global(qos: .background);
+        Promise<Void> { seal in
+            self.getEvents()
+            seal.fulfill(())
+        }.then(on: backgroundQueue) {
+            after(seconds: 5) // wait five seconds
+        }.done {
+            self.monitorEvents()
+        }
+    }
+
+    func getEvents() {
+        let instance = RawLDKTypes.instanceToPointer(instance: self);
+
+        let managerPointer = withUnsafePointer(to: self.cChannelManager!) { (pointer: UnsafePointer<LDKChannelManager>) in
+            pointer
+        }
+        let eventsProvider: LDKEventsProvider = ChannelManager_as_EventsProvider(managerPointer)
+        let events: LDKCVecTempl_Event = (eventsProvider.get_and_clear_pending_events)(eventsProvider.this_arg)
+        if (events.datalen == 0) {
+            print("No new events")
+        }else{
+            print("New events!")
+            Demonstration.logInUI(message: "Channel created \(events.datalen) new events!")
+        }
+
+    }
+
     func broadcastTransaction(tx: LDKTransaction) {
         print("needs to broadcast transaction")
         let txBin = RawLDKTypes.transactionToData(tx: tx)
@@ -151,6 +180,10 @@ class ChannelManager {
         print("Creating channel with manager")
         ChannelManager_create_channel(cmPointer, theirNetworkKey, channelSatoshiValue, pushMillisatoshiAmount, userID, overrideConfig)
         print("Finished creating channel with manager")
+
+        // self.getEvents()
+        self.monitorEvents()
+
         /*
 
         let error = RawLDKTypes.errorFromPlaceholder(error: errorPlaceholder);

@@ -35,11 +35,11 @@ class PeerManager {
         self.channelMessageHandler = ChannelMessageHandler()
         self.routingMessageHandler = RoutingMessageHandler(logger: self.logger!)
 
-        let chainWatchInterface = ChainWatchInterfaceUtil_new(Testnet)
-        let chainWatchInterfacePointer = withUnsafePointer(to: chainWatchInterface) { (pointer: UnsafePointer<LDKChainWatchInterfaceUtil>) -> UnsafePointer<LDKChainWatchInterfaceUtil> in
-            pointer
-        }
-        let blockNotifier = BlockNotifier_new(ChainWatchInterfaceUtil_as_ChainWatchInterface(chainWatchInterfacePointer))
+        // let chainWatchInterface = ChainWatchInterfaceUtil_new(LDKNetwork_Testnet)
+        // let chainWatchInterfacePointer = withUnsafePointer(to: chainWatchInterface) { (pointer: UnsafePointer<LDKChainWatchInterfaceUtil>) -> UnsafePointer<LDKChainWatchInterfaceUtil> in
+        //     pointer
+        // }
+        // let blockNotifier = BlockNotifier_new(ChainWatchInterfaceUtil_as_ChainWatchInterface(chainWatchInterfacePointer))
 
 
         let messageHandler = MessageHandler_new(self.channelMessageHandler!.cMessageHandler!, routingMessageHandler!.cRoutingMessageHandler!)

@@ -14,6 +14,7 @@ class RoutingMessageHandler {
     var cNetGraphMessageHandler: LDKNetGraphMsgHandler?
 
     init(logger: Logger){
+        /*
         func handleNodeAnnouncement(pointer: UnsafeRawPointer?, announcement: UnsafePointer<LDKNodeAnnouncement>?) -> LDKCResult_boolLightningErrorZ {
             LDKCResult_boolLightningErrorZ()
         }
@@ -29,7 +30,7 @@ class RoutingMessageHandler {
             false
         }
 
-        /* self.cRoutingMessageHandler = LDKRoutingMessageHandler(
+        self.cRoutingMessageHandler = LDKRoutingMessageHandler(
                 this_arg: RawLDKTypes.instanceToPointer(instance: self),
                 handle_node_announcement: handleNodeAnnouncement,
                 handle_channel_announcement: handleChannelAnnouncement,
@@ -38,7 +39,7 @@ class RoutingMessageHandler {
                 should_request_full_sync: shouldRequestFullSync
         ) */
 
-        self.cChainWatchInterfaceUtil = ChainWatchInterfaceUtil_new(Testnet)
+        self.cChainWatchInterfaceUtil = ChainWatchInterfaceUtil_new(LDKNetwork_Testnet)
         let chainWatchInterfacePointer = withUnsafePointer(to: self.cChainWatchInterfaceUtil!) { (pointer: UnsafePointer<LDKChainWatchInterfaceUtil>) -> UnsafePointer<LDKChainWatchInterfaceUtil> in
             pointer
         }

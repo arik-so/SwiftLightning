@@ -20,5 +20,6 @@ class FeeEstimator {
             this_arg: instance,
             get_est_sat_per_1000_weight: get_est_sat_per_1000_weight
         )
+
     }
 }

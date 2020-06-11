@@ -1,5 +1,13 @@
-struct lnEventOpaque;
-typedef struct lnEventOpaque LDKlnEvent;
+#if defined(__GNUC__)
+#define MUST_USE_STRUCT __attribute__((warn_unused))
+#else
+#define MUST_USE_STRUCT
+#endif
+#if defined(__GNUC__)
+#define MUST_USE_RES __attribute__((warn_unused_result))
+#else
+#define MUST_USE_RES
+#endif
 struct lnMessageSendEventOpaque;
 typedef struct lnMessageSendEventOpaque LDKlnMessageSendEvent;
 struct lnAPIErrorOpaque;
@@ -102,8 +110,6 @@ struct lnLightningErrorOpaque;
 typedef struct lnLightningErrorOpaque LDKlnLightningError;
 struct lnCommitmentUpdateOpaque;
 typedef struct lnCommitmentUpdateOpaque LDKlnCommitmentUpdate;
-struct lnHTLCFailChannelUpdateOpaque;
-typedef struct lnHTLCFailChannelUpdateOpaque LDKlnHTLCFailChannelUpdate;
 struct lnMessageHandlerOpaque;
 typedef struct lnMessageHandlerOpaque LDKlnMessageHandler;
 struct lnPeerHandleErrorOpaque;

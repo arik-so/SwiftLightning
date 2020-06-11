@@ -13,71 +13,79 @@
  * " Used to give chain error details upstream"
  */
 typedef enum LDKChainError {
-    /**
-     * " Client doesn't support UTXO lookup (but the chain hash matches our genesis block hash)"
-     */
-    NotSupported,
-    /**
-     * " Chain isn't the one watched"
-     */
-    NotWatched,
-    /**
-     * " Tx doesn't exist or is unconfirmed"
-     */
-    UnknownTx,
+   /**
+    * " Client doesn't support UTXO lookup (but the chain hash matches our genesis block hash)"
+    */
+   LDKChainError_NotSupported,
+   /**
+    * " Chain isn't the one watched"
+    */
+   LDKChainError_NotWatched,
+   /**
+    * " Tx doesn't exist or is unconfirmed"
+    */
+   LDKChainError_UnknownTx,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKChainError_Sentinel,
 } LDKChainError;
 
 /**
  * " An error enum representing a failure to persist a channel monitor update."
  */
 typedef enum LDKChannelMonitorUpdateErr {
-    /**
-     * " Used to indicate a temporary failure (eg connection to a watchtower or remote backup of"
-     * " our state failed, but is expected to succeed at some point in the future)."
-     * ""
-     * " Such a failure will \"freeze\" a channel, preventing us from revoking old states or"
-     * " submitting new commitment transactions to the remote party. Once the update(s) which failed"
-     * " have been successfully applied, ChannelManager::channel_monitor_updated can be used to"
-     * " restore the channel to an operational state."
-     * ""
-     * " Note that a given ChannelManager will *never* re-generate a given ChannelMonitorUpdate. If"
-     * " you return a TemporaryFailure you must ensure that it is written to disk safely before"
-     * " writing out the latest ChannelManager state."
-     * ""
-     * " Even when a channel has been \"frozen\" updates to the ChannelMonitor can continue to occur"
-     * " (eg if an inbound HTLC which we forwarded was claimed upstream resulting in us attempting"
-     * " to claim it on this channel) and those updates must be applied wherever they can be. At"
-     * " least one such updated ChannelMonitor must be persisted otherwise PermanentFailure should"
-     * " be returned to get things on-chain ASAP using only the in-memory copy. Obviously updates to"
-     * " the channel which would invalidate previous ChannelMonitors are not made when a channel has"
-     * " been \"frozen\"."
-     * ""
-     * " Note that even if updates made after TemporaryFailure succeed you must still call"
-     * " channel_monitor_updated to ensure you have the latest monitor and re-enable normal channel"
-     * " operation."
-     * ""
-     * " Note that the update being processed here will not be replayed for you when you call"
-     * " ChannelManager::channel_monitor_updated, so you must store the update itself along"
-     * " with the persisted ChannelMonitor on your own local disk prior to returning a"
-     * " TemporaryFailure. You may, of course, employ a journaling approach, storing only the"
-     * " ChannelMonitorUpdate on disk without updating the monitor itself, replaying the journal at"
-     * " reload-time."
-     * ""
-     * " For deployments where a copy of ChannelMonitors and other local state are backed up in a"
-     * " remote location (with local copies persisted immediately), it is anticipated that all"
-     * " updates will return TemporaryFailure until the remote copies could be updated."
-     */
-    TemporaryFailure,
-    /**
-     * " Used to indicate no further channel monitor updates will be allowed (eg we've moved on to a"
-     * " different watchtower and cannot update with all watchtowers that were previously informed"
-     * " of this channel). This will force-close the channel in question (which will generate one"
-     * " final ChannelMonitorUpdate which must be delivered to at least one ChannelMonitor copy)."
-     * ""
-     * " Should also be used to indicate a failure to update the local persisted copy of the channel"
-     * " monitor."
-     */
-    PermanentFailure,
+   /**
+    * " Used to indicate a temporary failure (eg connection to a watchtower or remote backup of"
+    * " our state failed, but is expected to succeed at some point in the future)."
+    * ""
+    * " Such a failure will \"freeze\" a channel, preventing us from revoking old states or"
+    * " submitting new commitment transactions to the remote party. Once the update(s) which failed"
+    * " have been successfully applied, ChannelManager::channel_monitor_updated can be used to"
+    * " restore the channel to an operational state."
+    * ""
+    * " Note that a given ChannelManager will *never* re-generate a given ChannelMonitorUpdate. If"
+    * " you return a TemporaryFailure you must ensure that it is written to disk safely before"
+    * " writing out the latest ChannelManager state."
+    * ""
+    * " Even when a channel has been \"frozen\" updates to the ChannelMonitor can continue to occur"
+    * " (eg if an inbound HTLC which we forwarded was claimed upstream resulting in us attempting"
+    * " to claim it on this channel) and those updates must be applied wherever they can be. At"
+    * " least one such updated ChannelMonitor must be persisted otherwise PermanentFailure should"
+    * " be returned to get things on-chain ASAP using only the in-memory copy. Obviously updates to"
+    * " the channel which would invalidate previous ChannelMonitors are not made when a channel has"
+    * " been \"frozen\"."
+    * ""
+    * " Note that even if updates made after TemporaryFailure succeed you must still call"
+    * " channel_monitor_updated to ensure you have the latest monitor and re-enable normal channel"
+    * " operation."
+    * ""
+    * " Note that the update being processed here will not be replayed for you when you call"
+    * " ChannelManager::channel_monitor_updated, so you must store the update itself along"
+    * " with the persisted ChannelMonitor on your own local disk prior to returning a"
+    * " TemporaryFailure. You may, of course, employ a journaling approach, storing only the"
+    * " ChannelMonitorUpdate on disk without updating the monitor itself, replaying the journal at"
+    * " reload-time."
+    * ""
+    * " For deployments where a copy of ChannelMonitors and other local state are backed up in a"
+    * " remote location (with local copies persisted immediately), it is anticipated that all"
+    * " updates will return TemporaryFailure until the remote copies could be updated."
+    */
+   LDKChannelMonitorUpdateErr_TemporaryFailure,
+   /**
+    * " Used to indicate no further channel monitor updates will be allowed (eg we've moved on to a"
+    * " different watchtower and cannot update with all watchtowers that were previously informed"
+    * " of this channel). This will force-close the channel in question (which will generate one"
+    * " final ChannelMonitorUpdate which must be delivered to at least one ChannelMonitor copy)."
+    * ""
+    * " Should also be used to indicate a failure to update the local persisted copy of the channel"
+    * " monitor."
+    */
+   LDKChannelMonitorUpdateErr_PermanentFailure,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKChannelMonitorUpdateErr_Sentinel,
 } LDKChannelMonitorUpdateErr;
 
 /**
@@ -85,54 +93,66 @@ typedef enum LDKChannelMonitorUpdateErr {
  * " estimation."
  */
 typedef enum LDKConfirmationTarget {
-    /**
-     * " We are happy with this transaction confirming slowly when feerate drops some."
-     */
-    Background,
-    /**
-     * " We'd like this transaction to confirm without major delay, but 12-18 blocks is fine."
-     */
-    Normal,
-    /**
-     * " We'd like this transaction to confirm in the next few blocks."
-     */
-    HighPriority,
+   /**
+    * " We are happy with this transaction confirming slowly when feerate drops some."
+    */
+   LDKConfirmationTarget_Background,
+   /**
+    * " We'd like this transaction to confirm without major delay, but 12-18 blocks is fine."
+    */
+   LDKConfirmationTarget_Normal,
+   /**
+    * " We'd like this transaction to confirm in the next few blocks."
+    */
+   LDKConfirmationTarget_HighPriority,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKConfirmationTarget_Sentinel,
 } LDKConfirmationTarget;
 
 /**
  * " An enum representing the available verbosity levels of the logger."
  */
 typedef enum LDKLevel {
-    /**
-     * "Designates logger being silent"
-     */
-    Off,
-    /**
-     * " Designates very serious errors"
-     */
-    Error,
-    /**
-     * " Designates hazardous situations"
-     */
-    Warn,
-    /**
-     * " Designates useful information"
-     */
-    Info,
-    /**
-     * " Designates lower priority information"
-     */
-    Debug,
-    /**
-     * " Designates very low priority, often extremely verbose, information"
-     */
-    Trace,
+   /**
+    * "Designates logger being silent"
+    */
+   LDKLevel_Off,
+   /**
+    * " Designates very serious errors"
+    */
+   LDKLevel_Error,
+   /**
+    * " Designates hazardous situations"
+    */
+   LDKLevel_Warn,
+   /**
+    * " Designates useful information"
+    */
+   LDKLevel_Info,
+   /**
+    * " Designates lower priority information"
+    */
+   LDKLevel_Debug,
+   /**
+    * " Designates very low priority, often extremely verbose, information"
+    */
+   LDKLevel_Trace,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKLevel_Sentinel,
 } LDKLevel;
 
 typedef enum LDKNetwork {
-    Bitcoin,
-    Testnet,
-    Regtest,
+   LDKNetwork_Bitcoin,
+   LDKNetwork_Testnet,
+   LDKNetwork_Regtest,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKNetwork_Sentinel,
 } LDKNetwork;
 
 /**
@@ -140,49 +160,49 @@ typedef enum LDKNetwork {
  * look up the corresponding function in rust-lightning's docs.
  */
 typedef struct LDKThirtyTwoBytes {
-    uint8_t data[32];
+   uint8_t data[32];
 } LDKThirtyTwoBytes;
 
 typedef struct LDKC2TupleTempl_ThirtyTwoBytes__u32 {
-    LDKThirtyTwoBytes *a;
-    uint32_t *b;
+   LDKThirtyTwoBytes *a;
+   uint32_t *b;
 } LDKC2TupleTempl_ThirtyTwoBytes__u32;
 
 typedef LDKC2TupleTempl_ThirtyTwoBytes__u32 LDKC2Tuple_Txidu32Z;
 
 typedef struct LDKCVecTempl_u8 {
-    uint8_t *data;
-    uintptr_t datalen;
+   uint8_t *data;
+   uintptr_t datalen;
 } LDKCVecTempl_u8;
 
 typedef LDKCVecTempl_u8 LDKCVec_u8Z;
 
 typedef struct LDKC2TupleTempl_CVec_u8Z__u64 {
-    LDKCVec_u8Z *a;
-    uint64_t *b;
+   LDKCVec_u8Z *a;
+   uint64_t *b;
 } LDKC2TupleTempl_CVec_u8Z__u64;
 
 typedef LDKC2TupleTempl_CVec_u8Z__u64 LDKC2Tuple_Scriptu64Z;
 
 typedef struct LDKC2TupleTempl_u64__u64 {
-    uint64_t *a;
-    uint64_t *b;
+   uint64_t *a;
+   uint64_t *b;
 } LDKC2TupleTempl_u64__u64;
 
 typedef LDKC2TupleTempl_u64__u64 LDKC2Tuple_u64u64Z;
 
 typedef struct LDKSignature {
-    uint8_t compact_form[64];
+   uint8_t compact_form[64];
 } LDKSignature;
 
 typedef struct LDKCVecTempl_Signature {
-    LDKSignature *data;
-    uintptr_t datalen;
+   LDKSignature *data;
+   uintptr_t datalen;
 } LDKCVecTempl_Signature;
 
 typedef struct LDKC2TupleTempl_Signature__CVecTempl_Signature {
-    LDKSignature *a;
-    LDKCVecTempl_Signature *b;
+   LDKSignature *a;
+   LDKCVecTempl_Signature *b;
 } LDKC2TupleTempl_Signature__CVecTempl_Signature;
 
 typedef LDKC2TupleTempl_Signature__CVecTempl_Signature LDKC2Tuple_SignatureCVec_SignatureZZ;
@@ -190,36 +210,36 @@ typedef LDKC2TupleTempl_Signature__CVecTempl_Signature LDKC2Tuple_SignatureCVec_
 typedef LDKCVecTempl_Signature LDKCVec_SignatureZ;
 
 typedef union LDKCResultPtr_C2TupleTempl_Signature__CVecTempl_Signature________u8 {
-    LDKC2TupleTempl_Signature__CVecTempl_Signature *result;
-    uint8_t *err;
+   LDKC2TupleTempl_Signature__CVecTempl_Signature *result;
+   uint8_t *err;
 } LDKCResultPtr_C2TupleTempl_Signature__CVecTempl_Signature________u8;
 
 typedef struct LDKCResultTempl_C2TupleTempl_Signature__CVecTempl_Signature________u8 {
-    LDKCResultPtr_C2TupleTempl_Signature__CVecTempl_Signature________u8 contents;
-    bool result_good;
+   LDKCResultPtr_C2TupleTempl_Signature__CVecTempl_Signature________u8 contents;
+   bool result_good;
 } LDKCResultTempl_C2TupleTempl_Signature__CVecTempl_Signature________u8;
 
 typedef LDKCResultTempl_C2TupleTempl_Signature__CVecTempl_Signature________u8 LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ;
 
 typedef union LDKCResultPtr_Signature__u8 {
-    LDKSignature *result;
-    uint8_t *err;
+   LDKSignature *result;
+   uint8_t *err;
 } LDKCResultPtr_Signature__u8;
 
 typedef struct LDKCResultTempl_Signature__u8 {
-    LDKCResultPtr_Signature__u8 contents;
-    bool result_good;
+   LDKCResultPtr_Signature__u8 contents;
+   bool result_good;
 } LDKCResultTempl_Signature__u8;
 
 typedef LDKCResultTempl_Signature__u8 LDKCResult_SignatureNoneZ;
 
 typedef struct LDKSecretKey {
-    uint8_t bytes[32];
+   uint8_t bytes[32];
 } LDKSecretKey;
 
 typedef struct LDKC2TupleTempl_SecretKey__ThirtyTwoBytes {
-    LDKSecretKey *a;
-    LDKThirtyTwoBytes *b;
+   LDKSecretKey *a;
+   LDKThirtyTwoBytes *b;
 } LDKC2TupleTempl_SecretKey__ThirtyTwoBytes;
 
 typedef LDKC2TupleTempl_SecretKey__ThirtyTwoBytes LDKC2Tuple_SecretKey_u832Z;
@@ -230,23 +250,23 @@ typedef LDKC2TupleTempl_SecretKey__ThirtyTwoBytes LDKC2Tuple_SecretKey_u832Z;
  * " Indicates an error on the client's part (usually some variant of attempting to use too-low or"
  * " too-high values)"
  */
-typedef struct LDKAPIError {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnAPIError *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKAPIError {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnAPIError *inner;
+   bool _underlying_ref;
 } LDKAPIError;
 
 typedef union LDKCResultPtr_u8__APIError {
-    uint8_t *result;
-    LDKAPIError *err;
+   uint8_t *result;
+   LDKAPIError *err;
 } LDKCResultPtr_u8__APIError;
 
 typedef struct LDKCResultTempl_u8__APIError {
-    LDKCResultPtr_u8__APIError contents;
-    bool result_good;
+   LDKCResultPtr_u8__APIError contents;
+   bool result_good;
 } LDKCResultTempl_u8__APIError;
 
 typedef LDKCResultTempl_u8__APIError LDKCResult_NoneAPIErrorZ;
@@ -258,35 +278,35 @@ typedef LDKCResultTempl_u8__APIError LDKCResult_NoneAPIErrorZ;
  * " Err() type describing which state the payment is in, see the description of individual enum"
  * " states for more."
  */
-typedef struct LDKPaymentSendFailure {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnPaymentSendFailure *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKPaymentSendFailure {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnPaymentSendFailure *inner;
+   bool _underlying_ref;
 } LDKPaymentSendFailure;
 
 typedef union LDKCResultPtr_u8__PaymentSendFailure {
-    uint8_t *result;
-    LDKPaymentSendFailure *err;
+   uint8_t *result;
+   LDKPaymentSendFailure *err;
 } LDKCResultPtr_u8__PaymentSendFailure;
 
 typedef struct LDKCResultTempl_u8__PaymentSendFailure {
-    LDKCResultPtr_u8__PaymentSendFailure contents;
-    bool result_good;
+   LDKCResultPtr_u8__PaymentSendFailure contents;
+   bool result_good;
 } LDKCResultTempl_u8__PaymentSendFailure;
 
 typedef LDKCResultTempl_u8__PaymentSendFailure LDKCResult_NonePaymentSendFailureZ;
 
 typedef union LDKCResultPtr_u8__ChannelMonitorUpdateErr {
-    uint8_t *result;
-    LDKChannelMonitorUpdateErr *err;
+   uint8_t *result;
+   LDKChannelMonitorUpdateErr *err;
 } LDKCResultPtr_u8__ChannelMonitorUpdateErr;
 
 typedef struct LDKCResultTempl_u8__ChannelMonitorUpdateErr {
-    LDKCResultPtr_u8__ChannelMonitorUpdateErr contents;
-    bool result_good;
+   LDKCResultPtr_u8__ChannelMonitorUpdateErr contents;
+   bool result_good;
 } LDKCResultTempl_u8__ChannelMonitorUpdateErr;
 
 typedef LDKCResultTempl_u8__ChannelMonitorUpdateErr LDKCResult_NoneChannelMonitorUpdateErrZ;
@@ -296,13 +316,13 @@ typedef LDKCResultTempl_u8__ChannelMonitorUpdateErr LDKCResult_NoneChannelMonito
 /**
  * " A channel_announcement message to be sent or received from a peer"
  */
-typedef struct LDKChannelAnnouncement {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelAnnouncement *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelAnnouncement {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelAnnouncement *inner;
+   bool _underlying_ref;
 } LDKChannelAnnouncement;
 
 
@@ -310,19 +330,19 @@ typedef struct LDKChannelAnnouncement {
 /**
  * " A channel_update message to be sent or received from a peer"
  */
-typedef struct LDKChannelUpdate {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelUpdate *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelUpdate {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelUpdate *inner;
+   bool _underlying_ref;
 } LDKChannelUpdate;
 
 typedef struct LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate {
-    LDKChannelAnnouncement *a;
-    LDKChannelUpdate *b;
-    LDKChannelUpdate *c;
+   LDKChannelAnnouncement *a;
+   LDKChannelUpdate *b;
+   LDKChannelUpdate *c;
 } LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate;
 
 typedef LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate LDKC3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZ;
@@ -336,28 +356,68 @@ typedef LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate LDKC3T
  * " new_*_connection event, in which case no such socket_disconnected() must be called and the"
  * " socket silently disconencted)."
  */
-typedef struct LDKPeerHandleError {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnPeerHandleError *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKPeerHandleError {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnPeerHandleError *inner;
+   bool _underlying_ref;
 } LDKPeerHandleError;
 
 typedef union LDKCResultPtr_u8__PeerHandleError {
-    uint8_t *result;
-    LDKPeerHandleError *err;
+   uint8_t *result;
+   LDKPeerHandleError *err;
 } LDKCResultPtr_u8__PeerHandleError;
 
 typedef struct LDKCResultTempl_u8__PeerHandleError {
-    LDKCResultPtr_u8__PeerHandleError contents;
-    bool result_good;
+   LDKCResultPtr_u8__PeerHandleError contents;
+   bool result_good;
 } LDKCResultTempl_u8__PeerHandleError;
 
 typedef LDKCResultTempl_u8__PeerHandleError LDKCResult_NonePeerHandleErrorZ;
 
 
+
+/**
+ * " A reference to a transaction output."
+ * ""
+ * " Differs from bitcoin::blockdata::transaction::OutPoint as the index is a u16 instead of u32"
+ * " due to LN's restrictions on index values. Should reduce (possibly) unsafe conversions this way."
+ */
+typedef struct MUST_USE_STRUCT LDKOutPoint {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnOutPoint *inner;
+   bool _underlying_ref;
+} LDKOutPoint;
+
+
+
+/**
+ * " When on-chain outputs are created by rust-lightning (which our counterparty is not able to"
+ * " claim at any point in the future) an event is generated which you must track and be able to"
+ * " spend on-chain. The information needed to do this is provided in this enum, including the"
+ * " outpoint describing which txid and output index is available, the full output which exists at"
+ * " that txid/index, and any keys or other information required to sign."
+ */
+typedef struct MUST_USE_STRUCT LDKSpendableOutputDescriptor {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnSpendableOutputDescriptor *inner;
+   bool _underlying_ref;
+} LDKSpendableOutputDescriptor;
+
+typedef struct LDKCVecTempl_SpendableOutputDescriptor {
+   LDKSpendableOutputDescriptor *data;
+   uintptr_t datalen;
+} LDKCVecTempl_SpendableOutputDescriptor;
+
+typedef LDKCVecTempl_SpendableOutputDescriptor LDKCVec_SpendableOutputDescriptorZ;
 
 /**
  * " An Event which you should probably take some action in response to."
@@ -366,13 +426,112 @@ typedef LDKCResultTempl_u8__PeerHandleError LDKCResult_NonePeerHandleErrorZ;
  * " them directly as they don't round-trip exactly (for example FundingGenerationReady is never"
  * " written as it makes no sense to respond to it after reconnecting to peers)."
  */
+typedef enum LDKEvent_Tag {
+   /**
+    * " Used to indicate that the client should generate a funding transaction with the given"
+    * " parameters and then call ChannelManager::funding_transaction_generated."
+    * " Generated in ChannelManager message handling."
+    * " Note that *all inputs* in the funding transaction must spend SegWit outputs or your"
+    * " counterparty can steal your funds!"
+    */
+   LDKEvent_FundingGenerationReady,
+   /**
+    * " Used to indicate that the client may now broadcast the funding transaction it created for a"
+    * " channel. Broadcasting such a transaction prior to this event may lead to our counterparty"
+    * " trivially stealing all funds in the funding transaction!"
+    */
+   LDKEvent_FundingBroadcastSafe,
+   /**
+    * " Indicates we've received money! Just gotta dig out that payment preimage and feed it to"
+    * " ChannelManager::claim_funds to get it...."
+    * " Note that if the preimage is not known or the amount paid is incorrect, you should call"
+    * " ChannelManager::fail_htlc_backwards to free up resources for this HTLC and avoid"
+    * " network congestion."
+    * " The amount paid should be considered 'incorrect' when it is less than or more than twice"
+    * " the amount expected."
+    * " If you fail to call either ChannelManager::claim_funds or"
+    * " ChannelManager::fail_htlc_backwards within the HTLC's timeout, the HTLC will be"
+    * " automatically failed."
+    */
+   LDKEvent_PaymentReceived,
+   /**
+    * " Indicates an outbound payment we made succeeded (ie it made it all the way to its target"
+    * " and we got back the payment preimage for it)."
+    * " Note that duplicative PaymentSent Events may be generated - it is your responsibility to"
+    * " deduplicate them by payment_preimage (which MUST be unique)!"
+    */
+   LDKEvent_PaymentSent,
+   /**
+    * " Indicates an outbound payment we made failed. Probably some intermediary node dropped"
+    * " something. You may wish to retry with a different route."
+    * " Note that duplicative PaymentFailed Events may be generated - it is your responsibility to"
+    * " deduplicate them by payment_hash (which MUST be unique)!"
+    */
+   LDKEvent_PaymentFailed,
+   /**
+    * " Used to indicate that ChannelManager::process_pending_htlc_forwards should be called at a"
+    * " time in the future."
+    */
+   LDKEvent_PendingHTLCsForwardable,
+   /**
+    * " Used to indicate that an output was generated on-chain which you should know how to spend."
+    * " Such an output will *not* ever be spent by rust-lightning, and are not at risk of your"
+    * " counterparty spending them due to some kind of timeout. Thus, you need to store them"
+    * " somewhere and spend them when you create on-chain transactions."
+    */
+   LDKEvent_SpendableOutputs,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKEvent_Sentinel,
+} LDKEvent_Tag;
+
+typedef struct LDKEvent_LDKFundingGenerationReady_Body {
+   LDKThirtyTwoBytes temporary_channel_id;
+   uint64_t channel_value_satoshis;
+   LDKCVec_u8Z output_script;
+   uint64_t user_channel_id;
+} LDKEvent_LDKFundingGenerationReady_Body;
+
+typedef struct LDKEvent_LDKFundingBroadcastSafe_Body {
+   LDKOutPoint funding_txo;
+   uint64_t user_channel_id;
+} LDKEvent_LDKFundingBroadcastSafe_Body;
+
+typedef struct LDKEvent_LDKPaymentReceived_Body {
+   uint8_t payment_hash[32];
+   const LDKThirtyTwoBytes *payment_secret;
+   uint64_t amt;
+} LDKEvent_LDKPaymentReceived_Body;
+
+typedef struct LDKEvent_LDKPaymentSent_Body {
+   uint8_t payment_preimage[32];
+} LDKEvent_LDKPaymentSent_Body;
+
+typedef struct LDKEvent_LDKPaymentFailed_Body {
+   uint8_t payment_hash[32];
+   bool rejected_by_dest;
+} LDKEvent_LDKPaymentFailed_Body;
+
+typedef struct LDKEvent_LDKPendingHTLCsForwardable_Body {
+   uint64_t time_forwardable;
+} LDKEvent_LDKPendingHTLCsForwardable_Body;
+
+typedef struct LDKEvent_LDKSpendableOutputs_Body {
+   LDKCVec_SpendableOutputDescriptorZ outputs;
+} LDKEvent_LDKSpendableOutputs_Body;
+
 typedef struct LDKEvent {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnEvent *inner;
-    bool _underlying_ref;
+   LDKEvent_Tag tag;
+   union {
+      LDKEvent_LDKFundingGenerationReady_Body funding_generation_ready;
+      LDKEvent_LDKFundingBroadcastSafe_Body funding_broadcast_safe;
+      LDKEvent_LDKPaymentReceived_Body payment_received;
+      LDKEvent_LDKPaymentSent_Body payment_sent;
+      LDKEvent_LDKPaymentFailed_Body payment_failed;
+      LDKEvent_LDKPendingHTLCsForwardable_Body pending_htl_cs_forwardable;
+      LDKEvent_LDKSpendableOutputs_Body spendable_outputs;
+   };
 } LDKEvent;
 
 
@@ -382,13 +541,13 @@ typedef struct LDKEvent {
  * " broadcast to most peers)."
  * " These events are handled by PeerManager::process_events if you are using a PeerManager."
  */
-typedef struct LDKMessageSendEvent {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnMessageSendEvent *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKMessageSendEvent {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnMessageSendEvent *inner;
+   bool _underlying_ref;
 } LDKMessageSendEvent;
 
 
@@ -399,13 +558,13 @@ typedef struct LDKMessageSendEvent {
  * " Default::default() provides sane defaults for most configurations"
  * " (but currently with 0 relay fees!)"
  */
-typedef struct LDKUserConfig {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUserConfig *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUserConfig {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUserConfig *inner;
+   bool _underlying_ref;
 } LDKUserConfig;
 
 
@@ -415,13 +574,13 @@ typedef struct LDKUserConfig {
  * ""
  * " Default::default() provides sane defaults."
  */
-typedef struct LDKChannelHandshakeConfig {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelHandshakeConfig *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelHandshakeConfig {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelHandshakeConfig *inner;
+   bool _underlying_ref;
 } LDKChannelHandshakeConfig;
 
 
@@ -439,13 +598,13 @@ typedef struct LDKChannelHandshakeConfig {
  * " field documentation. Note that this may result in barely-usable channels, but since they"
  * " are applied mostly only to incoming channels that's not much of a problem."
  */
-typedef struct LDKChannelHandshakeLimits {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelHandshakeLimits *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelHandshakeLimits {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelHandshakeLimits *inner;
+   bool _underlying_ref;
 } LDKChannelHandshakeLimits;
 
 
@@ -454,18 +613,18 @@ typedef struct LDKChannelHandshakeLimits {
  * " Options which apply on a per-channel basis and may change at runtime or based on negotiation"
  * " with our counterparty."
  */
-typedef struct LDKChannelConfig {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelConfig *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelConfig {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelConfig *inner;
+   bool _underlying_ref;
 } LDKChannelConfig;
 
 typedef struct LDKu8slice {
-    const uint8_t *data;
-    uintptr_t datalen;
+   const uint8_t *data;
+   uintptr_t datalen;
 } LDKu8slice;
 
 
@@ -473,13 +632,13 @@ typedef struct LDKu8slice {
 /**
  * " Utility for tracking registered txn/outpoints and checking for matches"
  */
-typedef struct LDKChainWatchedUtil {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChainWatchedUtil *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChainWatchedUtil {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChainWatchedUtil *inner;
+   bool _underlying_ref;
 } LDKChainWatchedUtil;
 
 /**
@@ -488,34 +647,41 @@ typedef struct LDKChainWatchedUtil {
  * provided to you are invalid.
  */
 typedef struct LDKTransaction {
-    const uint8_t *data;
-    uintptr_t datalen;
+   const uint8_t *data;
+   uintptr_t datalen;
 } LDKTransaction;
 
 /**
  * " A trait indicating a desire to listen for events from the chain"
  */
 typedef struct LDKChainListener {
-    void *this_arg;
-    /**
-     * " Notifies a listener that a block was disconnected."
-     * " Unlike block_connected, this *must* never be called twice for the same disconnect event."
-     * " Height must be the one of the block which was disconnected (not new height of the best chain)"
-     */
-    void (*block_disconnected)(const void *this_arg, const uint8_t (*header)[80], uint32_t disconnected_height);
+   void *this_arg;
+   /**
+    * " Notifies a listener that a block was disconnected."
+    * " Unlike block_connected, this *must* never be called twice for the same disconnect event."
+    * " Height must be the one of the block which was disconnected (not new height of the best chain)"
+    */
+   void (*block_disconnected)(const void *this_arg, const uint8_t (*header)[80], uint32_t disconnected_height);
 } LDKChainListener;
 
 typedef union LDKCResultPtr_C2TupleTempl_CVec_u8Z__u64_____ChainError {
-    LDKC2TupleTempl_CVec_u8Z__u64 *result;
-    LDKChainError *err;
+   LDKC2TupleTempl_CVec_u8Z__u64 *result;
+   LDKChainError *err;
 } LDKCResultPtr_C2TupleTempl_CVec_u8Z__u64_____ChainError;
 
 typedef struct LDKCResultTempl_C2TupleTempl_CVec_u8Z__u64_____ChainError {
-    LDKCResultPtr_C2TupleTempl_CVec_u8Z__u64_____ChainError contents;
-    bool result_good;
+   LDKCResultPtr_C2TupleTempl_CVec_u8Z__u64_____ChainError contents;
+   bool result_good;
 } LDKCResultTempl_C2TupleTempl_CVec_u8Z__u64_____ChainError;
 
 typedef LDKCResultTempl_C2TupleTempl_CVec_u8Z__u64_____ChainError LDKCResult_C2Tuple_Scriptu64ZChainErrorZ;
+
+typedef struct LDKCVecTempl_u32 {
+   uint32_t *data;
+   uintptr_t datalen;
+} LDKCVecTempl_u32;
+
+typedef LDKCVecTempl_u32 LDKCVec_u32Z;
 
 /**
  * " An interface to request notification of certain scripts as they appear the"
@@ -526,33 +692,38 @@ typedef LDKCResultTempl_C2TupleTempl_CVec_u8Z__u64_____ChainError LDKCResult_C2T
  * " events)."
  */
 typedef struct LDKChainWatchInterface {
-    void *this_arg;
-    /**
-     * " Provides a txid/random-scriptPubKey-in-the-tx which much be watched for."
-     */
-    void (*install_watch_tx)(const void *this_arg, const uint8_t (*txid)[32], LDKu8slice script_pub_key);
-    /**
-     * " Provides an outpoint which must be watched for, providing any transactions which spend the"
-     * " given outpoint."
-     */
-    void (*install_watch_outpoint)(const void *this_arg, LDKC2Tuple_Txidu32Z outpoint, LDKu8slice out_script);
-    /**
-     * " Indicates that a listener needs to see all transactions."
-     */
-    void (*watch_all_txn)(const void *this_arg);
-    /**
-     * " Gets the script and value in satoshis for a given unspent transaction output given a"
-     * " short_channel_id (aka unspent_tx_output_identier). For BTC/tBTC channels the top three"
-     * " bytes are the block height, the next 3 the transaction index within the block, and the"
-     * " final two the output within the transaction."
-     */
-    LDKCResult_C2Tuple_Scriptu64ZChainErrorZ (*get_chain_utxo)(const void *this_arg, uint8_t genesis_hash[32], uint64_t unspent_tx_output_identifier);
-    /**
-     * " Returns a usize that changes when the ChainWatchInterface's watched data is modified."
-     * " Users of `filter_block` should pre-save a copy of `reentered`'s return value and use it to"
-     * " determine whether they need to re-filter a given block."
-     */
-    uintptr_t (*reentered)(const void *this_arg);
+   void *this_arg;
+   /**
+    * " Provides a txid/random-scriptPubKey-in-the-tx which much be watched for."
+    */
+   void (*install_watch_tx)(const void *this_arg, const uint8_t (*txid)[32], LDKu8slice script_pub_key);
+   /**
+    * " Provides an outpoint which must be watched for, providing any transactions which spend the"
+    * " given outpoint."
+    */
+   void (*install_watch_outpoint)(const void *this_arg, LDKC2Tuple_Txidu32Z outpoint, LDKu8slice out_script);
+   /**
+    * " Indicates that a listener needs to see all transactions."
+    */
+   void (*watch_all_txn)(const void *this_arg);
+   /**
+    * " Gets the script and value in satoshis for a given unspent transaction output given a"
+    * " short_channel_id (aka unspent_tx_output_identier). For BTC/tBTC channels the top three"
+    * " bytes are the block height, the next 3 the transaction index within the block, and the"
+    * " final two the output within the transaction."
+    */
+   LDKCResult_C2Tuple_Scriptu64ZChainErrorZ (*get_chain_utxo)(const void *this_arg, uint8_t genesis_hash[32], uint64_t unspent_tx_output_identifier);
+   /**
+    * " Gets the list of transaction indices within a given block that the ChainWatchInterface is"
+    * " watching for."
+    */
+   LDKCVec_u32Z (*filter_block)(const void *this_arg, LDKu8slice block);
+   /**
+    * " Returns a usize that changes when the ChainWatchInterface's watched data is modified."
+    * " Users of `filter_block` should pre-save a copy of `reentered`'s return value and use it to"
+    * " determine whether they need to re-filter a given block."
+    */
+   uintptr_t (*reentered)(const void *this_arg);
 } LDKChainWatchInterface;
 
 
@@ -566,13 +737,13 @@ typedef struct LDKChainWatchInterface {
  * " you should default to using a BlockNotifierRef, and use a BlockNotifierArc instead when you"
  * " require ChainListeners with static lifetimes, such as when you're using lightning-net-tokio."
  */
-typedef struct LDKBlockNotifier {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnBlockNotifier *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKBlockNotifier {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnBlockNotifier *inner;
+   bool _underlying_ref;
 } LDKBlockNotifier;
 
 
@@ -582,62 +753,27 @@ typedef struct LDKBlockNotifier {
  * ""
  * " Keeping a local copy of this in a ChainWatchInterface implementor is likely useful."
  */
-typedef struct LDKChainWatchInterfaceUtil {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChainWatchInterfaceUtil *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChainWatchInterfaceUtil {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChainWatchInterfaceUtil *inner;
+   bool _underlying_ref;
 } LDKChainWatchInterfaceUtil;
-
-
-
-/**
- * " A reference to a transaction output."
- * ""
- * " Differs from bitcoin::blockdata::transaction::OutPoint as the index is a u16 instead of u32"
- * " due to LN's restrictions on index values. Should reduce (possibly) unsafe conversions this way."
- */
-typedef struct LDKOutPoint {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnOutPoint *inner;
-    bool _underlying_ref;
-} LDKOutPoint;
-
-
-
-/**
- * " When on-chain outputs are created by rust-lightning (which our counterparty is not able to"
- * " claim at any point in the future) an event is generated which you must track and be able to"
- * " spend on-chain. The information needed to do this is provided in this enum, including the"
- * " outpoint describing which txid and output index is available, the full output which exists at"
- * " that txid/index, and any keys or other information required to sign."
- */
-typedef struct LDKSpendableOutputDescriptor {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnSpendableOutputDescriptor *inner;
-    bool _underlying_ref;
-} LDKSpendableOutputDescriptor;
 
 
 
 /**
  * " A simple implementation of ChannelKeys that just keeps the private keys in memory."
  */
-typedef struct LDKInMemoryChannelKeys {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnInMemoryChannelKeys *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKInMemoryChannelKeys {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnInMemoryChannelKeys *inner;
+   bool _underlying_ref;
 } LDKInMemoryChannelKeys;
 
 
@@ -645,13 +781,13 @@ typedef struct LDKInMemoryChannelKeys {
 /**
  * " One counterparty's public keys which do not change over the life of a channel."
  */
-typedef struct LDKChannelPublicKeys {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelPublicKeys *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelPublicKeys {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelPublicKeys *inner;
+   bool _underlying_ref;
 } LDKChannelPublicKeys;
 
 
@@ -660,13 +796,13 @@ typedef struct LDKChannelPublicKeys {
  * " The set of public keys which are used in the creation of one commitment transaction."
  * " These are derived from the channel base keys and per-commitment data."
  */
-typedef struct LDKTxCreationKeys {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnTxCreationKeys *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKTxCreationKeys {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnTxCreationKeys *inner;
+   bool _underlying_ref;
 } LDKTxCreationKeys;
 
 
@@ -674,18 +810,18 @@ typedef struct LDKTxCreationKeys {
 /**
  * " Information about an HTLC as it appears in a commitment transaction"
  */
-typedef struct LDKHTLCOutputInCommitment {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnHTLCOutputInCommitment *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKHTLCOutputInCommitment {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnHTLCOutputInCommitment *inner;
+   bool _underlying_ref;
 } LDKHTLCOutputInCommitment;
 
 typedef struct LDKCSliceTempl_HTLCOutputInCommitment {
-    const LDKHTLCOutputInCommitment *data;
-    uintptr_t datalen;
+   LDKHTLCOutputInCommitment *data;
+   uintptr_t datalen;
 } LDKCSliceTempl_HTLCOutputInCommitment;
 
 typedef LDKCSliceTempl_HTLCOutputInCommitment LDKCHTLCOutputInCommitmentSlice;
@@ -697,17 +833,17 @@ typedef LDKCSliceTempl_HTLCOutputInCommitment LDKCHTLCOutputInCommitmentSlice;
  * " to broadcast. Eventually this will require a signer which is possibly external, but for now we"
  * " just pass in the SecretKeys required."
  */
-typedef struct LDKLocalCommitmentTransaction {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnLocalCommitmentTransaction *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKLocalCommitmentTransaction {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnLocalCommitmentTransaction *inner;
+   bool _underlying_ref;
 } LDKLocalCommitmentTransaction;
 
 typedef struct LDKPublicKey {
-    uint8_t compressed_form[33];
+   uint8_t compressed_form[33];
 } LDKPublicKey;
 
 
@@ -715,13 +851,13 @@ typedef struct LDKPublicKey {
 /**
  * " The unsigned part of a channel_announcement"
  */
-typedef struct LDKUnsignedChannelAnnouncement {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUnsignedChannelAnnouncement *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUnsignedChannelAnnouncement {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUnsignedChannelAnnouncement *inner;
+   bool _underlying_ref;
 } LDKUnsignedChannelAnnouncement;
 
 /**
@@ -749,111 +885,111 @@ typedef struct LDKUnsignedChannelAnnouncement {
  * ""
  */
 typedef struct LDKChannelKeys {
-    void *this_arg;
-    /**
-     * " Gets the commitment seed"
-     */
-    LDKThirtyTwoBytes commitment_seed;
-    /**
-     * Fill in the commitment_seed field as a reference to it will be given to Rust after this returns
-     * Note that this takes a pointer to this object, not the this_ptr like other methods do
-     */
-    void (*set_commitment_seed)(const LDKChannelKeys*);
-    /**
-     * " Gets the local channel public keys and basepoints"
-     */
-    LDKChannelPublicKeys pubkeys;
-    /**
-     * Fill in the pubkeys field as a reference to it will be given to Rust after this returns
-     * Note that this takes a pointer to this object, not the this_ptr like other methods do
-     */
-    void (*set_pubkeys)(const LDKChannelKeys*);
-    /**
-     * " Gets arbitrary identifiers describing the set of keys which are provided back to you in"
-     * " some SpendableOutputDescriptor types. These should be sufficient to identify this"
-     * " ChannelKeys object uniquely and lookup or re-derive its keys."
-     */
-    LDKC2Tuple_u64u64Z (*key_derivation_params)(const void *this_arg);
-    /**
-     * " Create a signature for a remote commitment transaction and associated HTLC transactions."
-     * ""
-     * " Note that if signing fails or is rejected, the channel will be force-closed."
-     */
-    LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ (*sign_remote_commitment)(const void *this_arg, uint64_t feerate_per_kw, LDKTransaction commitment_tx, const LDKTxCreationKeys *keys, LDKCHTLCOutputInCommitmentSlice htlcs, uint16_t to_self_delay);
-    /**
-     * " Create a signature for a local commitment transaction. This will only ever be called with"
-     * " the same local_commitment_tx (or a copy thereof), though there are currently no guarantees"
-     * " that it will not be called multiple times."
-     */
-    LDKCResult_SignatureNoneZ (*sign_local_commitment)(const void *this_arg, const LDKLocalCommitmentTransaction *local_commitment_tx);
-    /**
-     * " Create a signature for the given input in a transaction spending an HTLC or commitment"
-     * " transaction output when our counterparty broadcasts an old state."
-     * ""
-     * " A justice transaction may claim multiples outputs at the same time if timelocks are"
-     * " similar, but only a signature for the input at index `input` should be signed for here."
-     * " It may be called multiples time for same output(s) if a fee-bump is needed with regards"
-     * " to an upcoming timelock expiration."
-     * ""
-     * " Amount is value of the output spent by this input, committed to in the BIP 143 signature."
-     * ""
-     * " per_commitment_key is revocation secret which was provided by our counterparty when they"
-     * " revoked the state which they eventually broadcast. It's not a _local_ secret key and does"
-     * " not allow the spending of any funds by itself (you need our local revocation_secret to do"
-     * " so)."
-     * ""
-     * " htlc holds HTLC elements (hash, timelock) if the output being spent is a HTLC output, thus"
-     * " changing the format of the witness script (which is committed to in the BIP 143"
-     * " signatures)."
-     * ""
-     * " on_remote_tx_csv is the relative lock-time that that our counterparty would have to set on"
-     * " their transaction were they to spend the same output. It is included in the witness script"
-     * " and thus committed to in the BIP 143 signature."
-     */
-    LDKCResult_SignatureNoneZ (*sign_justice_transaction)(const void *this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const LDKHTLCOutputInCommitment *htlc, uint16_t on_remote_tx_csv);
-    /**
-     * " Create a signature for a claiming transaction for a HTLC output on a remote commitment"
-     * " transaction, either offered or received."
-     * ""
-     * " Such a transaction may claim multiples offered outputs at same time if we know the"
-     * " preimage for each when we create it, but only the input at index `input` should be"
-     * " signed for here. It may be called multiple times for same output(s) if a fee-bump is"
-     * " needed with regards to an upcoming timelock expiration."
-     * ""
-     * " Witness_script is either a offered or received script as defined in BOLT3 for HTLC"
-     * " outputs."
-     * ""
-     * " Amount is value of the output spent by this input, committed to in the BIP 143 signature."
-     * ""
-     * " Per_commitment_point is the dynamic point corresponding to the channel state"
-     * " detected onchain. It has been generated by our counterparty and is used to derive"
-     * " channel state keys, which are then included in the witness script and committed to in the"
-     * " BIP 143 signature."
-     */
-    LDKCResult_SignatureNoneZ (*sign_remote_htlc_transaction)(const void *this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment *htlc);
-    /**
-     * " Create a signature for a (proposed) closing transaction."
-     * ""
-     * " Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have"
-     * " chosen to forgo their output as dust."
-     */
-    LDKCResult_SignatureNoneZ (*sign_closing_transaction)(const void *this_arg, LDKTransaction closing_tx);
-    /**
-     * " Signs a channel announcement message with our funding key, proving it comes from one"
-     * " of the channel participants."
-     * ""
-     * " Note that if this fails or is rejected, the channel will not be publicly announced and"
-     * " our counterparty may (though likely will not) close the channel on us for violating the"
-     * " protocol."
-     */
-    LDKCResult_SignatureNoneZ (*sign_channel_announcement)(const void *this_arg, const LDKUnsignedChannelAnnouncement *msg);
-    /**
-     * " Set the remote channel basepoints.  This is done immediately on incoming channels"
-     * " and as soon as the channel is accepted on outgoing channels."
-     * ""
-     * " Will be called before any signatures are applied."
-     */
-    void (*set_remote_channel_pubkeys)(void *this_arg, const LDKChannelPublicKeys *channel_points);
+   void *this_arg;
+   /**
+    * " Gets the commitment seed"
+    */
+   LDKThirtyTwoBytes commitment_seed;
+   /**
+    * Fill in the commitment_seed field as a reference to it will be given to Rust after this returns
+    * Note that this takes a pointer to this object, not the this_ptr like other methods do
+    */
+   void (*set_commitment_seed)(const LDKChannelKeys*);
+   /**
+    * " Gets the local channel public keys and basepoints"
+    */
+   LDKChannelPublicKeys pubkeys;
+   /**
+    * Fill in the pubkeys field as a reference to it will be given to Rust after this returns
+    * Note that this takes a pointer to this object, not the this_ptr like other methods do
+    */
+   void (*set_pubkeys)(const LDKChannelKeys*);
+   /**
+    * " Gets arbitrary identifiers describing the set of keys which are provided back to you in"
+    * " some SpendableOutputDescriptor types. These should be sufficient to identify this"
+    * " ChannelKeys object uniquely and lookup or re-derive its keys."
+    */
+   LDKC2Tuple_u64u64Z (*key_derivation_params)(const void *this_arg);
+   /**
+    * " Create a signature for a remote commitment transaction and associated HTLC transactions."
+    * ""
+    * " Note that if signing fails or is rejected, the channel will be force-closed."
+    */
+   LDKCResult_C2Tuple_SignatureCVec_SignatureZZNoneZ (*sign_remote_commitment)(const void *this_arg, uint64_t feerate_per_kw, LDKTransaction commitment_tx, const LDKTxCreationKeys *keys, LDKCHTLCOutputInCommitmentSlice htlcs, uint16_t to_self_delay);
+   /**
+    * " Create a signature for a local commitment transaction. This will only ever be called with"
+    * " the same local_commitment_tx (or a copy thereof), though there are currently no guarantees"
+    * " that it will not be called multiple times."
+    */
+   LDKCResult_SignatureNoneZ (*sign_local_commitment)(const void *this_arg, const LDKLocalCommitmentTransaction *local_commitment_tx);
+   /**
+    * " Create a signature for the given input in a transaction spending an HTLC or commitment"
+    * " transaction output when our counterparty broadcasts an old state."
+    * ""
+    * " A justice transaction may claim multiples outputs at the same time if timelocks are"
+    * " similar, but only a signature for the input at index `input` should be signed for here."
+    * " It may be called multiples time for same output(s) if a fee-bump is needed with regards"
+    * " to an upcoming timelock expiration."
+    * ""
+    * " Amount is value of the output spent by this input, committed to in the BIP 143 signature."
+    * ""
+    * " per_commitment_key is revocation secret which was provided by our counterparty when they"
+    * " revoked the state which they eventually broadcast. It's not a _local_ secret key and does"
+    * " not allow the spending of any funds by itself (you need our local revocation_secret to do"
+    * " so)."
+    * ""
+    * " htlc holds HTLC elements (hash, timelock) if the output being spent is a HTLC output, thus"
+    * " changing the format of the witness script (which is committed to in the BIP 143"
+    * " signatures)."
+    * ""
+    * " on_remote_tx_csv is the relative lock-time that that our counterparty would have to set on"
+    * " their transaction were they to spend the same output. It is included in the witness script"
+    * " and thus committed to in the BIP 143 signature."
+    */
+   LDKCResult_SignatureNoneZ (*sign_justice_transaction)(const void *this_arg, LDKTransaction justice_tx, uintptr_t input, uint64_t amount, const uint8_t (*per_commitment_key)[32], const LDKHTLCOutputInCommitment *htlc, uint16_t on_remote_tx_csv);
+   /**
+    * " Create a signature for a claiming transaction for a HTLC output on a remote commitment"
+    * " transaction, either offered or received."
+    * ""
+    * " Such a transaction may claim multiples offered outputs at same time if we know the"
+    * " preimage for each when we create it, but only the input at index `input` should be"
+    * " signed for here. It may be called multiple times for same output(s) if a fee-bump is"
+    * " needed with regards to an upcoming timelock expiration."
+    * ""
+    * " Witness_script is either a offered or received script as defined in BOLT3 for HTLC"
+    * " outputs."
+    * ""
+    * " Amount is value of the output spent by this input, committed to in the BIP 143 signature."
+    * ""
+    * " Per_commitment_point is the dynamic point corresponding to the channel state"
+    * " detected onchain. It has been generated by our counterparty and is used to derive"
+    * " channel state keys, which are then included in the witness script and committed to in the"
+    * " BIP 143 signature."
+    */
+   LDKCResult_SignatureNoneZ (*sign_remote_htlc_transaction)(const void *this_arg, LDKTransaction htlc_tx, uintptr_t input, uint64_t amount, LDKPublicKey per_commitment_point, const LDKHTLCOutputInCommitment *htlc);
+   /**
+    * " Create a signature for a (proposed) closing transaction."
+    * ""
+    * " Note that, due to rounding, there may be one \"missing\" satoshi, and either party may have"
+    * " chosen to forgo their output as dust."
+    */
+   LDKCResult_SignatureNoneZ (*sign_closing_transaction)(const void *this_arg, LDKTransaction closing_tx);
+   /**
+    * " Signs a channel announcement message with our funding key, proving it comes from one"
+    * " of the channel participants."
+    * ""
+    * " Note that if this fails or is rejected, the channel will not be publicly announced and"
+    * " our counterparty may (though likely will not) close the channel on us for violating the"
+    * " protocol."
+    */
+   LDKCResult_SignatureNoneZ (*sign_channel_announcement)(const void *this_arg, const LDKUnsignedChannelAnnouncement *msg);
+   /**
+    * " Set the remote channel basepoints.  This is done immediately on incoming channels"
+    * " and as soon as the channel is accepted on outgoing channels."
+    * ""
+    * " Will be called before any signatures are applied."
+    */
+   void (*set_remote_channel_pubkeys)(void *this_arg, const LDKChannelPublicKeys *channel_points);
 } LDKChannelKeys;
 
 
@@ -867,47 +1003,47 @@ typedef struct LDKChannelKeys {
  * " Cooperative closes may use seed/2'"
  * " The two close keys may be needed to claim on-chain funds!"
  */
-typedef struct LDKKeysManager {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnKeysManager *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKKeysManager {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnKeysManager *inner;
+   bool _underlying_ref;
 } LDKKeysManager;
 
 /**
  * " A trait to describe an object which can get user secrets and key material."
  */
 typedef struct LDKKeysInterface {
-    void *this_arg;
-    /**
-     * " Get node secret key (aka node_id or network_key)"
-     */
-    LDKSecretKey (*get_node_secret)(const void *this_arg);
-    /**
-     * " Get destination redeemScript to encumber static protocol exit points."
-     */
-    LDKCVec_u8Z (*get_destination_script)(const void *this_arg);
-    /**
-     * " Get shutdown_pubkey to use as PublicKey at channel closure"
-     */
-    LDKPublicKey (*get_shutdown_pubkey)(const void *this_arg);
-    /**
-     * " Get a new set of ChannelKeys for per-channel secrets. These MUST be unique even if you"
-     * " restarted with some stale data!"
-     */
-    LDKChannelKeys (*get_channel_keys)(const void *this_arg, bool inbound, uint64_t channel_value_satoshis);
-    /**
-     * " Get a secret and PRNG seed for constructing an onion packet"
-     */
-    LDKC2Tuple_SecretKey_u832Z (*get_onion_rand)(const void *this_arg);
-    /**
-     * " Get a unique temporary channel id. Channels will be referred to by this until the funding"
-     * " transaction is created, at which point they will use the outpoint in the funding"
-     * " transaction."
-     */
-    LDKThirtyTwoBytes (*get_channel_id)(const void *this_arg);
+   void *this_arg;
+   /**
+    * " Get node secret key (aka node_id or network_key)"
+    */
+   LDKSecretKey (*get_node_secret)(const void *this_arg);
+   /**
+    * " Get destination redeemScript to encumber static protocol exit points."
+    */
+   LDKCVec_u8Z (*get_destination_script)(const void *this_arg);
+   /**
+    * " Get shutdown_pubkey to use as PublicKey at channel closure"
+    */
+   LDKPublicKey (*get_shutdown_pubkey)(const void *this_arg);
+   /**
+    * " Get a new set of ChannelKeys for per-channel secrets. These MUST be unique even if you"
+    * " restarted with some stale data!"
+    */
+   LDKChannelKeys (*get_channel_keys)(const void *this_arg, bool inbound, uint64_t channel_value_satoshis);
+   /**
+    * " Get a secret and PRNG seed for constructing an onion packet"
+    */
+   LDKC2Tuple_SecretKey_u832Z (*get_onion_rand)(const void *this_arg);
+   /**
+    * " Get a unique temporary channel id. Channels will be referred to by this until the funding"
+    * " transaction is created, at which point they will use the outpoint in the funding"
+    * " transaction."
+    */
+   LDKThirtyTwoBytes (*get_channel_id)(const void *this_arg);
 } LDKKeysInterface;
 
 
@@ -924,13 +1060,13 @@ typedef struct LDKKeysInterface {
  * " reloaded at deserialize-time. Thus, you must ensure that, when handling events, all events"
  * " gotten are fully handled before re-serializing the new state."
  */
-typedef struct LDKChannelMonitor {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelMonitor *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelMonitor {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelMonitor *inner;
+   bool _underlying_ref;
 } LDKChannelMonitor;
 
 
@@ -939,13 +1075,13 @@ typedef struct LDKChannelMonitor {
  * " An update generated by the underlying Channel itself which contains some new information the"
  * " ChannelMonitor should be made aware of."
  */
-typedef struct LDKChannelMonitorUpdate {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelMonitorUpdate *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelMonitorUpdate {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelMonitorUpdate *inner;
+   bool _underlying_ref;
 } LDKChannelMonitorUpdate;
 
 
@@ -954,18 +1090,18 @@ typedef struct LDKChannelMonitorUpdate {
  * " Simple structure send back by ManyChannelMonitor in case of HTLC detected onchain from a"
  * " forward channel and from which info are needed to update HTLC in a backward channel."
  */
-typedef struct LDKHTLCUpdate {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnHTLCUpdate *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKHTLCUpdate {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnHTLCUpdate *inner;
+   bool _underlying_ref;
 } LDKHTLCUpdate;
 
 typedef struct LDKCVecTempl_HTLCUpdate {
-    LDKHTLCUpdate *data;
-    uintptr_t datalen;
+   LDKHTLCUpdate *data;
+   uintptr_t datalen;
 } LDKCVecTempl_HTLCUpdate;
 
 typedef LDKCVecTempl_HTLCUpdate LDKCVec_HTLCUpdateZ;
@@ -995,57 +1131,57 @@ typedef LDKCVecTempl_HTLCUpdate LDKCVec_HTLCUpdateZ;
  * " all registered listeners in one go."
  */
 typedef struct LDKManyChannelMonitor {
-    void *this_arg;
-    /**
-     * " Adds a monitor for the given `funding_txo`."
-     * ""
-     * " Implementer must also ensure that the funding_txo txid *and* outpoint are registered with"
-     * " any relevant ChainWatchInterfaces such that the provided monitor receives block_connected"
-     * " callbacks with the funding transaction, or any spends of it."
-     * ""
-     * " Further, the implementer must also ensure that each output returned in"
-     * " monitor.get_outputs_to_watch() is registered to ensure that the provided monitor learns about"
-     * " any spends of any of the outputs."
-     * ""
-     * " Any spends of outputs which should have been registered which aren't passed to"
-     * " ChannelMonitors via block_connected may result in FUNDS LOSS."
-     */
-    LDKCResult_NoneChannelMonitorUpdateErrZ (*add_monitor)(const void *this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor);
-    /**
-     * " Updates a monitor for the given `funding_txo`."
-     * ""
-     * " Implementer must also ensure that the funding_txo txid *and* outpoint are registered with"
-     * " any relevant ChainWatchInterfaces such that the provided monitor receives block_connected"
-     * " callbacks with the funding transaction, or any spends of it."
-     * ""
-     * " Further, the implementer must also ensure that each output returned in"
-     * " monitor.get_watch_outputs() is registered to ensure that the provided monitor learns about"
-     * " any spends of any of the outputs."
-     * ""
-     * " Any spends of outputs which should have been registered which aren't passed to"
-     * " ChannelMonitors via block_connected may result in FUNDS LOSS."
-     */
-    LDKCResult_NoneChannelMonitorUpdateErrZ (*update_monitor)(const void *this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate monitor);
-    /**
-     * " Used by ChannelManager to get list of HTLC resolved onchain and which needed to be updated"
-     * " with success or failure."
-     * ""
-     * " You should probably just call through to"
-     * " ChannelMonitor::get_and_clear_pending_htlcs_updated() for each ChannelMonitor and return"
-     * " the full list."
-     */
-    LDKCVec_HTLCUpdateZ (*get_and_clear_pending_htlcs_updated)(const void *this_arg);
+   void *this_arg;
+   /**
+    * " Adds a monitor for the given `funding_txo`."
+    * ""
+    * " Implementer must also ensure that the funding_txo txid *and* outpoint are registered with"
+    * " any relevant ChainWatchInterfaces such that the provided monitor receives block_connected"
+    * " callbacks with the funding transaction, or any spends of it."
+    * ""
+    * " Further, the implementer must also ensure that each output returned in"
+    * " monitor.get_outputs_to_watch() is registered to ensure that the provided monitor learns about"
+    * " any spends of any of the outputs."
+    * ""
+    * " Any spends of outputs which should have been registered which aren't passed to"
+    * " ChannelMonitors via block_connected may result in FUNDS LOSS."
+    */
+   LDKCResult_NoneChannelMonitorUpdateErrZ (*add_monitor)(const void *this_arg, LDKOutPoint funding_txo, LDKChannelMonitor monitor);
+   /**
+    * " Updates a monitor for the given `funding_txo`."
+    * ""
+    * " Implementer must also ensure that the funding_txo txid *and* outpoint are registered with"
+    * " any relevant ChainWatchInterfaces such that the provided monitor receives block_connected"
+    * " callbacks with the funding transaction, or any spends of it."
+    * ""
+    * " Further, the implementer must also ensure that each output returned in"
+    * " monitor.get_watch_outputs() is registered to ensure that the provided monitor learns about"
+    * " any spends of any of the outputs."
+    * ""
+    * " Any spends of outputs which should have been registered which aren't passed to"
+    * " ChannelMonitors via block_connected may result in FUNDS LOSS."
+    */
+   LDKCResult_NoneChannelMonitorUpdateErrZ (*update_monitor)(const void *this_arg, LDKOutPoint funding_txo, LDKChannelMonitorUpdate monitor);
+   /**
+    * " Used by ChannelManager to get list of HTLC resolved onchain and which needed to be updated"
+    * " with success or failure."
+    * ""
+    * " You should probably just call through to"
+    * " ChannelMonitor::get_and_clear_pending_htlcs_updated() for each ChannelMonitor and return"
+    * " the full list."
+    */
+   LDKCVec_HTLCUpdateZ (*get_and_clear_pending_htlcs_updated)(const void *this_arg);
 } LDKManyChannelMonitor;
 
 /**
  * " An interface to send a transaction to the Bitcoin network."
  */
 typedef struct LDKBroadcasterInterface {
-    void *this_arg;
-    /**
-     * " Sends a transaction out to (hopefully) be mined."
-     */
-    void (*broadcast_transaction)(const void *this_arg, LDKTransaction tx);
+   void *this_arg;
+   /**
+    * " Sends a transaction out to (hopefully) be mined."
+    */
+   void (*broadcast_transaction)(const void *this_arg, LDKTransaction tx);
 } LDKBroadcasterInterface;
 
 /**
@@ -1057,29 +1193,29 @@ typedef struct LDKBroadcasterInterface {
  * " events)."
  */
 typedef struct LDKFeeEstimator {
-    void *this_arg;
-    /**
-     * " Gets estimated satoshis of fee required per 1000 Weight-Units."
-     * ""
-     * " Must be no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later round-downs"
-     * " don't put us below 1 satoshi-per-byte)."
-     * ""
-     * " This translates to:"
-     * "  * satoshis-per-byte * 250"
-     * "  * ceil(satoshis-per-kbyte / 4)"
-     */
-    uint64_t (*get_est_sat_per_1000_weight)(const void *this_arg, LDKConfirmationTarget confirmation_target);
+   void *this_arg;
+   /**
+    * " Gets estimated satoshis of fee required per 1000 Weight-Units."
+    * ""
+    * " Must be no smaller than 253 (ie 1 satoshi-per-byte rounded up to ensure later round-downs"
+    * " don't put us below 1 satoshi-per-byte)."
+    * ""
+    * " This translates to:"
+    * "  * satoshis-per-byte * 250"
+    * "  * ceil(satoshis-per-kbyte / 4)"
+    */
+   uint64_t (*get_est_sat_per_1000_weight)(const void *this_arg, LDKConfirmationTarget confirmation_target);
 } LDKFeeEstimator;
 
 /**
  * " A trait encapsulating the operations required of a logger"
  */
 typedef struct LDKLogger {
-    void *this_arg;
-    /**
-     * " Logs the `Record`"
-     */
-    void (*log)(const void *this_arg, const char *record);
+   void *this_arg;
+   /**
+    * " Logs the `Record`"
+    */
+   void (*log)(const void *this_arg, const char *record);
 } LDKLogger;
 
 
@@ -1122,13 +1258,13 @@ typedef struct LDKLogger {
  * " SimpleArcChannelManager when you require a ChannelManager with a static lifetime, such as when"
  * " you're using lightning-net-tokio."
  */
-typedef struct LDKChannelManager {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelManager *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelManager {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelManager *inner;
+   bool _underlying_ref;
 } LDKChannelManager;
 
 
@@ -1136,13 +1272,13 @@ typedef struct LDKChannelManager {
 /**
  * " Details of a channel, as returned by ChannelManager::list_channels and ChannelManager::list_usable_channels"
  */
-typedef struct LDKChannelDetails {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelDetails *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelDetails {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelDetails *inner;
+   bool _underlying_ref;
 } LDKChannelDetails;
 
 
@@ -1150,18 +1286,18 @@ typedef struct LDKChannelDetails {
 /**
  * " Features used within an `init` message."
  */
-typedef struct LDKInitFeatures {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnInitFeatures *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKInitFeatures {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnInitFeatures *inner;
+   bool _underlying_ref;
 } LDKInitFeatures;
 
 typedef struct LDKCVecTempl_ChannelDetails {
-    LDKChannelDetails *data;
-    uintptr_t datalen;
+   LDKChannelDetails *data;
+   uintptr_t datalen;
 } LDKCVecTempl_ChannelDetails;
 
 typedef LDKCVecTempl_ChannelDetails LDKCVec_ChannelDetailsZ;
@@ -1172,17 +1308,17 @@ typedef LDKCVecTempl_ChannelDetails LDKCVec_ChannelDetailsZ;
  * " A route directs a payment from the sender (us) to the recipient. If the recipient supports MPP,"
  * " it can take multiple paths. Each path is composed of one or more hops through the network."
  */
-typedef struct LDKRoute {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnRoute *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKRoute {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnRoute *inner;
+   bool _underlying_ref;
 } LDKRoute;
 
 typedef struct LDKThreeBytes {
-    uint8_t data[3];
+   uint8_t data[3];
 } LDKThreeBytes;
 
 
@@ -1190,25 +1326,25 @@ typedef struct LDKThreeBytes {
 /**
  * " An address which can be used to connect to a remote peer"
  */
-typedef struct LDKNetAddress {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNetAddress *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNetAddress {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNetAddress *inner;
+   bool _underlying_ref;
 } LDKNetAddress;
 
 typedef struct LDKCVecTempl_NetAddress {
-    LDKNetAddress *data;
-    uintptr_t datalen;
+   LDKNetAddress *data;
+   uintptr_t datalen;
 } LDKCVecTempl_NetAddress;
 
 typedef LDKCVecTempl_NetAddress LDKCVec_NetAddressZ;
 
 typedef struct LDKCVecTempl_Event {
-    LDKEvent *data;
-    uintptr_t datalen;
+   LDKEvent *data;
+   uintptr_t datalen;
 } LDKCVecTempl_Event;
 
 typedef LDKCVecTempl_Event LDKCVec_EventZ;
@@ -1217,12 +1353,12 @@ typedef LDKCVecTempl_Event LDKCVec_EventZ;
  * " A trait indicating an object may generate events"
  */
 typedef struct LDKEventsProvider {
-    void *this_arg;
-    /**
-     * " Gets the list of pending events which were generated by previous actions, clearing the list"
-     * " in the process."
-     */
-    LDKCVec_EventZ (*get_and_clear_pending_events)(const void *this_arg);
+   void *this_arg;
+   /**
+    * " Gets the list of pending events which were generated by previous actions, clearing the list"
+    * " in the process."
+    */
+   LDKCVec_EventZ (*get_and_clear_pending_events)(const void *this_arg);
 } LDKEventsProvider;
 
 
@@ -1230,13 +1366,13 @@ typedef struct LDKEventsProvider {
 /**
  * " An open_channel message to be sent or received from a peer"
  */
-typedef struct LDKOpenChannel {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnOpenChannel *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKOpenChannel {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnOpenChannel *inner;
+   bool _underlying_ref;
 } LDKOpenChannel;
 
 
@@ -1244,13 +1380,13 @@ typedef struct LDKOpenChannel {
 /**
  * " An accept_channel message to be sent or received from a peer"
  */
-typedef struct LDKAcceptChannel {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnAcceptChannel *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKAcceptChannel {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnAcceptChannel *inner;
+   bool _underlying_ref;
 } LDKAcceptChannel;
 
 
@@ -1258,13 +1394,13 @@ typedef struct LDKAcceptChannel {
 /**
  * " A funding_created message to be sent or received from a peer"
  */
-typedef struct LDKFundingCreated {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnFundingCreated *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKFundingCreated {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnFundingCreated *inner;
+   bool _underlying_ref;
 } LDKFundingCreated;
 
 
@@ -1272,13 +1408,13 @@ typedef struct LDKFundingCreated {
 /**
  * " A funding_signed message to be sent or received from a peer"
  */
-typedef struct LDKFundingSigned {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnFundingSigned *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKFundingSigned {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnFundingSigned *inner;
+   bool _underlying_ref;
 } LDKFundingSigned;
 
 
@@ -1286,13 +1422,13 @@ typedef struct LDKFundingSigned {
 /**
  * " A funding_locked message to be sent or received from a peer"
  */
-typedef struct LDKFundingLocked {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnFundingLocked *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKFundingLocked {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnFundingLocked *inner;
+   bool _underlying_ref;
 } LDKFundingLocked;
 
 
@@ -1300,13 +1436,13 @@ typedef struct LDKFundingLocked {
 /**
  * " A shutdown message to be sent or received from a peer"
  */
-typedef struct LDKShutdown {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnShutdown *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKShutdown {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnShutdown *inner;
+   bool _underlying_ref;
 } LDKShutdown;
 
 
@@ -1314,13 +1450,13 @@ typedef struct LDKShutdown {
 /**
  * " A closing_signed message to be sent or received from a peer"
  */
-typedef struct LDKClosingSigned {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnClosingSigned *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKClosingSigned {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnClosingSigned *inner;
+   bool _underlying_ref;
 } LDKClosingSigned;
 
 
@@ -1328,13 +1464,13 @@ typedef struct LDKClosingSigned {
 /**
  * " An update_add_htlc message to be sent or received from a peer"
  */
-typedef struct LDKUpdateAddHTLC {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUpdateAddHTLC *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUpdateAddHTLC {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUpdateAddHTLC *inner;
+   bool _underlying_ref;
 } LDKUpdateAddHTLC;
 
 
@@ -1342,13 +1478,13 @@ typedef struct LDKUpdateAddHTLC {
 /**
  * " An update_fulfill_htlc message to be sent or received from a peer"
  */
-typedef struct LDKUpdateFulfillHTLC {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUpdateFulfillHTLC *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUpdateFulfillHTLC {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUpdateFulfillHTLC *inner;
+   bool _underlying_ref;
 } LDKUpdateFulfillHTLC;
 
 
@@ -1356,13 +1492,13 @@ typedef struct LDKUpdateFulfillHTLC {
 /**
  * " An update_fail_htlc message to be sent or received from a peer"
  */
-typedef struct LDKUpdateFailHTLC {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUpdateFailHTLC *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUpdateFailHTLC {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUpdateFailHTLC *inner;
+   bool _underlying_ref;
 } LDKUpdateFailHTLC;
 
 
@@ -1370,13 +1506,13 @@ typedef struct LDKUpdateFailHTLC {
 /**
  * " An update_fail_malformed_htlc message to be sent or received from a peer"
  */
-typedef struct LDKUpdateFailMalformedHTLC {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUpdateFailMalformedHTLC *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUpdateFailMalformedHTLC {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUpdateFailMalformedHTLC *inner;
+   bool _underlying_ref;
 } LDKUpdateFailMalformedHTLC;
 
 
@@ -1384,13 +1520,13 @@ typedef struct LDKUpdateFailMalformedHTLC {
 /**
  * " A commitment_signed message to be sent or received from a peer"
  */
-typedef struct LDKCommitmentSigned {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnCommitmentSigned *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKCommitmentSigned {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnCommitmentSigned *inner;
+   bool _underlying_ref;
 } LDKCommitmentSigned;
 
 
@@ -1398,13 +1534,13 @@ typedef struct LDKCommitmentSigned {
 /**
  * " A revoke_and_ack message to be sent or received from a peer"
  */
-typedef struct LDKRevokeAndACK {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnRevokeAndACK *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKRevokeAndACK {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnRevokeAndACK *inner;
+   bool _underlying_ref;
 } LDKRevokeAndACK;
 
 
@@ -1412,13 +1548,13 @@ typedef struct LDKRevokeAndACK {
 /**
  * " An update_fee message to be sent or received from a peer"
  */
-typedef struct LDKUpdateFee {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUpdateFee *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUpdateFee {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUpdateFee *inner;
+   bool _underlying_ref;
 } LDKUpdateFee;
 
 
@@ -1426,13 +1562,13 @@ typedef struct LDKUpdateFee {
 /**
  * " An announcement_signatures message to be sent or received from a peer"
  */
-typedef struct LDKAnnouncementSignatures {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnAnnouncementSignatures *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKAnnouncementSignatures {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnAnnouncementSignatures *inner;
+   bool _underlying_ref;
 } LDKAnnouncementSignatures;
 
 
@@ -1440,13 +1576,13 @@ typedef struct LDKAnnouncementSignatures {
 /**
  * " An init message to be sent or received from a peer"
  */
-typedef struct LDKInit {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnInit *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKInit {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnInit *inner;
+   bool _underlying_ref;
 } LDKInit;
 
 
@@ -1454,13 +1590,13 @@ typedef struct LDKInit {
 /**
  * " A channel_reestablish message to be sent or received from a peer"
  */
-typedef struct LDKChannelReestablish {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelReestablish *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelReestablish {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelReestablish *inner;
+   bool _underlying_ref;
 } LDKChannelReestablish;
 
 
@@ -1468,18 +1604,18 @@ typedef struct LDKChannelReestablish {
 /**
  * " An error message to be sent or received from a peer"
  */
-typedef struct LDKErrorMessage {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnErrorMessage *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKErrorMessage {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnErrorMessage *inner;
+   bool _underlying_ref;
 } LDKErrorMessage;
 
 typedef struct LDKCVecTempl_MessageSendEvent {
-    LDKMessageSendEvent *data;
-    uintptr_t datalen;
+   LDKMessageSendEvent *data;
+   uintptr_t datalen;
 } LDKCVecTempl_MessageSendEvent;
 
 typedef LDKCVecTempl_MessageSendEvent LDKCVec_MessageSendEventZ;
@@ -1488,12 +1624,12 @@ typedef LDKCVecTempl_MessageSendEvent LDKCVec_MessageSendEventZ;
  * " A trait indicating an object may generate message send events"
  */
 typedef struct LDKMessageSendEventsProvider {
-    void *this_arg;
-    /**
-     * " Gets the list of pending events which were generated by previous actions, clearing the list"
-     * " in the process."
-     */
-    LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);
+   void *this_arg;
+   /**
+    * " Gets the list of pending events which were generated by previous actions, clearing the list"
+    * " in the process."
+    */
+   LDKCVec_MessageSendEventZ (*get_and_clear_pending_msg_events)(const void *this_arg);
 } LDKMessageSendEventsProvider;
 
 /**
@@ -1503,87 +1639,87 @@ typedef struct LDKMessageSendEventsProvider {
  * " they MUST NOT be called in parallel when the two calls have the same their_node_id."
  */
 typedef struct LDKChannelMessageHandler {
-    void *this_arg;
-    /**
-     * " Handle an incoming open_channel message from the given peer."
-     */
-    void (*handle_open_channel)(const void *this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel *msg);
-    /**
-     * " Handle an incoming accept_channel message from the given peer."
-     */
-    void (*handle_accept_channel)(const void *this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel *msg);
-    /**
-     * " Handle an incoming funding_created message from the given peer."
-     */
-    void (*handle_funding_created)(const void *this_arg, LDKPublicKey their_node_id, const LDKFundingCreated *msg);
-    /**
-     * " Handle an incoming funding_signed message from the given peer."
-     */
-    void (*handle_funding_signed)(const void *this_arg, LDKPublicKey their_node_id, const LDKFundingSigned *msg);
-    /**
-     * " Handle an incoming funding_locked message from the given peer."
-     */
-    void (*handle_funding_locked)(const void *this_arg, LDKPublicKey their_node_id, const LDKFundingLocked *msg);
-    /**
-     * " Handle an incoming shutdown message from the given peer."
-     */
-    void (*handle_shutdown)(const void *this_arg, LDKPublicKey their_node_id, const LDKShutdown *msg);
-    /**
-     * " Handle an incoming closing_signed message from the given peer."
-     */
-    void (*handle_closing_signed)(const void *this_arg, LDKPublicKey their_node_id, const LDKClosingSigned *msg);
-    /**
-     * " Handle an incoming update_add_htlc message from the given peer."
-     */
-    void (*handle_update_add_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC *msg);
-    /**
-     * " Handle an incoming update_fulfill_htlc message from the given peer."
-     */
-    void (*handle_update_fulfill_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC *msg);
-    /**
-     * " Handle an incoming update_fail_htlc message from the given peer."
-     */
-    void (*handle_update_fail_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC *msg);
-    /**
-     * " Handle an incoming update_fail_malformed_htlc message from the given peer."
-     */
-    void (*handle_update_fail_malformed_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC *msg);
-    /**
-     * " Handle an incoming commitment_signed message from the given peer."
-     */
-    void (*handle_commitment_signed)(const void *this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned *msg);
-    /**
-     * " Handle an incoming revoke_and_ack message from the given peer."
-     */
-    void (*handle_revoke_and_ack)(const void *this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK *msg);
-    /**
-     * " Handle an incoming update_fee message from the given peer."
-     */
-    void (*handle_update_fee)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFee *msg);
-    /**
-     * " Handle an incoming announcement_signatures message from the given peer."
-     */
-    void (*handle_announcement_signatures)(const void *this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures *msg);
-    /**
-     * " Indicates a connection to the peer failed/an existing connection was lost. If no connection"
-     * " is believed to be possible in the future (eg they're sending us messages we don't"
-     * " understand or indicate they require unknown feature bits), no_connection_possible is set"
-     * " and any outstanding channels should be failed."
-     */
-    void (*peer_disconnected)(const void *this_arg, LDKPublicKey their_node_id, bool no_connection_possible);
-    /**
-     * " Handle a peer reconnecting, possibly generating channel_reestablish message(s)."
-     */
-    void (*peer_connected)(const void *this_arg, LDKPublicKey their_node_id, const LDKInit *msg);
-    /**
-     * " Handle an incoming channel_reestablish message from the given peer."
-     */
-    void (*handle_channel_reestablish)(const void *this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish *msg);
-    /**
-     * " Handle an incoming error message from the given peer."
-     */
-    void (*handle_error)(const void *this_arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg);
-    LDKMessageSendEventsProvider MessageSendEventsProvider;
+   void *this_arg;
+   /**
+    * " Handle an incoming open_channel message from the given peer."
+    */
+   void (*handle_open_channel)(const void *this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKOpenChannel *msg);
+   /**
+    * " Handle an incoming accept_channel message from the given peer."
+    */
+   void (*handle_accept_channel)(const void *this_arg, LDKPublicKey their_node_id, LDKInitFeatures their_features, const LDKAcceptChannel *msg);
+   /**
+    * " Handle an incoming funding_created message from the given peer."
+    */
+   void (*handle_funding_created)(const void *this_arg, LDKPublicKey their_node_id, const LDKFundingCreated *msg);
+   /**
+    * " Handle an incoming funding_signed message from the given peer."
+    */
+   void (*handle_funding_signed)(const void *this_arg, LDKPublicKey their_node_id, const LDKFundingSigned *msg);
+   /**
+    * " Handle an incoming funding_locked message from the given peer."
+    */
+   void (*handle_funding_locked)(const void *this_arg, LDKPublicKey their_node_id, const LDKFundingLocked *msg);
+   /**
+    * " Handle an incoming shutdown message from the given peer."
+    */
+   void (*handle_shutdown)(const void *this_arg, LDKPublicKey their_node_id, const LDKShutdown *msg);
+   /**
+    * " Handle an incoming closing_signed message from the given peer."
+    */
+   void (*handle_closing_signed)(const void *this_arg, LDKPublicKey their_node_id, const LDKClosingSigned *msg);
+   /**
+    * " Handle an incoming update_add_htlc message from the given peer."
+    */
+   void (*handle_update_add_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateAddHTLC *msg);
+   /**
+    * " Handle an incoming update_fulfill_htlc message from the given peer."
+    */
+   void (*handle_update_fulfill_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFulfillHTLC *msg);
+   /**
+    * " Handle an incoming update_fail_htlc message from the given peer."
+    */
+   void (*handle_update_fail_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFailHTLC *msg);
+   /**
+    * " Handle an incoming update_fail_malformed_htlc message from the given peer."
+    */
+   void (*handle_update_fail_malformed_htlc)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFailMalformedHTLC *msg);
+   /**
+    * " Handle an incoming commitment_signed message from the given peer."
+    */
+   void (*handle_commitment_signed)(const void *this_arg, LDKPublicKey their_node_id, const LDKCommitmentSigned *msg);
+   /**
+    * " Handle an incoming revoke_and_ack message from the given peer."
+    */
+   void (*handle_revoke_and_ack)(const void *this_arg, LDKPublicKey their_node_id, const LDKRevokeAndACK *msg);
+   /**
+    * " Handle an incoming update_fee message from the given peer."
+    */
+   void (*handle_update_fee)(const void *this_arg, LDKPublicKey their_node_id, const LDKUpdateFee *msg);
+   /**
+    * " Handle an incoming announcement_signatures message from the given peer."
+    */
+   void (*handle_announcement_signatures)(const void *this_arg, LDKPublicKey their_node_id, const LDKAnnouncementSignatures *msg);
+   /**
+    * " Indicates a connection to the peer failed/an existing connection was lost. If no connection"
+    * " is believed to be possible in the future (eg they're sending us messages we don't"
+    * " understand or indicate they require unknown feature bits), no_connection_possible is set"
+    * " and any outstanding channels should be failed."
+    */
+   void (*peer_disconnected)(const void *this_arg, LDKPublicKey their_node_id, bool no_connection_possible);
+   /**
+    * " Handle a peer reconnecting, possibly generating channel_reestablish message(s)."
+    */
+   void (*peer_connected)(const void *this_arg, LDKPublicKey their_node_id, const LDKInit *msg);
+   /**
+    * " Handle an incoming channel_reestablish message from the given peer."
+    */
+   void (*handle_channel_reestablish)(const void *this_arg, LDKPublicKey their_node_id, const LDKChannelReestablish *msg);
+   /**
+    * " Handle an incoming error message from the given peer."
+    */
+   void (*handle_error)(const void *this_arg, LDKPublicKey their_node_id, const LDKErrorMessage *msg);
+   LDKMessageSendEventsProvider MessageSendEventsProvider;
 } LDKChannelMessageHandler;
 
 
@@ -1595,13 +1731,13 @@ typedef struct LDKChannelMessageHandler {
  * " corrupted."
  * " Contains a human-readable error message."
  */
-typedef struct LDKMonitorUpdateError {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnMonitorUpdateError *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKMonitorUpdateError {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnMonitorUpdateError *inner;
+   bool _underlying_ref;
 } LDKMonitorUpdateError;
 
 
@@ -1609,13 +1745,13 @@ typedef struct LDKMonitorUpdateError {
 /**
  * " An error in decoding a message or struct."
  */
-typedef struct LDKDecodeError {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnDecodeError *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKDecodeError {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnDecodeError *inner;
+   bool _underlying_ref;
 } LDKDecodeError;
 
 
@@ -1623,13 +1759,13 @@ typedef struct LDKDecodeError {
 /**
  * " A ping message to be sent or received from a peer"
  */
-typedef struct LDKPing {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnPing *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKPing {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnPing *inner;
+   bool _underlying_ref;
 } LDKPing;
 
 
@@ -1637,13 +1773,13 @@ typedef struct LDKPing {
 /**
  * " A pong message to be sent or received from a peer"
  */
-typedef struct LDKPong {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnPong *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKPong {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnPong *inner;
+   bool _underlying_ref;
 } LDKPong;
 
 
@@ -1651,13 +1787,13 @@ typedef struct LDKPong {
 /**
  * " The unsigned part of a node_announcement"
  */
-typedef struct LDKUnsignedNodeAnnouncement {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnUnsignedNodeAnnouncement *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKUnsignedNodeAnnouncement {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnUnsignedNodeAnnouncement *inner;
+   bool _underlying_ref;
 } LDKUnsignedNodeAnnouncement;
 
 
@@ -1665,13 +1801,13 @@ typedef struct LDKUnsignedNodeAnnouncement {
 /**
  * " A node_announcement message to be sent or received from a peer"
  */
-typedef struct LDKNodeAnnouncement {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNodeAnnouncement *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNodeAnnouncement {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNodeAnnouncement *inner;
+   bool _underlying_ref;
 } LDKNodeAnnouncement;
 
 
@@ -1679,13 +1815,13 @@ typedef struct LDKNodeAnnouncement {
 /**
  * " An Err type for failure to process messages."
  */
-typedef struct LDKLightningError {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnLightningError *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKLightningError {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnLightningError *inner;
+   bool _underlying_ref;
 } LDKLightningError;
 
 
@@ -1694,81 +1830,112 @@ typedef struct LDKLightningError {
  * " Struct used to return values from revoke_and_ack messages, containing a bunch of commitment"
  * " transaction updates if they were pending."
  */
-typedef struct LDKCommitmentUpdate {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnCommitmentUpdate *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKCommitmentUpdate {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnCommitmentUpdate *inner;
+   bool _underlying_ref;
 } LDKCommitmentUpdate;
 
 typedef struct LDKCVecTempl_UpdateAddHTLC {
-    LDKUpdateAddHTLC *data;
-    uintptr_t datalen;
+   LDKUpdateAddHTLC *data;
+   uintptr_t datalen;
 } LDKCVecTempl_UpdateAddHTLC;
 
 typedef LDKCVecTempl_UpdateAddHTLC LDKCVec_UpdateAddHTLCZ;
 
 typedef struct LDKCVecTempl_UpdateFulfillHTLC {
-    LDKUpdateFulfillHTLC *data;
-    uintptr_t datalen;
+   LDKUpdateFulfillHTLC *data;
+   uintptr_t datalen;
 } LDKCVecTempl_UpdateFulfillHTLC;
 
 typedef LDKCVecTempl_UpdateFulfillHTLC LDKCVec_UpdateFulfillHTLCZ;
 
 typedef struct LDKCVecTempl_UpdateFailHTLC {
-    LDKUpdateFailHTLC *data;
-    uintptr_t datalen;
+   LDKUpdateFailHTLC *data;
+   uintptr_t datalen;
 } LDKCVecTempl_UpdateFailHTLC;
 
 typedef LDKCVecTempl_UpdateFailHTLC LDKCVec_UpdateFailHTLCZ;
 
 typedef struct LDKCVecTempl_UpdateFailMalformedHTLC {
-    LDKUpdateFailMalformedHTLC *data;
-    uintptr_t datalen;
+   LDKUpdateFailMalformedHTLC *data;
+   uintptr_t datalen;
 } LDKCVecTempl_UpdateFailMalformedHTLC;
 
 typedef LDKCVecTempl_UpdateFailMalformedHTLC LDKCVec_UpdateFailMalformedHTLCZ;
-
-
 
 /**
  * " The information we received from a peer along the route of a payment we originated. This is"
  * " returned by ChannelMessageHandler::handle_update_fail_htlc to be passed into"
  * " RoutingMessageHandler::handle_htlc_fail_channel_update to update our network map."
  */
+typedef enum LDKHTLCFailChannelUpdate_Tag {
+   /**
+    * " We received an error which included a full ChannelUpdate message."
+    */
+   LDKHTLCFailChannelUpdate_ChannelUpdateMessage,
+   /**
+    * " We received an error which indicated only that a channel has been closed"
+    */
+   LDKHTLCFailChannelUpdate_ChannelClosed,
+   /**
+    * " We received an error which indicated only that a node has failed"
+    */
+   LDKHTLCFailChannelUpdate_NodeFailure,
+   /**
+    * Must be last for serialization purposes
+    */
+   LDKHTLCFailChannelUpdate_Sentinel,
+} LDKHTLCFailChannelUpdate_Tag;
+
+typedef struct LDKHTLCFailChannelUpdate_LDKChannelUpdateMessage_Body {
+   LDKChannelUpdate msg;
+} LDKHTLCFailChannelUpdate_LDKChannelUpdateMessage_Body;
+
+typedef struct LDKHTLCFailChannelUpdate_LDKChannelClosed_Body {
+   uint64_t short_channel_id;
+   bool is_permanent;
+} LDKHTLCFailChannelUpdate_LDKChannelClosed_Body;
+
+typedef struct LDKHTLCFailChannelUpdate_LDKNodeFailure_Body {
+   LDKPublicKey node_id;
+   bool is_permanent;
+} LDKHTLCFailChannelUpdate_LDKNodeFailure_Body;
+
 typedef struct LDKHTLCFailChannelUpdate {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnHTLCFailChannelUpdate *inner;
-    bool _underlying_ref;
+   LDKHTLCFailChannelUpdate_Tag tag;
+   union {
+      LDKHTLCFailChannelUpdate_LDKChannelUpdateMessage_Body channel_update_message;
+      LDKHTLCFailChannelUpdate_LDKChannelClosed_Body channel_closed;
+      LDKHTLCFailChannelUpdate_LDKNodeFailure_Body node_failure;
+   };
 } LDKHTLCFailChannelUpdate;
 
 typedef union LDKCResultPtr_bool__LightningError {
-    bool *result;
-    LDKLightningError *err;
+   bool *result;
+   LDKLightningError *err;
 } LDKCResultPtr_bool__LightningError;
 
 typedef struct LDKCResultTempl_bool__LightningError {
-    LDKCResultPtr_bool__LightningError contents;
-    bool result_good;
+   LDKCResultPtr_bool__LightningError contents;
+   bool result_good;
 } LDKCResultTempl_bool__LightningError;
 
 typedef LDKCResultTempl_bool__LightningError LDKCResult_boolLightningErrorZ;
 
 typedef struct LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate {
-    LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate *data;
-    uintptr_t datalen;
+   LDKC3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate *data;
+   uintptr_t datalen;
 } LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate;
 
 typedef LDKCVecTempl_C3TupleTempl_ChannelAnnouncement__ChannelUpdate__ChannelUpdate LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ;
 
 typedef struct LDKCVecTempl_NodeAnnouncement {
-    LDKNodeAnnouncement *data;
-    uintptr_t datalen;
+   LDKNodeAnnouncement *data;
+   uintptr_t datalen;
 } LDKCVecTempl_NodeAnnouncement;
 
 typedef LDKCVecTempl_NodeAnnouncement LDKCVec_NodeAnnouncementZ;
@@ -1777,43 +1944,43 @@ typedef LDKCVecTempl_NodeAnnouncement LDKCVec_NodeAnnouncementZ;
  * " A trait to describe an object which can receive routing messages."
  */
 typedef struct LDKRoutingMessageHandler {
-    void *this_arg;
-    /**
-     * " Handle an incoming node_announcement message, returning true if it should be forwarded on,"
-     * " false or returning an Err otherwise."
-     */
-    LDKCResult_boolLightningErrorZ (*handle_node_announcement)(const void *this_arg, const LDKNodeAnnouncement *msg);
-    /**
-     * " Handle a channel_announcement message, returning true if it should be forwarded on, false"
-     * " or returning an Err otherwise."
-     */
-    LDKCResult_boolLightningErrorZ (*handle_channel_announcement)(const void *this_arg, const LDKChannelAnnouncement *msg);
-    /**
-     * " Handle an incoming channel_update message, returning true if it should be forwarded on,"
-     * " false or returning an Err otherwise."
-     */
-    LDKCResult_boolLightningErrorZ (*handle_channel_update)(const void *this_arg, const LDKChannelUpdate *msg);
-    /**
-     * " Handle some updates to the route graph that we learned due to an outbound failed payment."
-     */
-    void (*handle_htlc_fail_channel_update)(const void *this_arg, const LDKHTLCFailChannelUpdate *update);
-    /**
-     * " Gets a subset of the channel announcements and updates required to dump our routing table"
-     * " to a remote node, starting at the short_channel_id indicated by starting_point and"
-     * " including the batch_amount entries immediately higher in numerical value than starting_point."
-     */
-    LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ (*get_next_channel_announcements)(const void *this_arg, uint64_t starting_point, uint8_t batch_amount);
-    /**
-     * " Gets a subset of the node announcements required to dump our routing table to a remote node,"
-     * " starting at the node *after* the provided publickey and including batch_amount entries"
-     * " immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point."
-     * " If None is provided for starting_point, we start at the first node."
-     */
-    LDKCVec_NodeAnnouncementZ (*get_next_node_announcements)(const void *this_arg, const LDKPublicKey *starting_point, uint8_t batch_amount);
-    /**
-     * " Returns whether a full sync should be requested from a peer."
-     */
-    bool (*should_request_full_sync)(const void *this_arg, LDKPublicKey node_id);
+   void *this_arg;
+   /**
+    * " Handle an incoming node_announcement message, returning true if it should be forwarded on,"
+    * " false or returning an Err otherwise."
+    */
+   LDKCResult_boolLightningErrorZ (*handle_node_announcement)(const void *this_arg, const LDKNodeAnnouncement *msg);
+   /**
+    * " Handle a channel_announcement message, returning true if it should be forwarded on, false"
+    * " or returning an Err otherwise."
+    */
+   LDKCResult_boolLightningErrorZ (*handle_channel_announcement)(const void *this_arg, const LDKChannelAnnouncement *msg);
+   /**
+    * " Handle an incoming channel_update message, returning true if it should be forwarded on,"
+    * " false or returning an Err otherwise."
+    */
+   LDKCResult_boolLightningErrorZ (*handle_channel_update)(const void *this_arg, const LDKChannelUpdate *msg);
+   /**
+    * " Handle some updates to the route graph that we learned due to an outbound failed payment."
+    */
+   void (*handle_htlc_fail_channel_update)(const void *this_arg, const LDKHTLCFailChannelUpdate *update);
+   /**
+    * " Gets a subset of the channel announcements and updates required to dump our routing table"
+    * " to a remote node, starting at the short_channel_id indicated by starting_point and"
+    * " including the batch_amount entries immediately higher in numerical value than starting_point."
+    */
+   LDKCVec_C3Tuple_ChannelAnnouncementChannelUpdateChannelUpdateZZ (*get_next_channel_announcements)(const void *this_arg, uint64_t starting_point, uint8_t batch_amount);
+   /**
+    * " Gets a subset of the node announcements required to dump our routing table to a remote node,"
+    * " starting at the node *after* the provided publickey and including batch_amount entries"
+    * " immediately higher (as defined by <PublicKey as Ord>::cmp) than starting_point."
+    * " If None is provided for starting_point, we start at the first node."
+    */
+   LDKCVec_NodeAnnouncementZ (*get_next_node_announcements)(const void *this_arg, const LDKPublicKey *starting_point, uint8_t batch_amount);
+   /**
+    * " Returns whether a full sync should be requested from a peer."
+    */
+   bool (*should_request_full_sync)(const void *this_arg, LDKPublicKey node_id);
 } LDKRoutingMessageHandler;
 
 
@@ -1821,13 +1988,13 @@ typedef struct LDKRoutingMessageHandler {
 /**
  * " Provides references to trait impls which handle different types of messages."
  */
-typedef struct LDKMessageHandler {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnMessageHandler *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKMessageHandler {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnMessageHandler *inner;
+   bool _underlying_ref;
 } LDKMessageHandler;
 
 /**
@@ -1844,34 +2011,34 @@ typedef struct LDKMessageHandler {
  * " PeerManager::socket_disconnected()."
  */
 typedef struct LDKSocketDescriptor {
-    void *this_arg;
-    /**
-     * " Attempts to send some data from the given slice to the peer."
-     * ""
-     * " Returns the amount of data which was sent, possibly 0 if the socket has since disconnected."
-     * " Note that in the disconnected case, socket_disconnected must still fire and further write"
-     * " attempts may occur until that time."
-     * ""
-     * " If the returned size is smaller than data.len(), a write_available event must"
-     * " trigger the next time more data can be written. Additionally, until the a send_data event"
-     * " completes fully, no further read_events should trigger on the same peer!"
-     * ""
-     * " If a read_event on this descriptor had previously returned true (indicating that read"
-     * " events should be paused to prevent DoS in the send buffer), resume_read may be set"
-     * " indicating that read events on this descriptor should resume. A resume_read of false does"
-     * " *not* imply that further read events should be paused."
-     */
-    uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);
-    /**
-     * " Disconnect the socket pointed to by this SocketDescriptor. Once this function returns, no"
-     * " more calls to write_buffer_space_avail, read_event or socket_disconnected may be made with"
-     * " this descriptor. No socket_disconnected call should be generated as a result of this call,"
-     * " though races may occur whereby disconnect_socket is called after a call to"
-     * " socket_disconnected but prior to socket_disconnected returning."
-     */
-    void (*disconnect_socket)(void *this_arg);
-    bool (*eq)(const void *this_arg, const void *other_arg);
-    uint64_t (*hash)(const void *this_arg);
+   void *this_arg;
+   /**
+    * " Attempts to send some data from the given slice to the peer."
+    * ""
+    * " Returns the amount of data which was sent, possibly 0 if the socket has since disconnected."
+    * " Note that in the disconnected case, socket_disconnected must still fire and further write"
+    * " attempts may occur until that time."
+    * ""
+    * " If the returned size is smaller than data.len(), a write_available event must"
+    * " trigger the next time more data can be written. Additionally, until the a send_data event"
+    * " completes fully, no further read_events should trigger on the same peer!"
+    * ""
+    * " If a read_event on this descriptor had previously returned true (indicating that read"
+    * " events should be paused to prevent DoS in the send buffer), resume_read may be set"
+    * " indicating that read events on this descriptor should resume. A resume_read of false does"
+    * " *not* imply that further read events should be paused."
+    */
+   uintptr_t (*send_data)(void *this_arg, LDKu8slice data, bool resume_read);
+   /**
+    * " Disconnect the socket pointed to by this SocketDescriptor. Once this function returns, no"
+    * " more calls to write_buffer_space_avail, read_event or socket_disconnected may be made with"
+    * " this descriptor. No socket_disconnected call should be generated as a result of this call,"
+    * " though races may occur whereby disconnect_socket is called after a call to"
+    * " socket_disconnected but prior to socket_disconnected returning."
+    */
+   void (*disconnect_socket)(void *this_arg);
+   bool (*eq)(const void *this_arg, const void *other_arg);
+   uint64_t (*hash)(const void *this_arg);
 } LDKSocketDescriptor;
 
 
@@ -1886,42 +2053,42 @@ typedef struct LDKSocketDescriptor {
  * " SimpleArcPeerManager when you require a PeerManager with a static lifetime, such as when"
  * " you're using lightning-net-tokio."
  */
-typedef struct LDKPeerManager {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnPeerManager *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKPeerManager {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnPeerManager *inner;
+   bool _underlying_ref;
 } LDKPeerManager;
 
 typedef struct LDKCVecTempl_PublicKey {
-    LDKPublicKey *data;
-    uintptr_t datalen;
+   LDKPublicKey *data;
+   uintptr_t datalen;
 } LDKCVecTempl_PublicKey;
 
 typedef LDKCVecTempl_PublicKey LDKCVec_PublicKeyZ;
 
 typedef union LDKCResultPtr_CVecTempl_u8_____PeerHandleError {
-    LDKCVecTempl_u8 *result;
-    LDKPeerHandleError *err;
+   LDKCVecTempl_u8 *result;
+   LDKPeerHandleError *err;
 } LDKCResultPtr_CVecTempl_u8_____PeerHandleError;
 
 typedef struct LDKCResultTempl_CVecTempl_u8_____PeerHandleError {
-    LDKCResultPtr_CVecTempl_u8_____PeerHandleError contents;
-    bool result_good;
+   LDKCResultPtr_CVecTempl_u8_____PeerHandleError contents;
+   bool result_good;
 } LDKCResultTempl_CVecTempl_u8_____PeerHandleError;
 
 typedef LDKCResultTempl_CVecTempl_u8_____PeerHandleError LDKCResult_CVec_u8ZPeerHandleErrorZ;
 
 typedef union LDKCResultPtr_bool__PeerHandleError {
-    bool *result;
-    LDKPeerHandleError *err;
+   bool *result;
+   LDKPeerHandleError *err;
 } LDKCResultPtr_bool__PeerHandleError;
 
 typedef struct LDKCResultTempl_bool__PeerHandleError {
-    LDKCResultPtr_bool__PeerHandleError contents;
-    bool result_good;
+   LDKCResultPtr_bool__PeerHandleError contents;
+   bool result_good;
 } LDKCResultTempl_bool__PeerHandleError;
 
 typedef LDKCResultTempl_bool__PeerHandleError LDKCResult_boolPeerHandleErrorZ;
@@ -1931,13 +2098,13 @@ typedef LDKCResultTempl_bool__PeerHandleError LDKCResult_boolPeerHandleErrorZ;
 /**
  * " Features used within a `node_announcement` message."
  */
-typedef struct LDKNodeFeatures {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNodeFeatures *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNodeFeatures {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNodeFeatures *inner;
+   bool _underlying_ref;
 } LDKNodeFeatures;
 
 
@@ -1945,13 +2112,13 @@ typedef struct LDKNodeFeatures {
 /**
  * " Features used within a `channel_announcement` message."
  */
-typedef struct LDKChannelFeatures {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelFeatures *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelFeatures {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelFeatures *inner;
+   bool _underlying_ref;
 } LDKChannelFeatures;
 
 
@@ -1959,23 +2126,23 @@ typedef struct LDKChannelFeatures {
 /**
  * " A hop in a route"
  */
-typedef struct LDKRouteHop {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnRouteHop *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKRouteHop {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnRouteHop *inner;
+   bool _underlying_ref;
 } LDKRouteHop;
 
 typedef struct LDKCVecTempl_RouteHop {
-    LDKRouteHop *data;
-    uintptr_t datalen;
+   LDKRouteHop *data;
+   uintptr_t datalen;
 } LDKCVecTempl_RouteHop;
 
 typedef struct LDKCVecTempl_CVecTempl_RouteHop {
-    LDKCVecTempl_RouteHop *data;
-    uintptr_t datalen;
+   LDKCVecTempl_RouteHop *data;
+   uintptr_t datalen;
 } LDKCVecTempl_CVecTempl_RouteHop;
 
 typedef LDKCVecTempl_CVecTempl_RouteHop LDKCVec_CVec_RouteHopZZ;
@@ -1985,13 +2152,13 @@ typedef LDKCVecTempl_CVecTempl_RouteHop LDKCVec_CVec_RouteHopZZ;
 /**
  * " A channel descriptor which provides a last-hop route to get_route"
  */
-typedef struct LDKRouteHint {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnRouteHint *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKRouteHint {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnRouteHint *inner;
+   bool _underlying_ref;
 } LDKRouteHint;
 
 
@@ -1999,13 +2166,13 @@ typedef struct LDKRouteHint {
 /**
  * " Fees for routing via a given channel or a node"
  */
-typedef struct LDKRoutingFees {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnRoutingFees *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKRoutingFees {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnRoutingFees *inner;
+   bool _underlying_ref;
 } LDKRoutingFees;
 
 
@@ -2013,13 +2180,13 @@ typedef struct LDKRoutingFees {
 /**
  * " Represents the network as nodes and channels between them"
  */
-typedef struct LDKNetworkGraph {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNetworkGraph *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNetworkGraph {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNetworkGraph *inner;
+   bool _underlying_ref;
 } LDKNetworkGraph;
 
 
@@ -2031,13 +2198,13 @@ typedef struct LDKNetworkGraph {
  * " Provides interface to help with initial routing sync by"
  * " serving historical announcements."
  */
-typedef struct LDKNetGraphMsgHandler {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNetGraphMsgHandler *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNetGraphMsgHandler {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNetGraphMsgHandler *inner;
+   bool _underlying_ref;
 } LDKNetGraphMsgHandler;
 
 
@@ -2046,13 +2213,13 @@ typedef struct LDKNetGraphMsgHandler {
  * " Details about one direction of a channel. Received"
  * " within a channel update."
  */
-typedef struct LDKDirectionalChannelInfo {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnDirectionalChannelInfo *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKDirectionalChannelInfo {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnDirectionalChannelInfo *inner;
+   bool _underlying_ref;
 } LDKDirectionalChannelInfo;
 
 
@@ -2061,13 +2228,13 @@ typedef struct LDKDirectionalChannelInfo {
  * " Details about a channel (both directions)."
  * " Received within a channel announcement."
  */
-typedef struct LDKChannelInfo {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnChannelInfo *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKChannelInfo {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnChannelInfo *inner;
+   bool _underlying_ref;
 } LDKChannelInfo;
 
 
@@ -2075,13 +2242,13 @@ typedef struct LDKChannelInfo {
 /**
  * " Information received in the latest node_announcement from this node."
  */
-typedef struct LDKNodeAnnouncementInfo {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNodeAnnouncementInfo *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNodeAnnouncementInfo {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNodeAnnouncementInfo *inner;
+   bool _underlying_ref;
 } LDKNodeAnnouncementInfo;
 
 
@@ -2089,18 +2256,18 @@ typedef struct LDKNodeAnnouncementInfo {
 /**
  * " Details about a node in the network, known from the network announcement."
  */
-typedef struct LDKNodeInfo {
-    /**
-     * Nearly everyhwere, inner must be non-null, however in places where
-     *the Rust equivalent takes an Option, it may be set to null to indicate None.
-     */
-    const LDKlnNodeInfo *inner;
-    bool _underlying_ref;
+typedef struct MUST_USE_STRUCT LDKNodeInfo {
+   /**
+    * Nearly everyhwere, inner must be non-null, however in places where
+    *the Rust equivalent takes an Option, it may be set to null to indicate None.
+    */
+   const LDKlnNodeInfo *inner;
+   bool _underlying_ref;
 } LDKNodeInfo;
 
 typedef struct LDKCVecTempl_u64 {
-    uint64_t *data;
-    uintptr_t datalen;
+   uint64_t *data;
+   uintptr_t datalen;
 } LDKCVecTempl_u64;
 
 typedef LDKCVecTempl_u64 LDKCVec_u64Z;
@@ -2189,6 +2356,8 @@ extern const void (*CVec_RouteHopZ_free)(LDKCVec_RouteHopZ);
 
 extern const void (*CVec_SignatureZ_free)(LDKCVec_SignatureZ);
 
+extern const void (*CVec_SpendableOutputDescriptorZ_free)(LDKCVec_SpendableOutputDescriptorZ);
+
 extern const void (*CVec_UpdateAddHTLCZ_free)(LDKCVec_UpdateAddHTLCZ);
 
 extern const void (*CVec_UpdateFailHTLCZ_free)(LDKCVec_UpdateFailHTLCZ);
@@ -2196,6 +2365,8 @@ extern const void (*CVec_UpdateFailHTLCZ_free)(LDKCVec_UpdateFailHTLCZ);
 extern const void (*CVec_UpdateFailMalformedHTLCZ_free)(LDKCVec_UpdateFailMalformedHTLCZ);
 
 extern const void (*CVec_UpdateFulfillHTLCZ_free)(LDKCVec_UpdateFulfillHTLCZ);
+
+extern const void (*CVec_u32Z_free)(LDKCVec_u32Z);
 
 extern const void (*CVec_u64Z_free)(LDKCVec_u64Z);
 
@@ -2227,8 +2398,6 @@ LDKCResult_NonePeerHandleErrorZ CResult_NonePeerHandleErrorZ_good(void);
 
 void Event_free(LDKEvent this_ptr);
 
-LDKCVec_u8Z Event_write(const LDKEvent *obj);
-
 void MessageSendEvent_free(LDKMessageSendEvent this_ptr);
 
 void APIError_free(LDKAPIError this_ptr);
@@ -2236,11 +2405,11 @@ void APIError_free(LDKAPIError this_ptr);
 /**
  * " Returns the most verbose logging level."
  */
-LDKLevel Level_max(void);
+MUST_USE_RES LDKLevel Level_max(void);
 
 void UserConfig_free(LDKUserConfig this_ptr);
 
-LDKUserConfig UserConfig_default(void);
+MUST_USE_RES LDKUserConfig UserConfig_default(void);
 
 void ChannelHandshakeConfig_free(LDKChannelHandshakeConfig this_ptr);
 
@@ -2316,9 +2485,9 @@ uint64_t ChannelHandshakeConfig_get_our_htlc_minimum_msat(const LDKChannelHandsh
  */
 void ChannelHandshakeConfig_set_our_htlc_minimum_msat(LDKChannelHandshakeConfig *this_ptr, uint64_t val);
 
-LDKChannelHandshakeConfig ChannelHandshakeConfig_new(uint32_t minimum_depth_arg, uint16_t our_to_self_delay_arg, uint64_t our_htlc_minimum_msat_arg);
+MUST_USE_RES LDKChannelHandshakeConfig ChannelHandshakeConfig_new(uint32_t minimum_depth_arg, uint16_t our_to_self_delay_arg, uint64_t our_htlc_minimum_msat_arg);
 
-LDKChannelHandshakeConfig ChannelHandshakeConfig_default(void);
+MUST_USE_RES LDKChannelHandshakeConfig ChannelHandshakeConfig_default(void);
 
 void ChannelHandshakeLimits_free(LDKChannelHandshakeLimits this_ptr);
 
@@ -2508,9 +2677,9 @@ uint16_t ChannelHandshakeLimits_get_their_to_self_delay(const LDKChannelHandshak
  */
 void ChannelHandshakeLimits_set_their_to_self_delay(LDKChannelHandshakeLimits *this_ptr, uint16_t val);
 
-LDKChannelHandshakeLimits ChannelHandshakeLimits_new(uint64_t min_funding_satoshis_arg, uint64_t max_htlc_minimum_msat_arg, uint64_t min_max_htlc_value_in_flight_msat_arg, uint64_t max_channel_reserve_satoshis_arg, uint16_t min_max_accepted_htlcs_arg, uint64_t min_dust_limit_satoshis_arg, uint64_t max_dust_limit_satoshis_arg, uint32_t max_minimum_depth_arg, bool force_announced_channel_preference_arg, uint16_t their_to_self_delay_arg);
+MUST_USE_RES LDKChannelHandshakeLimits ChannelHandshakeLimits_new(uint64_t min_funding_satoshis_arg, uint64_t max_htlc_minimum_msat_arg, uint64_t min_max_htlc_value_in_flight_msat_arg, uint64_t max_channel_reserve_satoshis_arg, uint16_t min_max_accepted_htlcs_arg, uint64_t min_dust_limit_satoshis_arg, uint64_t max_dust_limit_satoshis_arg, uint32_t max_minimum_depth_arg, bool force_announced_channel_preference_arg, uint16_t their_to_self_delay_arg);
 
-LDKChannelHandshakeLimits ChannelHandshakeLimits_default(void);
+MUST_USE_RES LDKChannelHandshakeLimits ChannelHandshakeLimits_default(void);
 
 void ChannelConfig_free(LDKChannelConfig this_ptr);
 
@@ -2592,9 +2761,9 @@ bool ChannelConfig_get_commit_upfront_shutdown_pubkey(const LDKChannelConfig *th
  */
 void ChannelConfig_set_commit_upfront_shutdown_pubkey(LDKChannelConfig *this_ptr, bool val);
 
-LDKChannelConfig ChannelConfig_new(uint32_t fee_proportional_millionths_arg, bool announced_channel_arg, bool commit_upfront_shutdown_pubkey_arg);
+MUST_USE_RES LDKChannelConfig ChannelConfig_new(uint32_t fee_proportional_millionths_arg, bool announced_channel_arg, bool commit_upfront_shutdown_pubkey_arg);
 
-LDKChannelConfig ChannelConfig_default(void);
+MUST_USE_RES LDKChannelConfig ChannelConfig_default(void);
 
 LDKCVec_u8Z ChannelConfig_write(const LDKChannelConfig *obj);
 
@@ -2605,37 +2774,37 @@ void ChainWatchedUtil_free(LDKChainWatchedUtil this_ptr);
 /**
  * " Constructs an empty (watches nothing) ChainWatchedUtil"
  */
-LDKChainWatchedUtil ChainWatchedUtil_new(void);
+MUST_USE_RES LDKChainWatchedUtil ChainWatchedUtil_new(void);
 
 /**
  * " Registers a tx for monitoring, returning true if it was a new tx and false if we'd already"
  * " been watching for it."
  */
-bool ChainWatchedUtil_register_tx(LDKChainWatchedUtil *this_arg, const uint8_t (*txid)[32], LDKu8slice script_pub_key);
+MUST_USE_RES bool ChainWatchedUtil_register_tx(LDKChainWatchedUtil *this_arg, const uint8_t (*txid)[32], LDKu8slice script_pub_key);
 
 /**
  * " Registers an outpoint for monitoring, returning true if it was a new outpoint and false if"
  * " we'd already been watching for it"
  */
-bool ChainWatchedUtil_register_outpoint(LDKChainWatchedUtil *this_arg, LDKC2Tuple_Txidu32Z outpoint, LDKu8slice _script_pub_key);
+MUST_USE_RES bool ChainWatchedUtil_register_outpoint(LDKChainWatchedUtil *this_arg, LDKC2Tuple_Txidu32Z outpoint, LDKu8slice _script_pub_key);
 
 /**
  * " Sets us to match all transactions, returning true if this is a new setting and false if"
  * " we'd already been set to match everything."
  */
-bool ChainWatchedUtil_watch_all(LDKChainWatchedUtil *this_arg);
+MUST_USE_RES bool ChainWatchedUtil_watch_all(LDKChainWatchedUtil *this_arg);
 
 /**
  * " Checks if a given transaction matches the current filter."
  */
-bool ChainWatchedUtil_does_match_tx(const LDKChainWatchedUtil *this_arg, LDKTransaction tx);
+MUST_USE_RES bool ChainWatchedUtil_does_match_tx(const LDKChainWatchedUtil *this_arg, LDKTransaction tx);
 
 void BlockNotifier_free(LDKBlockNotifier this_ptr);
 
 /**
  * " Constructs a new BlockNotifier without any listeners."
  */
-LDKBlockNotifier BlockNotifier_new(LDKChainWatchInterface chain_monitor);
+MUST_USE_RES LDKBlockNotifier BlockNotifier_new(LDKChainWatchInterface chain_monitor);
 
 /**
  * " Register the given listener to receive events."
@@ -2662,12 +2831,12 @@ LDKChainWatchInterface ChainWatchInterfaceUtil_as_ChainWatchInterface(const LDKC
 /**
  * " Creates a new ChainWatchInterfaceUtil for the given network"
  */
-LDKChainWatchInterfaceUtil ChainWatchInterfaceUtil_new(LDKNetwork network);
+MUST_USE_RES LDKChainWatchInterfaceUtil ChainWatchInterfaceUtil_new(LDKNetwork network);
 
 /**
  * " Checks if a given transaction matches the current filter."
  */
-bool ChainWatchInterfaceUtil_does_match_tx(const LDKChainWatchInterfaceUtil *this_arg, LDKTransaction tx);
+MUST_USE_RES bool ChainWatchInterfaceUtil_does_match_tx(const LDKChainWatchInterfaceUtil *this_arg, LDKTransaction tx);
 
 void OutPoint_free(LDKOutPoint this_ptr);
 
@@ -2691,12 +2860,12 @@ uint16_t OutPoint_get_index(const LDKOutPoint *this_ptr);
  */
 void OutPoint_set_index(LDKOutPoint *this_ptr, uint16_t val);
 
-LDKOutPoint OutPoint_new(LDKThirtyTwoBytes txid_arg, uint16_t index_arg);
+MUST_USE_RES LDKOutPoint OutPoint_new(LDKThirtyTwoBytes txid_arg, uint16_t index_arg);
 
 /**
  * " Convert an `OutPoint` to a lightning channel id."
  */
-LDKThirtyTwoBytes OutPoint_to_channel_id(const LDKOutPoint *this_arg);
+MUST_USE_RES LDKThirtyTwoBytes OutPoint_to_channel_id(const LDKOutPoint *this_arg);
 
 LDKCVec_u8Z OutPoint_write(const LDKOutPoint *obj);
 
@@ -2773,7 +2942,7 @@ void InMemoryChannelKeys_set_commitment_seed(LDKInMemoryChannelKeys *this_ptr, L
 /**
  * " Create a new InMemoryChannelKeys"
  */
-LDKInMemoryChannelKeys InMemoryChannelKeys_new(LDKSecretKey funding_key, LDKSecretKey revocation_base_key, LDKSecretKey payment_key, LDKSecretKey delayed_payment_base_key, LDKSecretKey htlc_base_key, LDKThirtyTwoBytes commitment_seed, uint64_t channel_value_satoshis, LDKC2Tuple_u64u64Z key_derivation_params);
+MUST_USE_RES LDKInMemoryChannelKeys InMemoryChannelKeys_new(LDKSecretKey funding_key, LDKSecretKey revocation_base_key, LDKSecretKey payment_key, LDKSecretKey delayed_payment_base_key, LDKSecretKey htlc_base_key, LDKThirtyTwoBytes commitment_seed, uint64_t channel_value_satoshis, LDKC2Tuple_u64u64Z key_derivation_params);
 
 LDKChannelKeys InMemoryChannelKeys_as_ChannelKeys(const LDKInMemoryChannelKeys *this_arg);
 
@@ -2804,16 +2973,16 @@ void KeysManager_free(LDKKeysManager this_ptr);
  * " versions. Once the library is more fully supported, the docs will be updated to include a"
  * " detailed description of the guarantee."
  */
-LDKKeysManager KeysManager_new(const uint8_t (*seed)[32], LDKNetwork network, uint64_t starting_time_secs, uint32_t starting_time_nanos);
+MUST_USE_RES LDKKeysManager KeysManager_new(const uint8_t (*seed)[32], LDKNetwork network, uint64_t starting_time_secs, uint32_t starting_time_nanos);
 
-/**
+/**KeysManager_new
  * " Derive an old set of ChannelKeys for per-channel secrets based on a key derivation"
  * " parameters."
  * " Key derivation parameters are accessible through a per-channel secrets"
  * " ChannelKeys::key_derivation_params and is provided inside DynamicOuputP2WSH in case of"
  * " onchain output detection for which a corresponding delayed_payment_key must be derived."
  */
-LDKInMemoryChannelKeys KeysManager_derive_channel_keys(const LDKKeysManager *this_arg, uint64_t channel_value_satoshis, uint64_t params_1, uint64_t params_2);
+MUST_USE_RES LDKInMemoryChannelKeys KeysManager_derive_channel_keys(const LDKKeysManager *this_arg, uint64_t channel_value_satoshis, uint64_t params_1, uint64_t params_2);
 
 LDKKeysInterface KeysManager_as_KeysInterface(const LDKKeysManager *this_arg);
 
@@ -2949,7 +3118,7 @@ void PaymentSendFailure_free(LDKPaymentSendFailure this_ptr);
  * " `block_(dis)connected` methods, which will notify all registered listeners in one"
  * " go."
  */
-LDKChannelManager ChannelManager_new(LDKNetwork network, LDKFeeEstimator fee_est, LDKManyChannelMonitor monitor, LDKBroadcasterInterface tx_broadcaster, LDKLogger logger, LDKKeysInterface keys_manager, LDKUserConfig config, uintptr_t current_blockchain_height);
+MUST_USE_RES LDKChannelManager ChannelManager_new(LDKNetwork network, LDKFeeEstimator fee_est, LDKManyChannelMonitor monitor, LDKBroadcasterInterface tx_broadcaster, LDKLogger logger, LDKKeysInterface keys_manager, LDKUserConfig config, uintptr_t current_blockchain_height);
 
 /**
  * " Creates a new outbound channel to the given remote node and with the given value."
@@ -2965,13 +3134,13 @@ LDKChannelManager ChannelManager_new(LDKNetwork network, LDKFeeEstimator fee_est
  * " Raises APIError::APIMisuseError when channel_value_satoshis > 2**24 or push_msat is"
  * " greater than channel_value_satoshis * 1k or channel_value_satoshis is < 1000."
  */
-LDKCResult_NoneAPIErrorZ ChannelManager_create_channel(const LDKChannelManager *this_arg, LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, LDKUserConfig override_config);
+MUST_USE_RES LDKCResult_NoneAPIErrorZ ChannelManager_create_channel(const LDKChannelManager *this_arg, LDKPublicKey their_network_key, uint64_t channel_value_satoshis, uint64_t push_msat, uint64_t user_id, LDKUserConfig override_config);
 
 /**
  * " Gets the list of open channels, in random order. See ChannelDetail field documentation for"
  * " more information."
  */
-LDKCVec_ChannelDetailsZ ChannelManager_list_channels(const LDKChannelManager *this_arg);
+MUST_USE_RES LDKCVec_ChannelDetailsZ ChannelManager_list_channels(const LDKChannelManager *this_arg);
 
 /**
  * " Gets the list of usable channels, in random order. Useful as an argument to"
@@ -2980,7 +3149,7 @@ LDKCVec_ChannelDetailsZ ChannelManager_list_channels(const LDKChannelManager *th
  * " These are guaranteed to have their is_live value set to true, see the documentation for"
  * " ChannelDetails::is_live for more info on exactly what the criteria are."
  */
-LDKCVec_ChannelDetailsZ ChannelManager_list_usable_channels(const LDKChannelManager *this_arg);
+MUST_USE_RES LDKCVec_ChannelDetailsZ ChannelManager_list_usable_channels(const LDKChannelManager *this_arg);
 
 /**
  * " Begins the process of closing a channel. After this call (plus some timeout), no new HTLCs"
@@ -2989,7 +3158,7 @@ LDKCVec_ChannelDetailsZ ChannelManager_list_usable_channels(const LDKChannelMana
  * ""
  * " May generate a SendShutdown message event on success, which should be relayed."
  */
-LDKCResult_NoneAPIErrorZ ChannelManager_close_channel(const LDKChannelManager *this_arg, const uint8_t (*channel_id)[32]);
+MUST_USE_RES LDKCResult_NoneAPIErrorZ ChannelManager_close_channel(const LDKChannelManager *this_arg, const uint8_t (*channel_id)[32]);
 
 /**
  * " Force closes a channel, immediately broadcasting the latest local commitment transaction to"
@@ -3044,7 +3213,7 @@ void ChannelManager_force_close_all_channels(const LDKChannelManager *this_arg);
  * " bit set (either as required or as available). If multiple paths are present in the Route,"
  * " we assume the invoice had the basic_mpp feature set."
  */
-LDKCResult_NonePaymentSendFailureZ ChannelManager_send_payment(const LDKChannelManager *this_arg, const LDKRoute *route, uint8_t payment_hash[32], const uint8_t (*payment_secret)[32]);
+MUST_USE_RES LDKCResult_NonePaymentSendFailureZ ChannelManager_send_payment(const LDKChannelManager *this_arg, const LDKRoute *route, uint8_t payment_hash[32], const LDKThirtyTwoBytes *payment_secret);
 
 /**
  * " Call this upon creation of a funding transaction for the given channel."
@@ -3100,7 +3269,7 @@ void ChannelManager_timer_chan_freshness_every_min(const LDKChannelManager *this
  * " Returns false if no payment was found to fail backwards, true if the process of failing the"
  * " HTLC backwards has been started."
  */
-bool ChannelManager_fail_htlc_backwards(const LDKChannelManager *this_arg, const uint8_t (*payment_hash)[32], const uint8_t (*payment_secret)[32]);
+MUST_USE_RES bool ChannelManager_fail_htlc_backwards(const LDKChannelManager *this_arg, const uint8_t (*payment_hash)[32], const LDKThirtyTwoBytes *payment_secret);
 
 /**
  * " Provides a payment preimage in response to a PaymentReceived event, returning true and"
@@ -3119,12 +3288,12 @@ bool ChannelManager_fail_htlc_backwards(const LDKChannelManager *this_arg, const
  * ""
  * " May panic if called except in response to a PaymentReceived event."
  */
-bool ChannelManager_claim_funds(const LDKChannelManager *this_arg, uint8_t payment_preimage[32], const uint8_t (*payment_secret)[32], uint64_t expected_amount);
+MUST_USE_RES bool ChannelManager_claim_funds(const LDKChannelManager *this_arg, uint8_t payment_preimage[32], const LDKThirtyTwoBytes *payment_secret, uint64_t expected_amount);
 
 /**
  * " Gets the node_id held by this ChannelManager"
  */
-LDKPublicKey ChannelManager_get_our_node_id(const LDKChannelManager *this_arg);
+MUST_USE_RES LDKPublicKey ChannelManager_get_our_node_id(const LDKChannelManager *this_arg);
 
 /**
  * " Restores a single, given channel to normal operation after a"
@@ -3198,18 +3367,18 @@ void ChannelMonitor_free(LDKChannelMonitor this_ptr);
  * " Gets the update_id from the latest ChannelMonitorUpdate which was applied to this"
  * " ChannelMonitor."
  */
-uint64_t ChannelMonitor_get_latest_update_id(const LDKChannelMonitor *this_arg);
+MUST_USE_RES uint64_t ChannelMonitor_get_latest_update_id(const LDKChannelMonitor *this_arg);
 
 /**
  * " Gets the funding transaction outpoint of the channel this ChannelMonitor is monitoring for."
  */
-LDKOutPoint ChannelMonitor_get_funding_txo(const LDKChannelMonitor *this_arg);
+MUST_USE_RES LDKOutPoint ChannelMonitor_get_funding_txo(const LDKChannelMonitor *this_arg);
 
 /**
  * " Get the list of HTLCs who's status has been updated on chain. This should be called by"
  * " ChannelManager via ManyChannelMonitor::get_and_clear_pending_htlcs_updated()."
  */
-LDKCVec_HTLCUpdateZ ChannelMonitor_get_and_clear_pending_htlcs_updated(LDKChannelMonitor *this_arg);
+MUST_USE_RES LDKCVec_HTLCUpdateZ ChannelMonitor_get_and_clear_pending_htlcs_updated(LDKChannelMonitor *this_arg);
 
 void DecodeError_free(LDKDecodeError this_ptr);
 
@@ -3239,7 +3408,7 @@ LDKPublicKey FundingLocked_get_next_per_commitment_point(const LDKFundingLocked 
 
 void FundingLocked_set_next_per_commitment_point(LDKFundingLocked *this_ptr, LDKPublicKey val);
 
-LDKFundingLocked FundingLocked_new(LDKThirtyTwoBytes channel_id_arg, LDKPublicKey next_per_commitment_point_arg);
+MUST_USE_RES LDKFundingLocked FundingLocked_new(LDKThirtyTwoBytes channel_id_arg, LDKPublicKey next_per_commitment_point_arg);
 
 void Shutdown_free(LDKShutdown this_ptr);
 
@@ -3353,7 +3522,7 @@ const LDKCommitmentSigned *CommitmentUpdate_get_commitment_signed(const LDKCommi
  */
 void CommitmentUpdate_set_commitment_signed(LDKCommitmentUpdate *this_ptr, LDKCommitmentSigned val);
 
-LDKCommitmentUpdate CommitmentUpdate_new(LDKCVec_UpdateAddHTLCZ update_add_htlcs_arg, LDKCVec_UpdateFulfillHTLCZ update_fulfill_htlcs_arg, LDKCVec_UpdateFailHTLCZ update_fail_htlcs_arg, LDKCVec_UpdateFailMalformedHTLCZ update_fail_malformed_htlcs_arg, LDKUpdateFee update_fee_arg, LDKCommitmentSigned commitment_signed_arg);
+MUST_USE_RES LDKCommitmentUpdate CommitmentUpdate_new(LDKCVec_UpdateAddHTLCZ update_add_htlcs_arg, LDKCVec_UpdateFulfillHTLCZ update_fulfill_htlcs_arg, LDKCVec_UpdateFailHTLCZ update_fail_htlcs_arg, LDKCVec_UpdateFailMalformedHTLCZ update_fail_malformed_htlcs_arg, LDKUpdateFee update_fee_arg, LDKCommitmentSigned commitment_signed_arg);
 
 void HTLCFailChannelUpdate_free(LDKHTLCFailChannelUpdate this_ptr);
 
@@ -3483,7 +3652,7 @@ const LDKRoutingMessageHandler *MessageHandler_get_route_handler(const LDKMessag
  */
 void MessageHandler_set_route_handler(LDKMessageHandler *this_ptr, LDKRoutingMessageHandler val);
 
-LDKMessageHandler MessageHandler_new(LDKChannelMessageHandler chan_handler_arg, LDKRoutingMessageHandler route_handler_arg);
+MUST_USE_RES LDKMessageHandler MessageHandler_new(LDKChannelMessageHandler chan_handler_arg, LDKRoutingMessageHandler route_handler_arg);
 
 void PeerHandleError_free(LDKPeerHandleError this_ptr);
 
@@ -3499,7 +3668,7 @@ bool PeerHandleError_get_no_connection_possible(const LDKPeerHandleError *this_p
  */
 void PeerHandleError_set_no_connection_possible(LDKPeerHandleError *this_ptr, bool val);
 
-LDKPeerHandleError PeerHandleError_new(bool no_connection_possible_arg);
+MUST_USE_RES LDKPeerHandleError PeerHandleError_new(bool no_connection_possible_arg);
 
 void PeerManager_free(LDKPeerManager this_ptr);
 
@@ -3508,7 +3677,7 @@ void PeerManager_free(LDKPeerManager this_ptr);
  * " ephemeral_random_data is used to derive per-connection ephemeral keys and must be"
  * " cryptographically secure random bytes."
  */
-LDKPeerManager PeerManager_new(LDKMessageHandler message_handler, LDKSecretKey our_node_secret, const uint8_t (*ephemeral_random_data)[32], LDKLogger logger);
+MUST_USE_RES LDKPeerManager PeerManager_new(LDKMessageHandler message_handler, LDKSecretKey our_node_secret, const uint8_t (*ephemeral_random_data)[32], LDKLogger logger);
 
 /**
  * " Get the list of node ids for peers which have completed the initial handshake."
@@ -3517,7 +3686,7 @@ LDKPeerManager PeerManager_new(LDKMessageHandler message_handler, LDKSecretKey o
  * " new_outbound_connection, however entries will only appear once the initial handshake has"
  * " completed and we are sure the remote peer has the private key for the given node_id."
  */
-LDKCVec_PublicKeyZ PeerManager_get_peer_node_ids(const LDKPeerManager *this_arg);
+MUST_USE_RES LDKCVec_PublicKeyZ PeerManager_get_peer_node_ids(const LDKPeerManager *this_arg);
 
 /**
  * " Indicates a new outbound connection has been established to a node with the given node_id."
@@ -3529,7 +3698,7 @@ LDKCVec_PublicKeyZ PeerManager_get_peer_node_ids(const LDKPeerManager *this_arg)
  * " Panics if descriptor is duplicative with some other descriptor which has not yet had a"
  * " socket_disconnected()."
  */
-LDKCResult_CVec_u8ZPeerHandleErrorZ PeerManager_new_outbound_connection(const LDKPeerManager *this_arg, LDKPublicKey their_node_id, LDKSocketDescriptor descriptor);
+MUST_USE_RES LDKCResult_CVec_u8ZPeerHandleErrorZ PeerManager_new_outbound_connection(const LDKPeerManager *this_arg, LDKPublicKey their_node_id, LDKSocketDescriptor descriptor);
 
 /**
  * " Indicates a new inbound connection has been established."
@@ -3542,7 +3711,7 @@ LDKCResult_CVec_u8ZPeerHandleErrorZ PeerManager_new_outbound_connection(const LD
  * " Panics if descriptor is duplicative with some other descriptor which has not yet had"
  * " socket_disconnected called."
  */
-LDKCResult_NonePeerHandleErrorZ PeerManager_new_inbound_connection(const LDKPeerManager *this_arg, LDKSocketDescriptor descriptor);
+MUST_USE_RES LDKCResult_NonePeerHandleErrorZ PeerManager_new_inbound_connection(const LDKPeerManager *this_arg, LDKSocketDescriptor descriptor);
 
 /**
  * " Indicates that there is room to write data to the given socket descriptor."
@@ -3556,7 +3725,7 @@ LDKCResult_NonePeerHandleErrorZ PeerManager_new_inbound_connection(const LDKPeer
  * " here isn't sufficient! Panics if the descriptor was not previously registered in a"
  * " new_\\*_connection event."
  */
-LDKCResult_NonePeerHandleErrorZ PeerManager_write_buffer_space_avail(const LDKPeerManager *this_arg, LDKSocketDescriptor *descriptor);
+MUST_USE_RES LDKCResult_NonePeerHandleErrorZ PeerManager_write_buffer_space_avail(const LDKPeerManager *this_arg, LDKSocketDescriptor *descriptor);
 
 /**
  * " Indicates that data was read from the given socket descriptor."
@@ -3572,7 +3741,7 @@ LDKCResult_NonePeerHandleErrorZ PeerManager_write_buffer_space_avail(const LDKPe
  * ""
  * " Panics if the descriptor was not previously registered in a new_*_connection event."
  */
-LDKCResult_boolPeerHandleErrorZ PeerManager_read_event(const LDKPeerManager *this_arg, LDKSocketDescriptor *peer_descriptor, LDKu8slice data);
+MUST_USE_RES LDKCResult_boolPeerHandleErrorZ PeerManager_read_event(const LDKPeerManager *this_arg, LDKSocketDescriptor *peer_descriptor, LDKu8slice data);
 
 /**
  * " Checks for any events generated by our handlers and processes them. Includes sending most"
@@ -3686,7 +3855,7 @@ LDKPublicKey ChannelPublicKeys_get_htlc_basepoint(const LDKChannelPublicKeys *th
  */
 void ChannelPublicKeys_set_htlc_basepoint(LDKChannelPublicKeys *this_ptr, LDKPublicKey val);
 
-LDKChannelPublicKeys ChannelPublicKeys_new(LDKPublicKey funding_pubkey_arg, LDKPublicKey revocation_basepoint_arg, LDKPublicKey payment_point_arg, LDKPublicKey delayed_payment_basepoint_arg, LDKPublicKey htlc_basepoint_arg);
+MUST_USE_RES LDKChannelPublicKeys ChannelPublicKeys_new(LDKPublicKey funding_pubkey_arg, LDKPublicKey revocation_basepoint_arg, LDKPublicKey payment_point_arg, LDKPublicKey delayed_payment_basepoint_arg, LDKPublicKey htlc_basepoint_arg);
 
 LDKCVec_u8Z ChannelPublicKeys_write(const LDKChannelPublicKeys *obj);
 
@@ -3794,7 +3963,7 @@ void LocalCommitmentTransaction_set_feerate_per_kw(LDKLocalCommitmentTransaction
  * " Get the txid of the local commitment transaction contained in this"
  * " LocalCommitmentTransaction"
  */
-LDKThirtyTwoBytes LocalCommitmentTransaction_txid(const LDKLocalCommitmentTransaction *this_arg);
+MUST_USE_RES LDKThirtyTwoBytes LocalCommitmentTransaction_txid(const LDKLocalCommitmentTransaction *this_arg);
 
 /**
  * " Gets our signature for the contained commitment transaction given our funding private key."
@@ -3806,7 +3975,7 @@ LDKThirtyTwoBytes LocalCommitmentTransaction_txid(const LDKLocalCommitmentTransa
  * " ChannelKeys::sign_local_commitment() calls directly."
  * " Channel value is amount locked in funding_outpoint."
  */
-LDKSignature LocalCommitmentTransaction_get_local_sig(const LDKLocalCommitmentTransaction *this_arg, const uint8_t (*funding_key)[32], LDKu8slice funding_redeemscript, uint64_t channel_value_satoshis);
+MUST_USE_RES LDKSignature LocalCommitmentTransaction_get_local_sig(const LDKLocalCommitmentTransaction *this_arg, const uint8_t (*funding_key)[32], LDKu8slice funding_redeemscript, uint64_t channel_value_satoshis);
 
 LDKCVec_u8Z LocalCommitmentTransaction_write(const LDKLocalCommitmentTransaction *obj);
 
@@ -3874,7 +4043,7 @@ void Route_free(LDKRoute this_ptr);
  */
 void Route_set_paths(LDKRoute *this_ptr, LDKCVec_CVec_RouteHopZZ val);
 
-LDKRoute Route_new(LDKCVec_CVec_RouteHopZZ paths_arg);
+MUST_USE_RES LDKRoute Route_new(LDKCVec_CVec_RouteHopZZ paths_arg);
 
 LDKCVec_u8Z Route_write(const LDKRoute *obj);
 
@@ -3932,7 +4101,7 @@ uint64_t RouteHint_get_htlc_minimum_msat(const LDKRouteHint *this_ptr);
  */
 void RouteHint_set_htlc_minimum_msat(LDKRouteHint *this_ptr, uint64_t val);
 
-LDKRouteHint RouteHint_new(LDKPublicKey src_node_id_arg, uint64_t short_channel_id_arg, LDKRoutingFees fees_arg, uint16_t cltv_expiry_delta_arg, uint64_t htlc_minimum_msat_arg);
+MUST_USE_RES LDKRouteHint RouteHint_new(LDKPublicKey src_node_id_arg, uint64_t short_channel_id_arg, LDKRoutingFees fees_arg, uint16_t cltv_expiry_delta_arg, uint64_t htlc_minimum_msat_arg);
 
 void NetworkGraph_free(LDKNetworkGraph this_ptr);
 
@@ -3945,13 +4114,13 @@ void NetGraphMsgHandler_free(LDKNetGraphMsgHandler this_ptr);
  * " channel data is correct, and that the announcement is signed with"
  * " channel owners' keys."
  */
-LDKNetGraphMsgHandler NetGraphMsgHandler_new(LDKChainWatchInterface chain_monitor, LDKLogger logger);
+MUST_USE_RES LDKNetGraphMsgHandler NetGraphMsgHandler_new(LDKChainWatchInterface chain_monitor, LDKLogger logger);
 
 /**
  * " Creates a new tracker of the actual state of the network of channels and nodes,"
  * " assuming an existing Network Graph."
  */
-LDKNetGraphMsgHandler NetGraphMsgHandler_from_net_graph(LDKChainWatchInterface chain_monitor, LDKLogger logger, LDKNetworkGraph network_graph);
+MUST_USE_RES LDKNetGraphMsgHandler NetGraphMsgHandler_from_net_graph(LDKChainWatchInterface chain_monitor, LDKLogger logger, LDKNetworkGraph network_graph);
 
 LDKRoutingMessageHandler NetGraphMsgHandler_as_RoutingMessageHandler(const LDKNetGraphMsgHandler *this_arg);
 
@@ -4073,7 +4242,7 @@ uint32_t RoutingFees_get_proportional_millionths(const LDKRoutingFees *this_ptr)
  */
 void RoutingFees_set_proportional_millionths(LDKRoutingFees *this_ptr, uint32_t val);
 
-LDKRoutingFees RoutingFees_new(uint32_t base_msat_arg, uint32_t proportional_millionths_arg);
+MUST_USE_RES LDKRoutingFees RoutingFees_new(uint32_t base_msat_arg, uint32_t proportional_millionths_arg);
 
 LDKRoutingFees RoutingFees_read(LDKu8slice ser);
 
@@ -4161,7 +4330,7 @@ const LDKNodeAnnouncementInfo *NodeInfo_get_announcement_info(const LDKNodeInfo 
  */
 void NodeInfo_set_announcement_info(LDKNodeInfo *this_ptr, LDKNodeAnnouncementInfo val);
 
-LDKNodeInfo NodeInfo_new(LDKCVec_u64Z channels_arg, LDKRoutingFees lowest_inbound_channel_fees_arg, LDKNodeAnnouncementInfo announcement_info_arg);
+MUST_USE_RES LDKNodeInfo NodeInfo_new(LDKCVec_u64Z channels_arg, LDKRoutingFees lowest_inbound_channel_fees_arg, LDKNodeAnnouncementInfo announcement_info_arg);
 
 LDKCVec_u8Z NodeInfo_write(const LDKNodeInfo *obj);
 
@@ -4174,7 +4343,7 @@ LDKNetworkGraph NetworkGraph_read(LDKu8slice ser);
 /**
  * " Creates a new, empty, network graph."
  */
-LDKNetworkGraph NetworkGraph_new(void);
+MUST_USE_RES LDKNetworkGraph NetworkGraph_new(void);
 
 /**
  * " Close a channel if a corresponding HTLC fail was sent."
