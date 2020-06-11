@@ -32,7 +32,7 @@ self.cRoutingMessageHandler = NetGraphMsgHandler_as_RoutingMessageHandler(netGra
 
 Notably, references to several of the objects are retained for later exposure. Tying together
 the information from [ChannelManager](ChannelManager.md#next), we can now fully replace the 
-placeholder values for the PeerManager's [message handler instantiation](PeerManager.md#message-handler-rusthttpsdocsrslightning0011lightninglnpeer_handlerstructmessagehandlerhtml):
+placeholder values for the PeerManager's [message handler instantiation](PeerManager.md#message-handler-rust):
 
 ```swift
 let messageHandler = MessageHandler_new(ChannelManager_as_ChannelMessageHandler(channelMessageHandlerPointer), HostRoutingMessageHandler.cRoutingMessageHandler)

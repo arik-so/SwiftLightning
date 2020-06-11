@@ -66,7 +66,7 @@ let broadcaster = LDKBroadcasterInterface(this_arg: instance, broadcast_transact
 
 ### Logger ([Rust](https://docs.rs/lightning/0.0.11/lightning/util/logger/trait.Logger.html))
 
-For the logger, let's reuse the global logger instance we have already created [here](PeerManager.md#logger-rusthttpsdocsrslightning0011lightningutilloggertraitloggerhtml).
+For the logger, let's reuse the global logger instance we have already created [here](PeerManager.md#logger-rust).
 
 ### KeysInterface ([Rust](https://docs.rs/lightning/0.0.11/lightning/chain/keysinterface/trait.KeysInterface.html))
 
@@ -103,7 +103,7 @@ a reasonable thing to kick off the application is started.
 
 ## Handling messages
 
-Once we have an instance of a `ChannelManager`, we should refer back to the [PeerManager's message handler](PeerManager.md#message-handler-rusthttpsdocsrslightning0011lightninglnpeer_handlerstructmessagehandlerhtml)
+Once we have an instance of a `ChannelManager`, we should refer back to the [PeerManager's message handler](PeerManager.md#message-handler-rust)
 and replace the first argument with `ChannelManager_as_ChannelMessageHandler(channelMessageHandlerPointer)`,
 as outlined [here](PeerManager.md#next).
 

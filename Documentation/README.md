@@ -73,4 +73,5 @@ in this document.
 * Major Components
     * [PeerManager](PeerManager.md)
     * [ChannelManager](ChannelManager.md)
+    * [BlockNotifier](BlockNotifier.md)
 * [Coordination](Coordination.md)
