@@ -8,18 +8,14 @@
 #else
 #define MUST_USE_RES
 #endif
-struct lnMessageSendEventOpaque;
-typedef struct lnMessageSendEventOpaque LDKlnMessageSendEvent;
-struct lnAPIErrorOpaque;
-typedef struct lnAPIErrorOpaque LDKlnAPIError;
-struct lnUserConfigOpaque;
-typedef struct lnUserConfigOpaque LDKlnUserConfig;
 struct lnChannelHandshakeConfigOpaque;
 typedef struct lnChannelHandshakeConfigOpaque LDKlnChannelHandshakeConfig;
 struct lnChannelHandshakeLimitsOpaque;
 typedef struct lnChannelHandshakeLimitsOpaque LDKlnChannelHandshakeLimits;
 struct lnChannelConfigOpaque;
 typedef struct lnChannelConfigOpaque LDKlnChannelConfig;
+struct lnUserConfigOpaque;
+typedef struct lnUserConfigOpaque LDKlnUserConfig;
 struct lnChainWatchedUtilOpaque;
 typedef struct lnChainWatchedUtilOpaque LDKlnChainWatchedUtil;
 struct lnBlockNotifierOpaque;
@@ -94,8 +90,6 @@ struct lnChannelReestablishOpaque;
 typedef struct lnChannelReestablishOpaque LDKlnChannelReestablish;
 struct lnAnnouncementSignaturesOpaque;
 typedef struct lnAnnouncementSignaturesOpaque LDKlnAnnouncementSignatures;
-struct lnNetAddressOpaque;
-typedef struct lnNetAddressOpaque LDKlnNetAddress;
 struct lnUnsignedNodeAnnouncementOpaque;
 typedef struct lnUnsignedNodeAnnouncementOpaque LDKlnUnsignedNodeAnnouncement;
 struct lnNodeAnnouncementOpaque;

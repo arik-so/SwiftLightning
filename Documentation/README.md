@@ -4,6 +4,10 @@ This guide aims to give the reader an overview of the structure of Rust Lightnin
 as well as a reference for integrating the exported bindings in an object-oriented language using
 Swift as the example.
 
+If you are here, we sincerely wish to thank you for working on expanding the Lightning
+Development Kit's scope to yet another, new, environment. We hope that this guide makes that
+task easier, and removes unnecessary roadblocks.
+
 ## Architecture
 
 To run a Lightning node, there are several fundamental components that need setting up.
@@ -37,7 +41,7 @@ implementing the [ChainWatchInterface](https://docs.rs/lightning/0.0.11/lightnin
 trait, which would allow Rust Lightning to tell us when new transactions or outpoints become
 relevant and should be watched for on-chain.
 
-An alternatively, for the developer slightly more naïve approach, is relying on the 
+An alternative approach, one that is slightly more naïve from a developer's perspective, is relying on the 
 [BlockNotifier](https://docs.rs/lightning/0.0.11/lightning/chain/chaininterface/struct.BlockNotifier.html)
 struct, which will let us feed raw block data to it and simply keep track of reorgs to deregister
 or unconfirm blocks if need be.
@@ -75,3 +79,4 @@ in this document.
     * [ChannelManager](ChannelManager.md)
     * [BlockNotifier](BlockNotifier.md)
 * [Coordination](Coordination.md)
+* [User Actions](UserActions.md)

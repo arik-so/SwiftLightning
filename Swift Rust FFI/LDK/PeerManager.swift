@@ -19,9 +19,11 @@ class PeerManager {
 
     private var tickPromise: Guarantee<Void>?
 
+    private var peerCount: UInt = 0
+
     // private var cSecretKey: LDKSecretKey;
 
-    init(privateKey: Data, ephemeralSeed: Data) {
+    init(privateKey: Data, ephemeralSeed: Data, channelManager: LDKChannelManager) {
         // let privateKeyPointer = RawLDKTypes.dataToPointer(data: privateKey)
         // let ephemeralSeedPointer = RawLDKTypes.dataToPointer(data: ephemeralSeed)
         // self.cPeerManager = peer_manager_create(privateKeyPointer, ephemeralSeedPointer)
@@ -33,6 +35,10 @@ class PeerManager {
         self.logger = Logger()
 
         self.channelMessageHandler = ChannelMessageHandler()
+        let channelManagerPointer = withUnsafePointer(to: channelManager) { (pointer: UnsafePointer<LDKChannelManager>) in
+            pointer
+        }
+        let channelMessageHandler = ChannelManager_as_ChannelMessageHandler(channelManagerPointer)
         self.routingMessageHandler = RoutingMessageHandler(logger: self.logger!)
 
         // let chainWatchInterface = ChainWatchInterfaceUtil_new(LDKNetwork_Testnet)
@@ -42,7 +48,8 @@ class PeerManager {
         // let blockNotifier = BlockNotifier_new(ChainWatchInterfaceUtil_as_ChainWatchInterface(chainWatchInterfacePointer))
 
 
-        let messageHandler = MessageHandler_new(self.channelMessageHandler!.cMessageHandler!, routingMessageHandler!.cRoutingMessageHandler!)
+        let messageHandler = MessageHandler_new(channelMessageHandler, routingMessageHandler!.cRoutingMessageHandler!)
+        // let messageHandler = MessageHandler_new(self.channelMessageHandler!.cMessageHandler!, routingMessageHandler!.cRoutingMessageHandler!)
 
 
         let ourNodeSecret = LDKSecretKey(bytes: privateKeyBytes);
@@ -57,11 +64,42 @@ class PeerManager {
         // DispatchQueue.global(qos: .background).async {
         //     self.forceTick()
         // }
+
+        self.monitorPeerCount();
+
     }
 
     public func singleTick() {
         // TODO: fix
         // peer_force_tick(self.cPeerManager);
+    }
+
+    private func monitorPeerCount() {
+        let peerManagerPointer = withUnsafePointer(to: self.cPeerManager) { pointer in
+            pointer
+        }
+        let peers: LDKCVecTempl_PublicKey = PeerManager_get_peer_node_ids(peerManagerPointer);
+        let peerCount = peers.datalen;
+        if (peerCount > self.peerCount) {
+            self.peerConnected()
+        }
+
+        let backgroundQueue = DispatchQueue.global(qos: .background);
+
+        Promise<Void> { seal in
+            self.peerCount = peerCount;
+            seal.fulfill(())
+        }.then(on: backgroundQueue) {
+            after(seconds: 1) // wait five seconds
+        }.done {
+            self.monitorPeerCount()
+        }
+    }
+
+    private func peerConnected() {
+        Demonstration.contentView?.isConnecting = false
+        Demonstration.contentView?.isConnected = true
+        Demonstration.logInUI(message: "Peer connected")
     }
 
     private func forceTick() -> Guarantee<Void> {

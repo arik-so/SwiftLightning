@@ -39,14 +39,36 @@ let feeEstimator = LDKFeeEstimator(
 
 ### ManyChannelMonitor ([Rust](https://docs.rs/lightning/0.0.11/lightning/ln/channelmonitor/trait.ManyChannelMonitor.html))
 
-The channel monitor is responsible for registering monitors for relevant on-chain events. For the
-sake of simplicity, however, we will initially rely on a placeholder instantiation using
+The channel monitor is responsible for registering monitors for relevant on-chain events. For now,
+in the interest of simplicity, we will simply stub out all the methods it supports without
+putting in actual processing. The following snippet of Swift could should give you an idea
+of what such a stub would look like:
 
 ```swift
-let channelMonitor = LDKManyChannelMonitor()
+func addMonitor(this_arg: UnsafeRawPointer?, funding_txo: LDKOutPoint, monitor: LDKChannelMonitor) -> LDKCResult_NoneChannelMonitorUpdateErrZ {
+    print("adding monitor")
+    return LDKCResult_NoneChannelMonitorUpdateErrZ()
+}
+
+func updateMonitor(this_arg: UnsafeRawPointer?, funding_txo: LDKOutPoint, update: LDKChannelMonitorUpdate) -> LDKCResult_NoneChannelMonitorUpdateErrZ {
+    print("updating monitor")
+    return LDKCResult_NoneChannelMonitorUpdateErrZ()
+}
+
+func clearPendingHTLCs(this_arg: UnsafeRawPointer?) -> LDKCVec_HTLCUpdateZ {
+    print("clearing pending HTLCs")
+    return LDKCVec_HTLCUpdateZ()
+}
+
+let manyChannelMonitor = LDKManyChannelMonitor(
+        this_arg: instance,
+        add_monitor: addMonitor,
+        update_monitor: updateMonitor,
+        get_and_clear_pending_htlcs_updated: clearPendingHTLCs
+)
 ``` 
 
-This will, however, be a **critical** component to update later on.
+The above example is, as of yet, stubbed out, but it will be a **critical** component to update later on.
 
 ### Broadcaster Interface ([Rust](https://docs.rs/lightning/0.0.11/lightning/chain/chaininterface/trait.BroadcasterInterface.html))
 

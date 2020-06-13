@@ -23,10 +23,22 @@ message handler, is responsible for peer-to-peer-communication. Even though it h
 involved prerequisites, it is the first Rust Lightning component most developers integrating
 the bindings will interact and experiment with.
 
+## Reference
+
+Should you feel the need for further, in-depth guidance, you might find a referential C++
+demo implementation to be very useful. As pointed out [earlier](GettingStarted.md#header-files),
+the demo file located in `lightning-c-bindings/demo.cpp` should be a very focused, 
+distilled no-nonsense example of getting the bindings working with the bare minimum of
+external dependencies.
+
 ## Next
 
 There are still aspects of the bindings this guide doesn't touch on yet, such as the proper
 instantiation of a [ManyChannelMonitor](https://docs.rs/lightning/0.0.11/lightning/ln/channelmonitor/trait.ManyChannelMonitor.html),
-custom key management and external signing, as well as user-triggered channel state updates.
+custom key management and external signing.
 
-We hope to add those very soon!
+We would like to touch on some user-triggered actions, such as showing a payment invoice 
+or calculating a payment route (likely based on the input of such an invoice), in this next
+section about [User Actions](UserActions.md).
+
+As to the other missing parts, we hope to add those very soon!

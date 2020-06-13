@@ -19,10 +19,18 @@ either C or C++ header files. The header files don't vary between architectures,
 convenience, they are already provided in the `include` subdirectory. (The full path from 
 the project root is thus `lightning-c-bindings/include`.)
 
-As we're primarily focused on the application in Swift, we cannot use C++ header files, so the
-only two files from that directory we need are `lightning.h` and `rust_types.h`.
+As we're primarily focused on the application in Swift, we cannot use C++ header files due to
+the environment constraints set by Apple, so the only two files from that directory that
+we will need are `lightning.h` and `rust_types.h`.
 
-If you're working with C++, you will instead only need `lightning.hpp`.
+Nonetheless, we do strongly encourage working with the C++ bindings if your environment supports
+it, given the plethora of "free" benefits that provides, such as memory deallocation, as well
+as the convenience of instance methods. If you do end up working with C++, 
+you will only need `lightning.hpp` for the header reference.
+
+One additional benefit of C++ is the reference demo file, located at 
+`lightning-c-bindings/demo.cpp`, which should prove a handy guide as you navigate your way
+through building support in a new environment.
 
 ## Compilation
 

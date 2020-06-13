@@ -8,7 +8,7 @@ import PromiseKit
 
 class ChannelManager {
 
-    private var cChannelManager: LDKChannelManager?
+    var cChannelManager: LDKChannelManager?
     // private var inMemoryChannelKeys: LDKInMemoryChannelKeys?
 
     private var keyDerivationParamA: UInt64 = 0

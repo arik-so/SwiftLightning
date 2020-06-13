@@ -17,7 +17,7 @@ class Demonstration {
     public static var peer: Peer?
     static var channelManager: ChannelManager?
 
-    static func setupPeerManager() {
+    static func setupPeerManager() -> Promise<Void> {
 
         let privateKey = Data.init(base64Encoded: "ERERERERERERERERERERERERERERERERERERERERERE=")!;
         let ephemeralPrivateKey = Data.init(base64Encoded: "EhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhI=")!;
@@ -25,43 +25,46 @@ class Demonstration {
         let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
         let localPublicKey = Data.init(base64Encoded: "Ai/bcTpKVRYmMWTmDDLOvG9MrW5v7xRNY5vXzcsLIPZZ")!;
 
-        let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey)
+        return self.setupChannelManager().done { manager in
+            let peerManager = PeerManager(privateKey: privateKey, ephemeralSeed: ephemeralPrivateKey, channelManager: manager.cChannelManager!)
 
 
-        // set up block listener
-        let chainWatchInterface = peerManager.routingMessageHandler!.cChainWatchInterface
-        let blockListener = BlockNotifierBasedBlockListener(chainWatchInterface: chainWatchInterface)
+            // set up block listener
+            let chainWatchInterface = peerManager.routingMessageHandler!.cChainWatchInterface
+            let blockListener = BlockNotifierBasedBlockListener(chainWatchInterface: chainWatchInterface)
 
-        // set up chain monitor
-        let chainMonitor = BlockchainMonitor()
-        chainMonitor.listener = blockListener // connect the two
-        chainMonitor.monitor() // off we go
+            // set up chain monitor
+            let chainMonitor = BlockchainMonitor()
+            chainMonitor.listener = blockListener // connect the two
+            chainMonitor.monitor() // off we go
 
-        /*
-        // a connection to be discarded
-        peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey)
+            /*
+            // a connection to be discarded
+            peerManager.initiateOutboundConnection(remotePublicKey: remotePublicKey)
 
-        // a custom peer to be discarded
-        print("Creating Google Peer")
-        let googleClient = TCPClient(address: "google.com", port: 443)
-        let fakePeer = CustomPeer(tcpClient: googleClient)
-        fakePeer.name = "Google"
-        */
+            // a custom peer to be discarded
+            print("Creating Google Peer")
+            let googleClient = TCPClient(address: "google.com", port: 443)
+            let fakePeer = CustomPeer(tcpClient: googleClient)
+            fakePeer.name = "Google"
+            */
 
 
-        print("Creating Alex Bosworth peer")
-        let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
-        let peer = CustomPeer(tcpClient: tcpClient)
-        peer.name = "Alex"
-        peer.publicKey = alexPublicKey
+            print("Creating Alex Bosworth peer")
+            let tcpClient = TCPClient(address: "testnet-lnd.yalls.org", port: 9735)
+            let peer = CustomPeer(tcpClient: tcpClient)
+            peer.name = "Alex"
+            peer.publicKey = alexPublicKey
 
-        // print("Creating local peer")
-        // let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
-        // let peer = CustomPeer(tcpClient: tcpClient)
-        // peer.name = "Local"
+            // print("Creating local peer")
+            // let tcpClient = TCPClient(address: "127.0.0.1", port: 1337)
+            // let peer = CustomPeer(tcpClient: tcpClient)
+            // peer.name = "Local"
 
-        self.peer = peer;
-        peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
+            self.peer = peer;
+            peerManager.initiateOutboundConnection(remotePublicKey: alexPublicKey, peer: peer)
+
+        }
     }
 
     enum BlockchainFetchError: Error {
@@ -69,6 +72,10 @@ class Demonstration {
     }
 
     static func setupChannelManager() -> Promise<ChannelManager> {
+        if let channelManager = self.channelManager {
+            return Promise.value(channelManager)
+        }
+
         let heightPromise = Promise { (resolver: Resolver<UInt>) in
             let latestBlockUrl = "https://test.bitgo.com/api/v2/tbtc/public/block/latest"
             AF.request(latestBlockUrl).responseJSON { response in
@@ -96,6 +103,7 @@ class Demonstration {
             let logger = Logger()
             print("Instantiating Swift ChannelManager")
             let manager = ChannelManager(privateKey: privateKey, logger: logger, currentBlockchainHeight: height)
+            self.channelManager = manager
             return manager
         }
     }

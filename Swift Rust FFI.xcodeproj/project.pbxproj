@@ -43,6 +43,7 @@
 		2DD11E177CCCC9E9C4D3E949 /* Coordination.md in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11896B49A9872990F4B75 /* Coordination.md */; };
 		2DD11E554B923CFD2ACC66B5 /* BlockListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1114BCCB63083A0C97DB6 /* BlockListener.swift */; };
 		2DD11E689A19E6FE3660C28D /* CustomPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11A892D5A07AE47006E98 /* CustomPeer.swift */; };
+		2DD11F50EF7D9C09EF5A869B /* UserActions.md in Sources */ = {isa = PBXBuildFile; fileRef = 2DD112313DB3181E0851EE46 /* UserActions.md */; };
 		2DD11FD9D863B2994D8DF3CB /* ChannelManager.md in Sources */ = {isa = PBXBuildFile; fileRef = 2DD11A364D265C16AF639C21 /* ChannelManager.md */; };
 		9CC87346C07A1FC6013EC06F /* Pods_Swift_Rust_FFI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769F94D0AF02F1B815B4006B /* Pods_Swift_Rust_FFI.framework */; };
 		EC130784C3A8F72C6D855FA3 /* Pods_Swift_Rust_FFI_Swift_Rust_FFITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 691A071346B646857399E1A1 /* Pods_Swift_Rust_FFI_Swift_Rust_FFITests.framework */; };
@@ -84,6 +85,7 @@
 		2DD11071A3A772E151D7B6A1 /* BlockNotifier.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = BlockNotifier.md; sourceTree = "<group>"; };
 		2DD110AA3B0A133662005BE6 /* rust_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_types.h; sourceTree = "<group>"; };
 		2DD1114BCCB63083A0C97DB6 /* BlockListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockListener.swift; sourceTree = "<group>"; };
+		2DD112313DB3181E0851EE46 /* UserActions.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = UserActions.md; sourceTree = "<group>"; };
 		2DD112BDA8EA0262BDA4744C /* BlockchainMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockchainMonitor.swift; sourceTree = "<group>"; };
 		2DD1133AED83E5E97DBC455F /* Primitives.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Primitives.md; sourceTree = "<group>"; };
 		2DD11372CB28789C64A0F55F /* BlockNotifierBasedBlockListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockNotifierBasedBlockListener.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				2DD11A364D265C16AF639C21 /* ChannelManager.md */,
 				2DD11896B49A9872990F4B75 /* Coordination.md */,
 				2DD11071A3A772E151D7B6A1 /* BlockNotifier.md */,
+				2DD112313DB3181E0851EE46 /* UserActions.md */,
 			);
 			path = Documentation;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				2DD11FD9D863B2994D8DF3CB /* ChannelManager.md in Sources */,
 				2DD11E177CCCC9E9C4D3E949 /* Coordination.md in Sources */,
 				2DD110E9D0F00206FA1686B4 /* BlockNotifier.md in Sources */,
+				2DD11F50EF7D9C09EF5A869B /* UserActions.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
