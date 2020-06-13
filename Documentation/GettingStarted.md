@@ -16,20 +16,19 @@ The relevant directory and Cargo crate is `lightning-c-bindings`.
 
 The bindings are exposed through a compiled binary and, depending on the bound environment,
 either C or C++ header files. The header files don't vary between architectures, so for your
-convenience, they are already provided in the `include` subdirectory. (The full path from 
-the project root is thus `lightning-c-bindings/include`.)
+convenience, they are already provided in the [`include`](https://github.com/TheBlueMatt/rust-lightning/tree/2020-05-sample-c-bindings/lightning-c-bindings/include) subdirectory.
 
 As we're primarily focused on the application in Swift, we cannot use C++ header files due to
 the environment constraints set by Apple, so the only two files from that directory that
-we will need are `lightning.h` and `rust_types.h`.
+we will need are [`lightning.h`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/include/lightning.h) and [`rust_types.h`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/include/rust_types.h).
 
 Nonetheless, we do strongly encourage working with the C++ bindings if your environment supports
 it, given the plethora of "free" benefits that provides, such as memory deallocation, as well
 as the convenience of instance methods. If you do end up working with C++, 
-you will only need `lightning.hpp` for the header reference.
+you will only need [`lightningpp.hpp`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/include/lightningpp.hpp) for the header reference.
 
 One additional benefit of C++ is the reference demo file, located at 
-`lightning-c-bindings/demo.cpp`, which should prove a handy guide as you navigate your way
+[`lightning-c-bindings/demo.cpp`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/demo.cpp), which should prove a handy guide as you navigate your way
 through building support in a new environment.
 
 ## Compilation

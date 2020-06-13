@@ -27,9 +27,9 @@ the bindings will interact and experiment with.
 
 Should you feel the need for further, in-depth guidance, you might find a referential C++
 demo implementation to be very useful. As pointed out [earlier](GettingStarted.md#header-files),
-the demo file located in `lightning-c-bindings/demo.cpp` should be a very focused, 
-distilled no-nonsense example of getting the bindings working with the bare minimum of
-external dependencies.
+the demo file located in [`lightning-c-bindings/demo.cpp`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/demo.cpp) 
+should be a very focused, distilled no-nonsense example of getting the bindings working with the bare 
+minimum of external dependencies.
 
 ## Next
 
