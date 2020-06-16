@@ -142,6 +142,8 @@ class ChannelManager {
             print("No new events")
         } else {
             print("New events!")
+            Demonstration.contentView?.isOpeningChannel = false
+            Demonstration.contentView?.isChannelOpen = true
 
             let eventCount = Int(eventTemplate.datalen)
             var events = [LDKEvent?](repeating: nil, count: eventCount)
@@ -160,7 +162,7 @@ class ChannelManager {
                 switch eventType {
                 case LDKEvent_FundingGenerationReady:
                     print("funding generation ready", currentEvent.funding_generation_ready)
-                    Demonstration.logInUI(message: "Funding generation ready event: \n\(currentEvent.funding_generation_ready)\n")
+                    Demonstration.logInUI(message: "Funding generation ready event: \n\(currentEvent.funding_generation_ready)")
                 case LDKEvent_FundingBroadcastSafe:
                     print("funding broadcast safe", currentEvent.funding_broadcast_safe)
                 case LDKEvent_PaymentReceived:

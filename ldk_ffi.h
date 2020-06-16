@@ -595,17 +595,17 @@ typedef struct LDKEvent_LDKFundingBroadcastSafe_Body {
 } LDKEvent_LDKFundingBroadcastSafe_Body;
 
 typedef struct LDKEvent_LDKPaymentReceived_Body {
-    uint8_t payment_hash[32];
+    LDKThirtyTwoBytes payment_hash;
     const LDKThirtyTwoBytes *payment_secret;
     uint64_t amt;
 } LDKEvent_LDKPaymentReceived_Body;
 
 typedef struct LDKEvent_LDKPaymentSent_Body {
-    uint8_t payment_preimage[32];
+    LDKThirtyTwoBytes payment_preimage;
 } LDKEvent_LDKPaymentSent_Body;
 
 typedef struct LDKEvent_LDKPaymentFailed_Body {
-    uint8_t payment_hash[32];
+    LDKThirtyTwoBytes payment_hash;
     bool rejected_by_dest;
 } LDKEvent_LDKPaymentFailed_Body;
 
@@ -1280,7 +1280,7 @@ typedef struct LDKChainWatchInterface {
      * " bytes are the block height, the next 3 the transaction index within the block, and the"
      * " final two the output within the transaction."
      */
-    LDKCResult_C2Tuple_Scriptu64ZChainErrorZ (*get_chain_utxo)(const void *this_arg, uint8_t genesis_hash[32], uint64_t unspent_tx_output_identifier);
+    LDKCResult_C2Tuple_Scriptu64ZChainErrorZ (*get_chain_utxo)(const void *this_arg, LDKThirtyTwoBytes genesis_hash, uint64_t unspent_tx_output_identifier);
     /**
      * " Gets the list of transaction indices within a given block that the ChainWatchInterface is"
      * " watching for."
@@ -2556,6 +2556,18 @@ typedef struct MUST_USE_STRUCT LDKRoutingFees {
         bool _underlying_ref;
 } LDKRoutingFees;
 
+typedef union LDKCResultPtr_Route__LightningError {
+    LDKRoute *result;
+    LDKLightningError *err;
+} LDKCResultPtr_Route__LightningError;
+
+typedef struct LDKCResultTempl_Route__LightningError {
+    LDKCResultPtr_Route__LightningError contents;
+    bool result_good;
+} LDKCResultTempl_Route__LightningError;
+
+typedef LDKCResultTempl_Route__LightningError LDKCResult_RouteLightningErrorZ;
+
 
 
 /**
@@ -2569,6 +2581,20 @@ typedef struct MUST_USE_STRUCT LDKNetworkGraph {
         const LDKlnNetworkGraph *inner;
         bool _underlying_ref;
 } LDKNetworkGraph;
+
+typedef struct LDKCSliceTempl_ChannelDetails {
+    LDKChannelDetails *data;
+    uintptr_t datalen;
+} LDKCSliceTempl_ChannelDetails;
+
+typedef LDKCSliceTempl_ChannelDetails LDKCChannelDetailsSlice;
+
+typedef struct LDKCSliceTempl_RouteHint {
+    LDKRouteHint *data;
+    uintptr_t datalen;
+} LDKCSliceTempl_RouteHint;
+
+typedef LDKCSliceTempl_RouteHint LDKCRouteHintSlice;
 
 
 
@@ -2704,6 +2730,12 @@ extern const void (*CResult_NonePaymentSendFailureZ_free)(LDKCResult_NonePayment
 extern const LDKCResult_NonePeerHandleErrorZ (*CResult_NonePeerHandleErrorZ_err)(LDKPeerHandleError);
 
 extern const void (*CResult_NonePeerHandleErrorZ_free)(LDKCResult_NonePeerHandleErrorZ);
+
+extern const LDKCResult_RouteLightningErrorZ (*CResult_RouteLightningErrorZ_err)(LDKLightningError);
+
+extern const void (*CResult_RouteLightningErrorZ_free)(LDKCResult_RouteLightningErrorZ);
+
+extern const LDKCResult_RouteLightningErrorZ (*CResult_RouteLightningErrorZ_good)(LDKRoute);
 
 extern const void (*CResult_SignatureNoneZ_free)(LDKCResult_SignatureNoneZ);
 
@@ -3648,7 +3680,7 @@ void ChannelManager_force_close_all_channels(const LDKChannelManager *this_arg);
  * " bit set (either as required or as available). If multiple paths are present in the Route,"
  * " we assume the invoice had the basic_mpp feature set."
  */
-MUST_USE_RES LDKCResult_NonePaymentSendFailureZ ChannelManager_send_payment(const LDKChannelManager *this_arg, const LDKRoute *route, uint8_t payment_hash[32], const LDKThirtyTwoBytes *payment_secret);
+MUST_USE_RES LDKCResult_NonePaymentSendFailureZ ChannelManager_send_payment(const LDKChannelManager *this_arg, const LDKRoute *route, LDKThirtyTwoBytes payment_hash, const LDKThirtyTwoBytes *payment_secret);
 
 /**
  * " Call this upon creation of a funding transaction for the given channel."
@@ -3723,7 +3755,7 @@ MUST_USE_RES bool ChannelManager_fail_htlc_backwards(const LDKChannelManager *th
  * ""
  * " May panic if called except in response to a PaymentReceived event."
  */
-MUST_USE_RES bool ChannelManager_claim_funds(const LDKChannelManager *this_arg, uint8_t payment_preimage[32], const LDKThirtyTwoBytes *payment_secret, uint64_t expected_amount);
+MUST_USE_RES bool ChannelManager_claim_funds(const LDKChannelManager *this_arg, LDKThirtyTwoBytes payment_preimage, const LDKThirtyTwoBytes *payment_secret, uint64_t expected_amount);
 
 /**
  * " Gets the node_id held by this ChannelManager"
@@ -4351,6 +4383,13 @@ LDKCVec_u8Z ChannelPublicKeys_write(const LDKChannelPublicKeys *obj);
 
 LDKChannelPublicKeys ChannelPublicKeys_read(LDKu8slice ser);
 
+/**
+ * " A script either spendable by the revocation"
+ * " key or the delayed_payment_key and satisfying the relative-locktime OP_CSV constrain."
+ * " Encumbering a `to_local` output on a commitment transaction or 2nd-stage HTLC transactions."
+ */
+LDKCVec_u8Z get_revokeable_redeemscript(LDKPublicKey revocation_key, uint16_t to_self_delay, LDKPublicKey delayed_payment_key);
+
 void HTLCOutputInCommitment_free(LDKHTLCOutputInCommitment this_ptr);
 
 /**
@@ -4399,11 +4438,28 @@ const uint8_t (*HTLCOutputInCommitment_get_payment_hash(const LDKHTLCOutputInCom
 /**
  * " The hash of the preimage which unlocks this HTLC."
  */
-void HTLCOutputInCommitment_set_payment_hash(LDKHTLCOutputInCommitment *this_ptr, uint8_t val[32]);
+void HTLCOutputInCommitment_set_payment_hash(LDKHTLCOutputInCommitment *this_ptr, LDKThirtyTwoBytes val);
 
 LDKCVec_u8Z HTLCOutputInCommitment_write(const LDKHTLCOutputInCommitment *obj);
 
 LDKHTLCOutputInCommitment HTLCOutputInCommitment_read(LDKu8slice ser);
+
+/**
+ * " note here that 'a_revocation_key' is generated using b_revocation_basepoint and a's"
+ * " commitment secret. 'htlc' does *not* need to have its previous_output_index filled."
+ */
+LDKCVec_u8Z get_htlc_redeemscript(const LDKHTLCOutputInCommitment *htlc, const LDKTxCreationKeys *keys);
+
+/**
+ * " Gets the redeemscript for a funding output from the two funding public keys."
+ * " Note that the order of funding public keys does not matter."
+ */
+LDKCVec_u8Z make_funding_redeemscript(LDKPublicKey a, LDKPublicKey b);
+
+/**
+ * " panics if htlc.transaction_output_index.is_none()!"
+ */
+LDKCVec_u8Z build_htlc_transaction(const uint8_t (*prev_hash)[32], uint64_t feerate_per_kw, uint16_t to_self_delay, const LDKHTLCOutputInCommitment *htlc, LDKPublicKey a_delayed_payment_key, LDKPublicKey revocation_key);
 
 void LocalCommitmentTransaction_free(LDKLocalCommitmentTransaction this_ptr);
 
@@ -4592,6 +4648,26 @@ uint64_t RouteHint_get_htlc_minimum_msat(const LDKRouteHint *this_ptr);
 void RouteHint_set_htlc_minimum_msat(LDKRouteHint *this_ptr, uint64_t val);
 
 MUST_USE_RES LDKRouteHint RouteHint_new(LDKPublicKey src_node_id_arg, uint64_t short_channel_id_arg, LDKRoutingFees fees_arg, uint16_t cltv_expiry_delta_arg, uint64_t htlc_minimum_msat_arg);
+
+/**
+ * " Gets a route from us (as specified in the provided NetworkGraph) to the given target node."
+ * ""
+ * " Extra routing hops between known nodes and the target will be used if they are included in"
+ * " last_hops."
+ * ""
+ * " If some channels aren't announced, it may be useful to fill in a first_hops with the"
+ * " results from a local ChannelManager::list_usable_channels() call. If it is filled in, our"
+ * " view of our local channels (from net_graph_msg_handler) will be ignored, and only those in first_hops"
+ * " will be used."
+ * ""
+ * " Panics if first_hops contains channels without short_channel_ids"
+ * " (ChannelManager::list_usable_channels will never include such channels)."
+ * ""
+ * " The fees on channels from us to next-hops are ignored (as they are assumed to all be"
+ * " equal), however the enabled/disabled bit on such channels as well as the htlc_minimum_msat"
+ * " *is* checked as they may change based on the receiving node."
+ */
+LDKCResult_RouteLightningErrorZ get_route(LDKPublicKey our_node_id, const LDKNetworkGraph *network, LDKPublicKey target, const LDKCChannelDetailsSlice *first_hops, LDKCRouteHintSlice last_hops, uint64_t final_value_msat, uint32_t final_cltv, LDKLogger logger);
 
 void NetworkGraph_free(LDKNetworkGraph this_ptr);
 

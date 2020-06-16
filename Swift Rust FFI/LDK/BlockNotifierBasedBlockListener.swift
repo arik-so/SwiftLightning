@@ -20,7 +20,7 @@ class BlockNotifierBasedBlockListener: BlockListener {
         let blockData = RawLDKTypes.dataToU8Slice(data: block.rawData!)
         let height = UInt32(block.height)
         print("Connecting block \(block.height): \(block.hash)")
-        // BlockNotifier_block_connected(notifierPointer, blockData, height)
+        BlockNotifier_block_connected(notifierPointer, blockData, height)
     }
 
     func disconnectBlock(block: BlockInfo) {
@@ -34,7 +34,7 @@ class BlockNotifierBasedBlockListener: BlockListener {
         }
         let height = UInt32(block.height)
         print("Disconnecting block \(block.height): \(block.hash)")
-        // BlockNotifier_block_disconnected(notifierPointer, headerPointer, height)
+        BlockNotifier_block_disconnected(notifierPointer, headerPointer, height)
     }
 
 
