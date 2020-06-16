@@ -84,6 +84,8 @@ class PeerManager {
             self.peerConnected()
         }
 
+        PeerManager_process_events(peerManagerPointer)
+
         let backgroundQueue = DispatchQueue.global(qos: .background);
 
         Promise<Void> { seal in

@@ -142,7 +142,33 @@ class ChannelManager {
             print("No new events")
         }else{
             print("New events!")
+            let firstEvent: LDKEvent = events.data.pointee;
+            let eventType = firstEvent.tag;
+
             Demonstration.logInUI(message: "Channel created \(events.datalen) new events!")
+
+            switch eventType {
+            case LDKEvent_FundingGenerationReady:
+                print("funding generation ready", firstEvent.funding_generation_ready)
+                Demonstration.logInUI(message: "Funding generation ready event: \n\(firstEvent.funding_generation_ready)\n")
+            case LDKEvent_FundingBroadcastSafe:
+                print("funding broadcast safe", firstEvent.funding_broadcast_safe)
+            case LDKEvent_PaymentReceived:
+                print("payment received", firstEvent.payment_received)
+            case LDKEvent_PaymentSent:
+                print("payment sent", firstEvent.payment_sent)
+            case LDKEvent_PaymentFailed:
+                print("payment failed", firstEvent.payment_failed)
+            case LDKEvent_PendingHTLCsForwardable:
+                print("payment HTLCs forwardable", firstEvent.pending_htl_cs_forwardable)
+            case LDKEvent_SpendableOutputs:
+                print("spendable outputs", firstEvent.spendable_outputs)
+            case LDKEvent_Sentinel:
+                print("Sentinel event?")
+            default:
+                print("Other event")
+            }
+
         }
 
     }

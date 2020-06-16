@@ -114,7 +114,7 @@ class Demonstration {
             print("Got channel manager")
             self.channelManager = manager
             let alexPublicKey = Data.init(base64Encoded: "AnRVrvhFPZL0cGtWC2FSfMIX3fFNpBdw6O1mBxkKGFG4")!;
-            Demonstration.channelManager?.openChannel(peerPublicKey: alexPublicKey, channelSatoshiValue: 1000, pushMillisatoshiAmount: 2, userID: 13)
+            Demonstration.channelManager?.openChannel(peerPublicKey: alexPublicKey, channelSatoshiValue: 5000000, pushMillisatoshiAmount: 2, userID: 13)
         }
 
     }
