@@ -23,6 +23,9 @@ message handler, is responsible for peer-to-peer-communication. Even though it h
 involved prerequisites, it is the first Rust Lightning component most developers integrating
 the bindings will interact and experiment with.
 
+With all these instances in place, note that there are some methods that need to be called
+at regular intervals to keep querying for new events and make sure they are handled. 
+
 ## Reference
 
 Should you feel the need for further, in-depth guidance, you might find a referential C++

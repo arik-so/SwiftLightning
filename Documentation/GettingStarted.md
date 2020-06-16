@@ -23,8 +23,7 @@ the environment constraints set by Apple, so the only two files from that direct
 we will need are [`lightning.h`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/include/lightning.h) and [`rust_types.h`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/include/rust_types.h).
 
 Nonetheless, we do strongly encourage working with the C++ bindings if your environment supports
-it, given the plethora of "free" benefits that provides, such as memory deallocation, as well
-as the convenience of instance methods. If you do end up working with C++, 
+it, given their "free" benefit of automatic memory deallocation. If you do end up working with C++, 
 you will only need [`lightningpp.hpp`](https://github.com/TheBlueMatt/rust-lightning/blob/2020-05-sample-c-bindings/lightning-c-bindings/include/lightningpp.hpp) for the header reference.
 
 One additional benefit of C++ is the reference demo file, located at 

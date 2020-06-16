@@ -28,7 +28,7 @@ However, for a working prototype, we will cheat a little bit and settle on a fix
 
 ```swift
 func get_est_sat_per_1000_weight(instancePointer: UnsafeRawPointer?, confirmationTarget: LDKConfirmationTarget) -> UInt64 {
-    1
+    253 // minimum value this method may return
 }
 
 let feeEstimator = LDKFeeEstimator(
@@ -92,9 +92,9 @@ For the logger, let's reuse the global logger instance we have already created [
 
 ### KeysInterface ([Rust](https://docs.rs/lightning/0.0.11/lightning/chain/keysinterface/trait.KeysInterface.html))
 
-The KeysInterface trait will soon be deprecated to give way to better support for [external signing](README.md#signing).
+The KeysInterface trait will soon be renamed to reflect its upcoming support for [external signing](README.md#signing).
 
-But in the meantime, one can be used on the basis of an `LDKKeysManager`. Assuming some private
+But in the meantime, it can be used on the basis of an `LDKKeysManager`. Assuming some private
 key seed `keySeed: Data` for the channel, this could be an approximation of the instantiation flow:
 
 ```swift
@@ -149,6 +149,33 @@ of the [connection initiation](PeerManager.md#first-message), has the following 
 
 As the name suggests, if `result_good` is true, the result should be good. After this call, the user should receive
 a callback with the output script to send the channel funds to.
+
+## Handling events
+
+Note that once you have at least one channel open, this method should be called at regular
+intervals (e. g. every 5-10 seconds) to make sure pending channel events are handled:
+
+```swift
+PeerManager_process_events(peerManagerPointer)
+```
+
+This will push events to the channel's queue, whereupon they can be read by calling
+the `get_and_clear_pending_events` method on a converted ChannelManager instance:
+
+```swift
+let eventsProvider: LDKEventsProvider = ChannelManager_as_EventsProvider(managerPointer)
+let events: LDKCVecTempl_Event = (eventsProvider.get_and_clear_pending_events)(eventsProvider.this_arg)
+```
+
+Here, once again, you will recognize `LDKCVecTempl_Event`'s familiar template structure, though
+this time with the custom underlying type `LDKEvent`:
+
+```c
+{
+    LDKEvent *data;
+    uintptr_t datalen;
+}
+```
 
 ## Next
 

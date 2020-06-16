@@ -164,6 +164,16 @@ static func resultToData(result: LDKCResultTempl_CVecTempl_u8_____PeerHandleErro
 
 As you can see, the data instantiation is based on a type just like [`u8slice`](Primitives.md#u8slice).
 
+### Incoming messages
+
+Once you send data to the socket, it will at some point send some data back. Make sure to
+keep querying for data coming from that socket, and whenever some arrives, the incoming
+data should be converted to a `u8slice`, and then the following method should be called:
+
+```swift
+PeerManager_read_event(peerManagerPointer, descriptorPointer, u8Slice)
+```
+
 ## Next
 
 You should now be able to send and receive basic messages to peers on the Lightning network, most notably

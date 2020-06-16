@@ -137,36 +137,48 @@ class ChannelManager {
             pointer
         }
         let eventsProvider: LDKEventsProvider = ChannelManager_as_EventsProvider(managerPointer)
-        let events: LDKCVecTempl_Event = (eventsProvider.get_and_clear_pending_events)(eventsProvider.this_arg)
-        if (events.datalen == 0) {
+        let eventTemplate: LDKCVecTempl_Event = (eventsProvider.get_and_clear_pending_events)(eventsProvider.this_arg)
+        if (eventTemplate.datalen == 0) {
             print("No new events")
-        }else{
+        } else {
             print("New events!")
-            let firstEvent: LDKEvent = events.data.pointee;
-            let eventType = firstEvent.tag;
 
-            Demonstration.logInUI(message: "Channel created \(events.datalen) new events!")
+            let eventCount = Int(eventTemplate.datalen)
+            var events = [LDKEvent?](repeating: nil, count: eventCount)
+            for i in 0..<eventCount {
+                events[i] = eventTemplate.data[i]
+            }
 
-            switch eventType {
-            case LDKEvent_FundingGenerationReady:
-                print("funding generation ready", firstEvent.funding_generation_ready)
-                Demonstration.logInUI(message: "Funding generation ready event: \n\(firstEvent.funding_generation_ready)\n")
-            case LDKEvent_FundingBroadcastSafe:
-                print("funding broadcast safe", firstEvent.funding_broadcast_safe)
-            case LDKEvent_PaymentReceived:
-                print("payment received", firstEvent.payment_received)
-            case LDKEvent_PaymentSent:
-                print("payment sent", firstEvent.payment_sent)
-            case LDKEvent_PaymentFailed:
-                print("payment failed", firstEvent.payment_failed)
-            case LDKEvent_PendingHTLCsForwardable:
-                print("payment HTLCs forwardable", firstEvent.pending_htl_cs_forwardable)
-            case LDKEvent_SpendableOutputs:
-                print("spendable outputs", firstEvent.spendable_outputs)
-            case LDKEvent_Sentinel:
-                print("Sentinel event?")
-            default:
-                print("Other event")
+            Demonstration.logInUI(message: "Channel created \(events.count) new events!")
+
+            for currentEvent in events {
+                guard let currentEvent = currentEvent else {
+                    continue
+                }
+                let eventType = currentEvent.tag;
+
+                switch eventType {
+                case LDKEvent_FundingGenerationReady:
+                    print("funding generation ready", currentEvent.funding_generation_ready)
+                    Demonstration.logInUI(message: "Funding generation ready event: \n\(currentEvent.funding_generation_ready)\n")
+                case LDKEvent_FundingBroadcastSafe:
+                    print("funding broadcast safe", currentEvent.funding_broadcast_safe)
+                case LDKEvent_PaymentReceived:
+                    print("payment received", currentEvent.payment_received)
+                case LDKEvent_PaymentSent:
+                    print("payment sent", currentEvent.payment_sent)
+                case LDKEvent_PaymentFailed:
+                    print("payment failed", currentEvent.payment_failed)
+                case LDKEvent_PendingHTLCsForwardable:
+                    print("payment HTLCs forwardable", currentEvent.pending_htl_cs_forwardable)
+                case LDKEvent_SpendableOutputs:
+                    print("spendable outputs", currentEvent.spendable_outputs)
+                case LDKEvent_Sentinel:
+                    print("Sentinel event?")
+                default:
+                    print("Other event")
+                }
+
             }
 
         }
