@@ -167,6 +167,7 @@ class ChannelManager {
                     let outputScript = Data(bytes: outputScriptTemplate.data, count: Int(outputScriptTemplate.datalen))
                     Demonstration.logInUI(message: "Funding generation ready event: \n\(currentEvent.funding_generation_ready)")
                     Demonstration.logInUI(message: "Send 0.05 tBTC to this script: \(outputScript.hexEncodedString())")
+                    print("Script:", outputScript, outputScript.hexEncodedString())
                 case LDKEvent_FundingBroadcastSafe:
                     print("funding broadcast safe", currentEvent.funding_broadcast_safe)
                 case LDKEvent_PaymentReceived:
