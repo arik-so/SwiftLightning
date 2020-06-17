@@ -1,8 +1,11 @@
 # Overview
 
-This guide aims to give the reader an overview of the structure of Rust Lightning functionality,
-as well as a reference for integrating the exported bindings in an object-oriented language using
-Swift as the example.
+This guide aims to give the reader an overview of the structure of Rust Lightning functionality
+specifically within the context of language bindings, which are a mechanism of exporting Rust
+Lightning methods through C/C++ header files and compiled static libraries.
+
+This guide should in particular serve as a reference for integrating these exported bindings 
+in an object-oriented language, currently using Swift as the example.
 
 If you are here, we sincerely wish to thank you for working on expanding the Lightning
 Development Kit's scope to yet another, new, environment. We hope that this guide makes that
@@ -36,15 +39,10 @@ happening on-chain, and to broadcast transactions.
 
 ### Chain Monitoring
 
-This brings us to the chain monitor. There are several approaches here. One approach is 
-implementing the [ChainWatchInterface](https://docs.rs/lightning/0.0.11/lightning/chain/chaininterface/trait.ChainWatchInterface.html)
-trait, which would allow Rust Lightning to tell us when new transactions or outpoints become
-relevant and should be watched for on-chain.
-
-An alternative approach, one that is slightly more naïve from a developer's perspective, is relying on the 
-[BlockNotifier](https://docs.rs/lightning/0.0.11/lightning/chain/chaininterface/struct.BlockNotifier.html)
-struct, which will let us feed raw block data to it and simply keep track of reorgs to deregister
-or unconfirm blocks if need be.
+This brings us to chain monitoring. We need a way to tell Rust Lightning about new blocks and their 
+relevant transactions. For this you'll need to instantiate a [`BlockNotifier`](BlockNotifier.md) 
+struct, which handles informing internal Rust Lightning data structures about newly 
+(dis)connected blocks and therein contained relevant transactions.
 
 ### Transaction Handling
 

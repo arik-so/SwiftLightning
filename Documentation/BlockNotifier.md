@@ -9,6 +9,11 @@ from raw block data for us.
 Before we can use the BlockNotifier, however, we need some prior setup that involves the PeerManager.
 
 Specifically, the BlockNotifier needs to be connected to a [ChainWatchInterface](https://docs.rs/lightning/0.0.11/lightning/chain/chaininterface/trait.ChainWatchInterface.html).
+
+The reason being that `ChainWatchInterface` is responsible for keeping track of which outputs and 
+transactions we care about, whereas the BlockNotifier keeps track of objects which want to hear about
+new blocks, using the ChainWatchInterface to filter for relevant transactions.
+
 When using the bindings, that chain watch interface is a component of an `LDKNetGraphMsgHandler`,
 which in turn can be converted to a [RoutingMessageHandler](https://docs.rs/lightning/0.0.11/lightning/ln/msgs/trait.RoutingMessageHandler.html).
 

@@ -22,11 +22,18 @@ you should is whether there is an exposed C method with the type's name and a `_
 Running [Valgrind](https://www.valgrind.org/) with LLVM's [LeakSanitizer](https://clang.llvm.org/docs/LeakSanitizer.html)
 should help you get your host implementation leak-free production-ready.
 
-## Fixed-length-tuples
+## Fixed-length-types
 
-Your language may not support fixed-length-types, but there are certain exposed types that take
-data not by reference, so the exposed method may present itself as one taking `n` parameters of
-the type `UInt8`. Here, the only thing that changes is `n`:
+There are certain data types that are comprised of a fixed number of primitives. If your language
+does not support length-annotated types, or fixed-length arrays whose size is known a priori and
+immutable, you may need to circumvent this issue by relying on tuples, as is the case in Swift.
+
+Typically, you should encounter such exposed (typically binary) types that take data not by reference, 
+so corresponding exposed methods that take those types as arguments may instead present themselves 
+as taking a tuple of single bytes in your environment.
+
+In Swift, it would be a tuple comprised of `n` elements of the type `UInt8`. The most common such types
+are listed below, where the only variable is `n`. 
 
 ### SecretKey
 
