@@ -30,11 +30,13 @@ focused on the outbound scenario. (TODO: link!)
 Once a connection is established, you may want yourself opening a channel. That is done
 using the [ChannelManager](https://docs.rs/lightning/0.0.11/lightning/ln/channelmanager/index.html)
 struct, but there is a lot more involved in instantiating one that we will go over in a
-dedicated section (TODO: link!).
+[dedicated section](ChannelManager.md).
 
-Rust Lightning's ChannelManager is very sophisticated at managing the state machine,
+Rust Lightning's ChannelManager is very sophisticated at managing the Lightning state machine,
+i. e., navigating between all the different states of channel opening negotiation, confirmation,
+balance updating, and breach detection and management, which requires
 understanding incoming messages the PeerManager receives, and knowing what messages to send back.
-However, its scope is limited, and it relies on us to imbue it with a context of what is
+However, its observation scope is limited, and it relies on us to imbue it with a context of what is
 happening on-chain, and to broadcast transactions. 
 
 ### Chain Monitoring
