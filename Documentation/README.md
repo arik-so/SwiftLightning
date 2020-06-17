@@ -54,6 +54,9 @@ need to make sure that there is a way to submit that transaction to a bitcoin no
 transactions may be more time-sensitive than others, such as breach remedies, so there should
 be a certain level of guarantee that a transaction will be broadcast within a reasonable time frame.
 
+On the host language's side, this is merely a matter of implementing the single-method 
+[`BroadcasterInterface`](https://docs.rs/lightning/0.0.11/lightning/chain/chaininterface/trait.BroadcasterInterface.html) trait.
+
 #### Signing
 
 A particularly appealing use case of language bindings is the dissociation of key management from
