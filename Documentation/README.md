@@ -23,7 +23,7 @@ struct.
 
 Once instantiated, it allows the creation of inbound and outbound connections. As this guide is
 based on Swift and is therefore primarily focused on mobile integrations, we will be primarily
-focused on the outbound scenario. (TODO: link!)
+focused on the outbound scenario. More on that [here](PeerManager.md). 
 
 ### Channel Management
 
