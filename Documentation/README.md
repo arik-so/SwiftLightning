@@ -27,7 +27,7 @@ focused on the outbound scenario. More on that [here](PeerManager.md).
 
 ### Channel Management
 
-Once a connection is established, you may want yourself opening a channel. That is done
+Once a connection is established, you may want to open a channel for yourself. That is done
 using the [ChannelManager](https://docs.rs/lightning/0.0.11/lightning/ln/channelmanager/index.html)
 struct, but there is a lot more involved in instantiating one that we will go over in a
 [dedicated section](ChannelManager.md).
